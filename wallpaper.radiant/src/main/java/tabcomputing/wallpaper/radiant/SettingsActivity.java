@@ -18,7 +18,7 @@ public class SettingsActivity extends PreferenceActivity {
         public void onCreate(final Bundle savedInstanceState)
         {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences);
+            addPreferencesFromResource(R.xml.radiant_preferences);
         }
     }
 
@@ -41,7 +41,7 @@ public class SettingsActivity extends PreferenceActivity {  //implements SharedP
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
-        addPreferencesFromResource(R.xml.preferences);
+        addPreferencesFromResource(R.xml.radiant_preferences);
     }
 
     @Override

@@ -114,18 +114,21 @@ public class BillingService implements ServiceConnection {
     // TODO: define these else where and pass them in
     // list of product skus
     final String[] skus = {
-            "binarystripes",
+            "binary",
             "caterpillar",
+            "echo",
             "gradient",
             "horizons",
             "lotus",
-            "plaid",
-            "pieslice",
             "mondrian",
-            "radiant",
+            "pieslice",
+            "plaid",
+            "mondrian",
             "radial",
+            "radiant",
             "solid",
-            "squares"
+            "squares",
+            "stripes"
     };
 
     class AvailableProduct {

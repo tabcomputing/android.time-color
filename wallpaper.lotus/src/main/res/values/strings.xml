@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Wallpaper Lotus</string>
 
-    <string name="label">T+C=W Lotus</string>
-    <string name="description">Time + Color = Wallpaper presents Lotus.</string>
+    <string name="lotus_label">T+C=W Lotus</string>
+    <string name="lotus_description">Time + Color = Wallpaper presents Lotus.</string>
 
     <!--
     <string name="interlace_title">Interlace?</string>

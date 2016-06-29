@@ -2,7 +2,7 @@
     <application>
         <service
             android:name=".Wallpaper"
-            android:label="@string/label"
+            android:label="@string/mondrian_label"
             android:permission="android.permission.BIND_WALLPAPER"
             android:exported="true"
             android:enabled="false">
@@ -11,15 +11,15 @@
             </intent-filter>
             <meta-data
                 android:name="android.service.wallpaper"
-                android:label="@string/label"
-                android:thumbnail="@drawable/thumbnail"
-                android:resource="@xml/wallpaper">
+                android:label="@string/mondrian_label"
+                android:thumbnail="@drawable/mondrian_thumbnail"
+                android:resource="@xml/mondrian_wallpaper">
             </meta-data>
         </service>
         <activity
             android:name=".SettingsActivity"
             android:exported="true"
-            android:label="@string/label" >
+            android:label="@string/mondrian_label" >
         </activity>
     </application>
 

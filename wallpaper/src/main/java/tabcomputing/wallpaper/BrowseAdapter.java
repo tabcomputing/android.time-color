@@ -118,7 +118,7 @@ public class BrowseAdapter extends BaseAdapter {
         addProduct("solid", "Solid", R.drawable.thumbnail_solid, "✓");    // always free
         addProduct("gradient", "Gradient", R.drawable.thumbnail_gradient);
         addProduct("radient", "Radiant", R.drawable.thumbnail_radiant);
-        addProduct("binarystripes", "Binary Stripes", R.drawable.thumbnail_binarystripes);
+        addProduct("binarystripes", "Binary Stripes", R.drawable.thumbnail_binary);
         addProduct("caterpillar", "Caterpillar", R.drawable.thumbnail_caterpillar);
         addProduct("echo", "Echo", R.drawable.thumbnail_echo);
         addProduct("horizons", "Horizons", R.drawable.thumbnail_horizons);
@@ -174,7 +174,7 @@ public class BrowseAdapter extends BaseAdapter {
     // references to our images
     private Integer[] mThumbIds = {
             R.drawable.thumbnail_solid,
-            R.drawable.thumbnail_binarystripes,
+            R.drawable.thumbnail_binary,
             R.drawable.thumbnail_caterpillar,
             R.drawable.thumbnail_echo,
             R.drawable.thumbnail_gradient,

@@ -325,6 +325,11 @@ public class BrowserActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Flash message.
+     *
+     * @param msg       message to give to user
+     */
     private void alert(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();

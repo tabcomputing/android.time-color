@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        //applicationId "tabcomputing.wallpaper.lotus"
+        //applicationId "tabcomputing.lotus_wallpaper.lotus"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

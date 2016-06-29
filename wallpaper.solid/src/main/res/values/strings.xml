@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">T+C=W Solid</string>
-
-    <string name="label">T+C=W Solid</string>
-    <string name="description">Time + Color = Wallpaper presents Solid. The cleanest, yet useful, wallpaper in the two universes.</string>
+    <string name="solid_label">T+C=W Solid</string>
+    <string name="solid_description">Time + Color = Wallpaper presents Solid. The cleanest, yet useful, wallpaper in the two universes.</string>
 </resources>
