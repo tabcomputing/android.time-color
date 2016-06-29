@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tabcomputing.library.paper" android:sharedUserId="tabcomputing.wallpaper">
+
+    <application />
+</manifest>

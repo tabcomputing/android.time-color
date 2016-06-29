@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">"Time + Color = Wallpaper"</string>
+    <string name="app_description">Time + Color = Wallpaper</string>
+
+    <string name="title_activity_browser">Wallpaper Browser</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="action_clock">Clock</string>
+    <string name="action_settings">Settings</string>
+</resources>

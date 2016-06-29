@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">T+C=W Radiant</string>
+
+    <string name="label">T+C=W Radiant</string>
+    <string name="description">Time + Color = Wallpaper presents Radiant.</string>
+
+    <string name="orbital_title">Orbit?</string>
+    <string name="orbital_summary">Place radiant in orbit around invisible clock.</string>
+
+    <string name="hideOrb_title">Hide Orb?</string>
+    <string name="hideOrb_summary">Hide orb, only showing gradient.</string>
+</resources>

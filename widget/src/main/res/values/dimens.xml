@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widget_margin">8dp</dimen>
+
+    <dimen name="hour_text_size">52pt</dimen>
+    <dimen name="tail_text_size">28pt</dimen>
+</resources>

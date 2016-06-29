@@ -1,0 +1,173 @@
+<resources>
+    <string name="app_name">Chronochrome Widget</string>
+    <string name="app_description">Time + Color = Wallpaper</string>string>
+
+    <string name="act_name">Chronochrome Wallpaper</string>
+
+    <string name="enabled">enabled</string>
+    <string name="disabled">disabled</string>
+
+    <string name="coverTitle">CHRONOCHROME</string>
+    <string name="imageDescription">Chronochrome Image</string>
+    <string name="edit_settings">Settings</string>
+    <string name="set_wallpaper">Wallpaper</string>
+
+    <string name="category_mode_title">WALLPAPER</string>
+    <string name="category_cheat_title">CLOCK FACE (for learning)</string>
+    <string name="category_time_title">TIME SYSTEM</string>
+
+    <string name="colorReversed_title">Reverse design colors?</string>
+    <string name="colorReversed_summary">Reverse the order of colors.</string>
+
+    <!-- Lower color saturation at midday and midnight. -->
+    <!-- Lower brightness at midnight and increase at midday. -->
+    <string name="dynamicColor_title">Dynamic colors?</string>
+    <string name="dynamicColor_summary">Adjust brightness and saturation based on time of day.</string>
+
+    <string name="sunspot_title">Sunspot?</string>
+    <string name="sunspot_summary">Display a central chronometric circle.</string>
+
+    <string name="colorWheel_title">Color wheel?</string>
+    <string name="colorWheel_summary">Show chronometric color wheel.</string>
+
+    <!--
+    <string name="clockFace_title">Enumerate colors?</string>
+    <string name="clockFace_summary">Display hours on the color wheel.</string>
+    -->
+
+    <string name="displaytime_title">Digital clock?</string>
+    <string name="displaytime_summary">Display a digital clock face.</string>
+
+    <string name="displayclockhands_title">Analog clock?</string>
+    <string name="displayclockhands_summary">Show old-school clock hands.</string>
+
+    <string name="rotateTime_title">Rotate 180 degrees?</string>
+    <string name="rotateTime_summary">Place midnight at the bottom.</string>
+
+    <string name="displayseconds_title">Include seconds?</string>
+    <string name="displayseconds_summary">Track time by the second.\n(\u26A0 Turn off to prolong battery life.)</string>
+
+    <string name="baseConversion_title">Number base conversion?</string>
+    <string name="baseConversion_summary">Show time in system\'s intrinsic number base?</string>
+
+    <string name="clockDashes_title">Clock dashes</string>
+    <string name="clockDashes_summary">Show clock dashes?</string>
+
+    <!-- Background -->
+
+    <string name="background_title">Design</string>
+    <string name="background_summary">Select chromatic wallpaper design.</string>
+
+    <string-array name="background_entries">
+        <item>Solid</item>
+        <item>Slice</item>
+        <item>Gradient</item>
+        <item>Tangential</item>
+        <item>Radiant</item>
+        <item>Orbital</item>
+    </string-array>
+
+    <string-array name="background_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="background_default">0</string>
+
+    <!-- Typeface -->
+
+    <string name="typeface_title">Typeface</string>
+    <string name="typeface_summary">Select a font for displaying time.</string>
+
+    <string-array name="typeface_entries">
+        <item>Default</item>
+        <item>Serif</item>
+        <item>Sans-Serif</item>
+        <item>Monospaced</item>
+        <item>Digital</item>
+        <item>Cubes</item>
+        <item>Basic</item>
+    </string-array>
+
+    <string-array name="typeface_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string name="typeface_default">0</string>
+
+    <!--  Clock Numbers -->
+
+    <string name="colorGamut_title">Color Gamut</string>
+    <string name="colorGamut_summary">Select a type of color wheel.</string>
+
+    <string-array name="colorGamut_entries">
+        <item>Real</item>
+        <item>RGB</item>
+        <item>Skewed</item>
+    </string-array>
+
+    <string-array name="colorGamut_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="colorGamut_default">0</string>
+
+    <!--  Clock Numbers -->
+
+    <string name="clockNumbers_title">Clock numbers</string>
+    <string name="clockNumbers_summary">How to enumerate the color wheel.</string>
+
+    <string-array name="clockNumbers_entries">
+        <item>None</item>
+        <item>Ordinal</item>
+        <item>Cardinal</item>
+        <item>Roman</item>
+    </string-array>
+
+    <string-array name="clockNumbers_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="clockNumbers_default">0</string>
+
+    <!--  Time Type -->
+
+    <string name="timeType_title">System of time</string>
+    <string name="timeType_summary">Select a method of time division.</string>
+
+    <string-array name="timeType_entries">
+        <item>Traditional (12:60)</item>
+        <item>Military (24:60)</item>
+        <item>Hexadecimal (16:16)</item>
+        <item>Heximal (36:36)</item>
+        <item>Decimal (10:100)</item>
+        <item>Duodecimal (12:12)</item>
+    </string-array>
+
+    <string-array name="timeType_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="timeType_default">0</string>
+
+</resources>

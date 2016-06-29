@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:thumbnail="@drawable/thumbnail"
+    android:label="@string/label"
+    android:description="@string/description"
+    android:settingsActivity="tabcomputing.wallpaper.mondrian.SettingsActivity">
+</wallpaper>
