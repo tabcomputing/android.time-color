@@ -117,8 +117,9 @@ public class BrowseAdapter extends BaseAdapter {
     public void setupItems() {
         addProduct("solid", "Solid", R.drawable.thumbnail_solid, "✓");    // always free
         addProduct("gradient", "Gradient", R.drawable.thumbnail_gradient);
-        addProduct("radient", "Radiant", R.drawable.thumbnail_radiant);
-        addProduct("binarystripes", "Binary Stripes", R.drawable.thumbnail_binary);
+        addProduct("radiant", "Radiant", R.drawable.thumbnail_radiant);
+        addProduct("stripes", "Stripes", R.drawable.thumbnail_stripes);
+        addProduct("binary", "Binary", R.drawable.thumbnail_binary);
         addProduct("caterpillar", "Caterpillar", R.drawable.thumbnail_caterpillar);
         addProduct("echo", "Echo", R.drawable.thumbnail_echo);
         addProduct("horizons", "Horizons", R.drawable.thumbnail_horizons);
@@ -129,7 +130,6 @@ public class BrowseAdapter extends BaseAdapter {
         addProduct("radial", "Radial", R.drawable.thumbnail_radial);
         addProduct("squares", "Scooby Squares", R.drawable.thumbnail_squares);
         addProduct("bigtime", "Big Time", R.drawable.thumbnail_squares);
-        addProduct("nothing", "Nothing", R.drawable.thumbnail_squares);
     }
 
     HashMap<String, Item> itemIndex = new HashMap<>();

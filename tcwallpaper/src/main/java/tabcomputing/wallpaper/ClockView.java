@@ -11,8 +11,8 @@ import android.text.TextPaint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import tabcomputing.library.clock.ColorWheel;
 import tabcomputing.library.clock.TimeSystem;
+import tabcomputing.library.color.ColorWheel;
 
 /**
  *

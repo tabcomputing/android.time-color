@@ -1,4 +1,4 @@
-package tabcomputing.library.clock;
+package tabcomputing.library.color;
 
 import android.graphics.Color;
 import android.util.Log;

@@ -8,7 +8,6 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import tabcomputing.library.clock.ColorWheel;
 import tabcomputing.library.clock.DecimalTime;
 import tabcomputing.library.clock.DuodecimalTime;
 import tabcomputing.library.clock.HexadecimalTime;
@@ -17,6 +16,7 @@ import tabcomputing.library.clock.MilitaryTime;
 import tabcomputing.library.clock.StandardTime;
 import tabcomputing.library.clock.TimeSystem;
 import tabcomputing.library.paper.AbstractSettings;
+import tabcomputing.library.color.ColorWheel;
 
 
 public class ClockSettings extends AbstractSettings {
