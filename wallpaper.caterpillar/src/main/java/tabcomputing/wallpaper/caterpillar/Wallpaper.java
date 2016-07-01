@@ -1,7 +1,5 @@
 package tabcomputing.wallpaper.caterpillar;
 
-import android.util.Log;
-
 import tabcomputing.library.paper.AbstractPattern;
 import tabcomputing.library.paper.AbstractWallpaper;
 import tabcomputing.library.paper.CommonSettings;

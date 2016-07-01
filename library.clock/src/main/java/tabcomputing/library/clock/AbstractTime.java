@@ -1,7 +1,6 @@
 package tabcomputing.library.clock;
 
 import android.text.TextUtils;
-import android.text.format.Time;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,11 +8,13 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import tabcomputing.library.color.ColorWheel;
 
-        /*
-        private final int[] SEGMENTS_BIHEXADECIMAL = {16, 16, 16, 16};
-        private final int[] SEGMENTS_BIHEXIMAL     = {12, 36, 216};
-        */
+
+    /*
+    private final int[] SEGMENTS_BIHEXADECIMAL = {16, 16, 16, 16};
+    private final int[] SEGMENTS_BIHEXIMAL     = {12, 36, 216};
+    */
 
 public abstract class AbstractTime implements TimeSystem {
 

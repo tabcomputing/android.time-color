@@ -1,7 +1,6 @@
 package tabcomputing.wallpaper.radiant;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;

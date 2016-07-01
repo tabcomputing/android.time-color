@@ -1,10 +1,7 @@
 package tabcomputing.library.paper;
 
-import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
 
-import tabcomputing.library.clock.ColorWheel;
 import tabcomputing.library.clock.DecimalTime;
 import tabcomputing.library.clock.DuodecimalTime;
 import tabcomputing.library.clock.HexadecimalTime;
@@ -12,6 +9,7 @@ import tabcomputing.library.clock.HeximalTime;
 import tabcomputing.library.clock.MilitaryTime;
 import tabcomputing.library.clock.StandardTime;
 import tabcomputing.library.clock.TimeSystem;
+import tabcomputing.library.color.ColorWheel;
 
 /**
  * Common Pattern Settings

@@ -8,8 +8,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 
-import tabcomputing.library.clock.ColorWheel;
 import tabcomputing.library.clock.TimeSystem;
+import tabcomputing.library.color.ColorWheel;
 
 import java.util.Arrays;
 

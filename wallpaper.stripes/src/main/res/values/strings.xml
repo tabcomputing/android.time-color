@@ -1,4 +1,21 @@
 <resources>
     <string name="stripes_label">T+C=W Stripes</string>
     <string name="stripes_description">Fly your colors. Time+Color=Wallpaper presents Stripes, a colorful wallpaper striping your screen with the colors of time.</string>
+
+
+    <string name="orientation_title">Pattern flare</string>
+    <string name="orientation_summary">Add a bit of flare to your pattern.</string>
+
+    <string-array name="orientation_entries">
+        <item>Horizontal</item>
+        <item>Vertical</item>
+    </string-array>
+
+    <string-array name="orientation_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="orientation_default">0</string>
+
 </resources>

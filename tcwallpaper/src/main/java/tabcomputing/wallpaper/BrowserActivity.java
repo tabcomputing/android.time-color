@@ -1,4 +1,4 @@
-package tabcomputing.wallpaper;
+package tabcomputing.tcwallpaper;
 
 import android.annotation.SuppressLint;
 import android.app.WallpaperManager;

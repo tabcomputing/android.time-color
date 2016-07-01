@@ -4,10 +4,10 @@ import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
-    //public static final String KEY_FLARE          = "flare";
+    public static final String KEY_ORIENTATION = "orientation";
 
     public Settings() {
-        //propertyInteger(KEY_FLARE, 0);
+        propertyInteger(KEY_ORIENTATION, 0);
 
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, true);
@@ -18,4 +18,9 @@ public class Settings extends CommonSettings {
         propertyBoolean(KEY_TIME_SECONDS, false);
     }
 
+    public int orientation = 0;
+
+    public int getOrientation() {
+        return orientation;
+    }
 }

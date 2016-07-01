@@ -1,10 +1,9 @@
 package tabcomputing.library.clock;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+
+import tabcomputing.library.color.ColorWheel;
 
 public class StandardTime extends AbstractTime {
 

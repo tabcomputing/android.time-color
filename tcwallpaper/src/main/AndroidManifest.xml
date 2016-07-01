@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tabcomputing.wallpaper"
-    android:sharedUserId="tabcomputing.wallpaper">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="tabcomputing.tcwallpaper">
 
     <!--
      Required to act as a custom watch face.

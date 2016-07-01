@@ -1,15 +1,12 @@
 package tabcomputing.library.paper;
 
-import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Log;
 
-import tabcomputing.library.clock.ColorWheel;
 import tabcomputing.library.clock.TimeSystem;
+import tabcomputing.library.color.ColorWheel;
 
 public abstract class AbstractPattern implements SettingsListener {
 

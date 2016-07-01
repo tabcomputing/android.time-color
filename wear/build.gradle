@@ -25,6 +25,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile project(':library.clock')
+    compile project(':library.color')
 
     //wearApp project(':wear')
 

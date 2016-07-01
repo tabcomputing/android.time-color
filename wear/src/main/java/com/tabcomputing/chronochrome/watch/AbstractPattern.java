@@ -5,8 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import tabcomputing.library.clock.ColorWheel;
 import tabcomputing.library.clock.TimeSystem;
+import tabcomputing.library.color.ColorWheel;
 
 public abstract class AbstractPattern {
 

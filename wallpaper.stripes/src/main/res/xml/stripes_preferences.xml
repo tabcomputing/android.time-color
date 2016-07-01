@@ -4,16 +4,14 @@
         android:title="@string/category_mode_title"
         android:key="category_mode_settings">
 
-        <!--
         <ListPreference
-            android:key="flare"
-            android:title="@string/flare_title"
-            android:summary="@string/flare_summary"
-            android:entries="@array/flare_entries"
-            android:entryValues="@array/flare_values"
-            android:dialogTitle="@string/flare_title"
-            android:defaultValue="@string/flare_default" />
-        -->
+            android:key="orientation"
+            android:title="@string/orientation_title"
+            android:summary="@string/orientation_summary"
+            android:entries="@array/orientation_entries"
+            android:entryValues="@array/orientation_values"
+            android:dialogTitle="@string/orientation_title"
+            android:defaultValue="@string/orientation_default" />
     </PreferenceCategory>
 
     <PreferenceCategory

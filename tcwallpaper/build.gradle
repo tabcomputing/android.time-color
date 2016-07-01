@@ -12,7 +12,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
-        applicationId 'tabcomputing.wallpaper'
+        applicationId 'tabcomputing.tcwallpaper'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -31,11 +31,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
     compile project(':library.clock')
     compile project(':library.color')
     compile project(':library.paper')
-
     compile project(':wallpaper.bigtime')
     compile project(':wallpaper.binary')
     compile project(':wallpaper.caterpillar')
@@ -51,9 +49,7 @@ dependencies {
     compile project(':wallpaper.solid')
     compile project(':wallpaper.squares')
     compile project(':wallpaper.stripes')
-
     testCompile 'junit:junit:4.12'
-
     // think this is b/c API 21 is needed w/o this
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'

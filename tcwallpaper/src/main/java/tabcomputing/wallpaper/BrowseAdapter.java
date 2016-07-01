@@ -1,4 +1,4 @@
-package tabcomputing.wallpaper;
+package tabcomputing.tcwallpaper;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

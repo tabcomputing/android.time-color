@@ -4,8 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Chromatime.iml" filepath="$PROJECT_DIR$/Chromatime.iml" />
       <module fileurl="file://$PROJECT_DIR$/library.clock/library.clock.iml" filepath="$PROJECT_DIR$/library.clock/library.clock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library.color/library.color.iml" filepath="$PROJECT_DIR$/library.color/library.color.iml" />
       <module fileurl="file://$PROJECT_DIR$/library.paper/library.paper.iml" filepath="$PROJECT_DIR$/library.paper/library.paper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper/wallpaper.iml" filepath="$PROJECT_DIR$/wallpaper/wallpaper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tcwallpaper/tcwallpaper.iml" filepath="$PROJECT_DIR$/tcwallpaper/tcwallpaper.iml" />
       <module fileurl="file://$PROJECT_DIR$/wallpaper.bigtime/wallpaper.bigtime.iml" filepath="$PROJECT_DIR$/wallpaper.bigtime/wallpaper.bigtime.iml" />
       <module fileurl="file://$PROJECT_DIR$/wallpaper.binary/wallpaper.binary.iml" filepath="$PROJECT_DIR$/wallpaper.binary/wallpaper.binary.iml" />
       <module fileurl="file://$PROJECT_DIR$/wallpaper.caterpillar/wallpaper.caterpillar.iml" filepath="$PROJECT_DIR$/wallpaper.caterpillar/wallpaper.caterpillar.iml" />

@@ -1,5 +1,7 @@
 package tabcomputing.library.clock;
 
+import tabcomputing.library.color.ColorWheel;
+
 public interface TimeSystem {
 
     double ratioTime();

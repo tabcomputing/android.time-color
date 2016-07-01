@@ -11,8 +11,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/library.clock" />
+            <option value="$PROJECT_DIR$/library.color" />
             <option value="$PROJECT_DIR$/library.paper" />
-            <option value="$PROJECT_DIR$/wallpaper" />
+            <option value="$PROJECT_DIR$/tcwallpaper" />
             <option value="$PROJECT_DIR$/wallpaper.bigtime" />
             <option value="$PROJECT_DIR$/wallpaper.binary" />
             <option value="$PROJECT_DIR$/wallpaper.caterpillar" />
