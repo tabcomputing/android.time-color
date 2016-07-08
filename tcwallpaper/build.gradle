@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'tabAndroidKey'
+            keyAlias 'config' //'tabAndroidKey'
             keyPassword '00tab00'
             storeFile file('/home/trans/android.jks')
             storePassword '00tab00'
@@ -15,8 +15,9 @@ android {
         applicationId 'tabcomputing.tcwallpaper'
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
@@ -45,7 +46,7 @@ dependencies {
     compile project(':wallpaper.pieslice')
     compile project(':wallpaper.plaid')
     compile project(':wallpaper.radial')
-    compile project(':wallpaper.radiant')
+    compile project(':wallpaper.orb')
     compile project(':wallpaper.solid')
     compile project(':wallpaper.squares')
     compile project(':wallpaper.stripes')

@@ -5,6 +5,23 @@
     <string name="orbital_title">Orbit?</string>
     <string name="orbital_summary">Place radiant in orbit around invisible clock.</string>
 
-    <string name="hideOrb_title">Hide Orb?</string>
-    <string name="hideOrb_summary">Hide orb, only showing gradient.</string>
+    <!-- Orientation -->
+
+    <string name="orientation_title">OrientationNumber system</string>
+    <string name="orientation_summary">Pick system of enumerating the clock face.</string>
+
+    <string-array name="orientation_entries">
+        <item>Vertical</item>
+        <item>Horizontal</item>
+        <item>Rotating</item>
+    </string-array>
+
+    <string-array name="orientation_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="orientation_default">0</string>
+
 </resources>

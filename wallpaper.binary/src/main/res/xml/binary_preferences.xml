@@ -19,6 +19,12 @@
             android:title="@string/colorDaylight_title"
             android:summary="@string/colorDaylight_summary"
             android:defaultValue="true" />
+
+        <CheckBoxPreference
+            android:key="colorDuplex"
+            android:title="@string/colorDuplex_title"
+            android:summary="@string/colorDuplex_summary"
+            android:defaultValue="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -26,21 +32,10 @@
         android:key="category_time_settings">
 
         <CheckBoxPreference
-            android:key="colorDuplex"
-            android:title="@string/colorDuplex_title"
-            android:summary="@string/colorDuplex_summary"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
             android:key="timeSeconds"
             android:title="@string/timeSeconds_title"
             android:summary="@string/timeSeconds_summary"
             android:defaultValue="false" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/category_advanced_title"
-        android:key="category_advanced_settings">
 
         <ListPreference
             android:key="timeSystem"

@@ -1,10 +1,11 @@
-package tabcomputing.wallpaper.gradient;
+package tabcomputing.wallpaper.orb;
 
 import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
-    public static final String KEY_ORIENTATION = "orientation";
+    public static final String KEY_ORB_SIZE = "orb_size";
+    public static final String KEY_ORBIT    = "orbital";
 
     public Settings() {
         propertyInteger(KEY_COLOR_GAMUT, 0);
@@ -16,11 +17,16 @@ public class Settings extends CommonSettings {
         propertyBoolean(KEY_TIME_ROTATE, false);
         propertyBoolean(KEY_TIME_SECONDS, false);
 
-        propertyInteger(KEY_ORIENTATION, 0);
+        propertyBoolean(KEY_ORBIT, false);
+        propertyInteger(KEY_ORB_SIZE, 1);
     }
 
-    public int getOrientation() {
-        return getInteger(KEY_ORIENTATION);
+    public boolean isOrbital() {
+        return getBoolean(KEY_ORBIT);
+    }
+
+    public int orbSize() {
+        return getInteger(KEY_ORB_SIZE);
     }
 
 }

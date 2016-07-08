@@ -15,11 +15,14 @@
             android:defaultValue="@string/flare_default" />
         -->
 
-        <CheckBoxPreference
-            android:key="hideOrb"
-            android:title="@string/hideOrb_title"
-            android:summary="@string/hideOrb_summary"
-            android:defaultValue="false" />
+        <ListPreference
+            android:key="orientation"
+            android:title="@string/orientation_title"
+            android:summary="@string/orientation_summary"
+            android:entries="@array/orientation_entries"
+            android:entryValues="@array/orientation_values"
+            android:dialogTitle="@string/orientation_title"
+            android:defaultValue="@string/orientation_default" />
 
         <CheckBoxPreference
             android:key="orbital"
@@ -32,6 +35,12 @@
     <PreferenceCategory
         android:title="@string/category_color_title"
         android:key="category_color_settings">
+
+        <CheckBoxPreference
+            android:key="colorSwap"
+            android:title="@string/colorSwap_title"
+            android:summary="@string/colorSwap_summary"
+            android:defaultValue="false" />
 
         <ListPreference
             android:key="colorGamut"
@@ -49,9 +58,9 @@
             android:defaultValue="true" />
 
         <CheckBoxPreference
-            android:key="colorSwap"
-            android:title="@string/colorSwap_title"
-            android:summary="@string/colorSwap_summary"
+            android:key="colorDuplex"
+            android:title="@string/colorDuplex_title"
+            android:summary="@string/colorDuplex_summary"
             android:defaultValue="false" />
     </PreferenceCategory>
 
@@ -60,21 +69,10 @@
         android:key="category_time_settings">
 
         <CheckBoxPreference
-            android:key="colorDuplex"
-            android:title="@string/colorDuplex_title"
-            android:summary="@string/colorDuplex_summary"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
             android:key="timeSeconds"
             android:title="@string/timeSeconds_title"
             android:summary="@string/timeSeconds_summary"
             android:defaultValue="false" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/category_advanced_title"
-        android:key="category_advanced_settings">
 
         <ListPreference
             android:key="timeSystem"

@@ -3,6 +3,7 @@ package tabcomputing.wallpaper.gradient;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 
@@ -43,11 +44,34 @@ public class Pattern extends AbstractPattern {
 
     @Override
     public void draw(Canvas canvas) {
-        if(settings.isOrbital()) {
-            drawOrbiting(canvas);
-        } else {
-            drawVertical(canvas);
+        switch (settings.getOrientation()) {
+            case 0:
+                drawVertical(canvas);
+                break;
+            case 1:
+                drawHorizontal(canvas);
+                break;
+            default:
+                drawOrbiting(canvas);
         }
+
+    }
+
+    public void drawHorizontal(Canvas canvas) {
+        int[] colors = timeColors();
+
+        if (! settings.displaySeconds()) {
+            colors = Arrays.copyOf(colors, colors.length - 1);
+        }
+
+        if (settings.isSwapped()) {
+            reverseArray(colors);
+        }
+
+        LinearGradient shader = new LinearGradient(0, 0, 0, canvas.getHeight(), colors, null, Shader.TileMode.CLAMP);
+        Paint paint = new Paint();
+        paint.setShader(shader);
+        canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
     }
 
     public void drawVertical(Canvas canvas) {
@@ -61,7 +85,7 @@ public class Pattern extends AbstractPattern {
             reverseArray(colors);
         }
 
-        LinearGradient shader = new LinearGradient(0, 0, 0, canvas.getHeight(), colors, null, Shader.TileMode.CLAMP);
+        LinearGradient shader = new LinearGradient(0, 0, canvas.getWidth(), 0, colors, null, Shader.TileMode.CLAMP);
         Paint paint = new Paint();
         paint.setShader(shader);
         canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
@@ -111,6 +135,72 @@ public class Pattern extends AbstractPattern {
 
         LinearGradient shader = new LinearGradient(rx, ry, fx, fy, hc, mc, Shader.TileMode.CLAMP);
         Paint paint = new Paint();
+        paint.setShader(shader);
+        canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
+    }
+
+
+    /**
+     * @deprecated      use Orb pattern instead
+     */
+    public void drawCircularCenter(Canvas canvas) {
+        float cx = centerX(canvas);
+        float cy = centerY(canvas);
+
+        float gw = min(cx, cy) * 2.0f;
+
+        int[] colors = timeColors();
+
+        if (! settings.displaySeconds()) {
+            colors = Arrays.copyOf(colors, colors.length - 1);
+        }
+
+        // the hour color is on the outside in normal mode
+        if (settings.isSwapped()) {
+            reverseArray(colors);
+        }
+
+        // draw the circular gradient
+        RadialGradient shader = new RadialGradient(cx, cy, gw, colors, null, Shader.TileMode.CLAMP);
+        paint.reset(); // = new Paint();
+        paint.setShader(shader);
+        canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
+    }
+
+    /**
+     * @deprecated      use Orb pattern instead
+     */
+    public void drawCircularOrbiting(Canvas canvas) {
+        float cx = centerX(canvas);
+        float cy = centerY(canvas);
+
+        float gw = min(cx, cy);
+
+        //float w = faceRadius(canvas);
+        float r0 = spotRadius(canvas);
+        //float r1 = w - r0;
+
+        double[] r = timeSystem.handRatios();
+
+        float hx = (float) (cx + r0 * sin(r[0] + rot()));
+        float hy = (float) (cy - r0 * cos(r[0] + rot()));
+
+        int[] colors = timeColors();
+
+        if (! settings.displaySeconds()) {
+            colors = Arrays.copyOf(colors, colors.length - 1);
+        }
+
+        // the hour color is on the inside in normal mode
+        if (settings.isSwapped()) {
+            reverseArray(colors);
+        }
+
+        //Paint paint;
+
+        // draw the circular gradient
+        RadialGradient shader = new RadialGradient(hx, hy, gw, colors, null, Shader.TileMode.CLAMP);
+        paint.reset(); // = new Paint();
         paint.setShader(shader);
         canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
     }

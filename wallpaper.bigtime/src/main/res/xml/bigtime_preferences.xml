@@ -1,85 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceScreen
-        android:key="bigtime_preferencescreen"
-        android:title="Big Time Settings">
+    <PreferenceCategory
+        android:title="@string/category_mode_title"
+        android:key="category_mode_settings">
 
-        <PreferenceCategory
-            android:title="@string/category_mode_title"
-            android:key="category_mode_settings">
+        <ListPreference
+            android:key="typeface"
+            android:title="@string/typeface_title"
+            android:summary="@string/typeface_summary"
+            android:entries="@array/typeface_entries"
+            android:entryValues="@array/typeface_values"
+            android:dialogTitle="@string/typeface_title"
+            android:defaultValue="@string/typeface_default" />
 
-            <ListPreference
-                android:key="typeface"
-                android:title="@string/typeface_title"
-                android:summary="@string/typeface_summary"
-                android:entries="@array/typeface_entries"
-                android:entryValues="@array/typeface_values"
-                android:dialogTitle="@string/typeface_title"
-                android:defaultValue="@string/typeface_default" />
+        <!--
+        <ListPreference
+            android:key="flare"
+            android:title="@string/flare_title"
+            android:summary="@string/flare_summary"
+            android:entries="@array/flare_entries"
+            android:entryValues="@array/flare_values"
+            android:dialogTitle="@string/flare_title"
+            android:defaultValue="@string/flare_default" />
+        -->
+    </PreferenceCategory>
 
-            <!--
-            <ListPreference
-                android:key="flare"
-                android:title="@string/flare_title"
-                android:summary="@string/flare_summary"
-                android:entries="@array/flare_entries"
-                android:entryValues="@array/flare_values"
-                android:dialogTitle="@string/flare_title"
-                android:defaultValue="@string/flare_default" />
-            -->
-        </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/category_color_title"
+        android:key="category_color_settings">
 
-        <PreferenceCategory
-            android:title="@string/category_color_title"
-            android:key="category_color_settings">
+        <ListPreference
+            android:key="colorGamut"
+            android:title="@string/colorGamut_title"
+            android:summary="@string/colorGamut_summary"
+            android:entries="@array/colorGamut_entries"
+            android:entryValues="@array/colorGamut_values"
+            android:dialogTitle="@string/colorGamut_title"
+            android:defaultValue="@string/colorGamut_default" />
 
-            <ListPreference
-                android:key="colorGamut"
-                android:title="@string/colorGamut_title"
-                android:summary="@string/colorGamut_summary"
-                android:entries="@array/colorGamut_entries"
-                android:entryValues="@array/colorGamut_values"
-                android:dialogTitle="@string/colorGamut_title"
-                android:defaultValue="@string/colorGamut_default" />
+        <CheckBoxPreference
+            android:key="colorDaylight"
+            android:title="@string/colorDaylight_title"
+            android:summary="@string/colorDaylight_summary"
+            android:defaultValue="true" />
 
-            <CheckBoxPreference
-                android:key="colorDaylight"
-                android:title="@string/colorDaylight_title"
-                android:summary="@string/colorDaylight_summary"
-                android:defaultValue="true" />
-        </PreferenceCategory>
+        <CheckBoxPreference
+            android:key="colorDuplex"
+            android:title="@string/colorDuplex_title"
+            android:summary="@string/colorDuplex_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
 
-        <PreferenceCategory
-            android:title="@string/category_time_title"
-            android:key="category_time_settings">
+    <PreferenceCategory
+        android:title="@string/category_time_title"
+        android:key="category_time_settings">
 
-            <CheckBoxPreference
-                android:key="colorDuplex"
-                android:title="@string/colorDuplex_title"
-                android:summary="@string/colorDuplex_summary"
-                android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="timeSeconds"
+            android:title="@string/timeSeconds_title"
+            android:summary="@string/timeSeconds_summary"
+            android:defaultValue="false" />
 
-            <CheckBoxPreference
-                android:key="timeSeconds"
-                android:title="@string/timeSeconds_title"
-                android:summary="@string/timeSeconds_summary"
-                android:defaultValue="false" />
-        </PreferenceCategory>
+        <ListPreference
+            android:key="timeSystem"
+            android:title="@string/timeSystem_title"
+            android:summary="@string/timeSystem_summary"
+            android:entries="@array/timeSystem_entries"
+            android:entryValues="@array/timeSystem_values"
+            android:dialogTitle="@string/timeSystem_title"
+            android:defaultValue="@string/timeSystem_default" />
 
-        <PreferenceCategory
-            android:title="@string/category_advanced_title"
-            android:key="category_advanced_settings">
+        <ListPreference
+            android:key="numberSystem"
+            android:title="@string/numberSystem_title"
+            android:summary="@string/numberSystem_summary"
+            android:entries="@array/numberSystem_entries"
+            android:entryValues="@array/numberSystem_values"
+            android:dialogTitle="@string/numberSystem_title"
+            android:defaultValue="@string/numberSystem_default" />
 
-            <ListPreference
-                android:key="timeSystem"
-                android:title="@string/timeSystem_title"
-                android:summary="@string/timeSystem_summary"
-                android:entries="@array/timeSystem_entries"
-                android:entryValues="@array/timeSystem_values"
-                android:dialogTitle="@string/timeSystem_title"
-                android:defaultValue="@string/timeSystem_default" />
-        </PreferenceCategory>
-        </PreferenceScreen>
+        <CheckBoxPreference
+            android:key="baseConversion"
+            android:title="@string/baseConversion_title"
+            android:summary="@string/baseConversion_summary"
+            android:defaultValue="true" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

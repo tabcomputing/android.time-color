@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--
     <PreferenceCategory
         android:title="@string/category_mode_title"
         android:key="category_mode_settings">
 
-    <ListPreference
-        android:key="flare"
-        android:title="@string/flare_title"
-        android:summary="@string/flare_summary"
-        android:entries="@array/flare_entries"
-        android:entryValues="@array/flare_values"
-        android:dialogTitle="@string/flare_title"
-        android:defaultValue="@string/flare_default" />
+        <!--
+        <ListPreference
+            android:key="flare"
+            android:title="@string/flare_title"
+            android:summary="@string/flare_summary"
+            android:entries="@array/flare_entries"
+            android:entryValues="@array/flare_values"
+            android:dialogTitle="@string/flare_title"
+            android:defaultValue="@string/flare_default" />
+        -->
+
+        <ListPreference
+            android:key="orb_size"
+            android:title="@string/orb_size_title"
+            android:summary="@string/orb_size_summary"
+            android:entries="@array/orb_size_entries"
+            android:entryValues="@array/orb_size_values"
+            android:dialogTitle="@string/orb_size_title"
+            android:defaultValue="@string/orb_size_default" />
+
+        <CheckBoxPreference
+            android:key="orbital"
+            android:title="@string/orbital_title"
+            android:summary="@string/orbital_summary"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
-    -->
 
     <PreferenceCategory
         android:title="@string/category_color_title"
@@ -40,12 +56,6 @@
             android:title="@string/colorSwap_title"
             android:summary="@string/colorSwap_summary"
             android:defaultValue="false" />
-
-        <CheckBoxPreference
-            android:key="colorDuplex"
-            android:title="@string/colorDuplex_title"
-            android:summary="@string/colorDuplex_summary"
-            android:defaultValue="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -53,10 +63,21 @@
         android:key="category_time_settings">
 
         <CheckBoxPreference
+            android:key="colorDuplex"
+            android:title="@string/colorDuplex_title"
+            android:summary="@string/colorDuplex_summary"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
             android:key="timeSeconds"
             android:title="@string/timeSeconds_title"
             android:summary="@string/timeSeconds_summary"
             android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/category_advanced_title"
+        android:key="category_advanced_settings">
 
         <ListPreference
             android:key="timeSystem"
