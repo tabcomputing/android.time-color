@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/category_mode_title"
+        android:key="category_mode_settings">
+        <CheckBoxPreference
+            android:key="interlace"
+            android:title="@string/interlace_title"
+            android:summary="@string/interlace_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/category_color_title"
+        android:key="category_color_settings">
+        <CheckBoxPreference
+            android:key="colorSwap"
+            android:title="@string/colorSwap_title"
+            android:summary="@string/colorSwap_summary"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="colorDaylight"
+            android:title="@string/colorDaylight_title"
+            android:summary="@string/colorDaylight_summary"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="colorDuplex"
+            android:title="@string/colorDuplex_title"
+            android:summary="@string/colorDuplex_summary"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="colorGamut"
+            android:title="@string/colorGamut_title"
+            android:summary="@string/colorGamut_summary"
+            android:entries="@array/colorGamut_entries"
+            android:entryValues="@array/colorGamut_values"
+            android:dialogTitle="@string/colorGamut_title"
+            android:defaultValue="@string/colorGamut_default" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/category_time_title"
+        android:key="category_time_settings">
+        <CheckBoxPreference
+            android:key="timeSeconds"
+            android:title="@string/timeSeconds_title"
+            android:summary="@string/timeSeconds_summary"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="timeSystem"
+            android:title="@string/timeSystem_title"
+            android:summary="@string/timeSystem_summary"
+            android:entries="@array/timeSystem_entries"
+            android:entryValues="@array/timeSystem_values"
+            android:dialogTitle="@string/timeSystem_title"
+            android:defaultValue="@string/timeSystem_default" />
+    </PreferenceCategory>
+</PreferenceScreen>
