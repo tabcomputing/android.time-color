@@ -5,7 +5,7 @@ import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 import java.util.Arrays;
 
@@ -14,12 +14,13 @@ import java.util.Arrays;
  */
 public class Pattern extends AbstractPattern {
 
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
+    }
+
     // NOTE: You would think using @Override would be enough.
     protected Settings settings;
-
-    public Pattern(Settings settings) {
-        setSettings(settings);
-    }
 
     // This might well be the dumbest damn thing I have had to program.
     protected void setSettings(Settings settings) {

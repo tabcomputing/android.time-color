@@ -4,8 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import tabcomputing.library.paper.CommonSettings;
-
 /**
  */
 public class FlareGlare extends AbstractFlare {

@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,7 +85,6 @@ public class BillingService implements ServiceConnection {
         if (mService != null) {
             mContext.unbindService(this);
         }
-
     }
 
     final int RESULT_OK = 0;                   // success
@@ -314,13 +314,50 @@ public class BillingService implements ServiceConnection {
         return (sku + (int)(Math.random() * 10000));
     }
 
-    LinkedList<String> tokens = new LinkedList<>();
+    /**
+     * Get the set of purchased skus.
+     *
+     * @return          set of purchased skus
+     */
+    public HashSet<String> getPurchasedSkus() {
+        HashSet<String> skus = new HashSet<>();
+        for(PurchasedProduct product : purchasedProducts) {
+            skus.add(product.sku);
+        }
+        return skus;
+    }
+
+    /**
+     * Hash a given product been purchased?
+     *
+     * @param sku       product id
+     * @return          true if product had been purchased
+     */
+    public boolean isOwned(String sku) {
+        for(PurchasedProduct product : purchasedProducts) {
+            if (product.sku.equals(sku)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getPrice(String sku) {
+        for(AvailableProduct product : availableProducts) {
+            if (product.sku.equals(sku)) {
+                return product.price;
+            }
+        }
+        return null;
+    }
+
+    //LinkedList<String> tokens = new LinkedList<>();
 
     /**
      * Consume product.
      *
      * @param token     purchase token
-     */
+     *
     public void consumeProduct(String token) {
         tokens.add(token);
         consumptionRunner.run();
@@ -338,5 +375,6 @@ public class BillingService implements ServiceConnection {
             }
         }
     };
+    */
 
 }

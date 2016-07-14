@@ -1,16 +1,17 @@
 package tabcomputing.tcwallpaper.binary;
 
-import tabcomputing.library.paper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.R;
 
 public class SettingsActivity extends AbstractSettingsActivity {
 
     //public String getPrefName() {
-    //    return "binarystripes";
+    //    return "binary";
     //}
 
     @Override
     public int getPrefResId() {
-        return tabcomputing.wallpaper.binarystripes.R.xml.binary_preferences;
+        return R.xml.binary_preferences;
     }
 
 }

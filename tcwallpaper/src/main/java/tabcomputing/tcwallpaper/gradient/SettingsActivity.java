@@ -1,12 +1,13 @@
 package tabcomputing.tcwallpaper.gradient;
 
-import tabcomputing.library.paper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.R;
 
 public class SettingsActivity extends AbstractSettingsActivity {
 
     @Override
     public int getPrefResId() {
-        return tabcomputing.wallpaper.gradient.R.xml.gradient_preferences;
+        return R.xml.gradient_preferences;
     }
 
 }

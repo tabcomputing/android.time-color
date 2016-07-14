@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 /**
  * This pattern simply cuts out a slice of the screen aligned with hands on a clock.
@@ -13,8 +13,9 @@ import tabcomputing.library.paper.AbstractPattern;
  */
 public class Pattern extends AbstractPattern {
 
-    public Pattern(Settings settings) {
-        setSettings(settings);
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
 
     /**

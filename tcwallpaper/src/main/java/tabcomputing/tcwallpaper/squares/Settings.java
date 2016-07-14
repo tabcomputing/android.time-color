@@ -1,14 +1,10 @@
 package tabcomputing.tcwallpaper.squares;
 
-import tabcomputing.library.paper.CommonSettings;
+import tabcomputing.tcwallpaper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
-    //public static final String KEY_FLARE          = "flare";
-
     public Settings() {
-        //propertyInteger(KEY_FLARE, 0);
-
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, true);
         propertyBoolean(KEY_COLOR_DUPLEX, false);

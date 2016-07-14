@@ -6,8 +6,9 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.util.Log;
 
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 import java.util.Arrays;
 
@@ -30,31 +31,23 @@ import java.util.Arrays;
  */
 public class Pattern extends AbstractPattern {
 
-    protected Settings settings;
-
-    public Pattern(Settings settings) {
-        setSettings(settings);
-    }
-
-    // This might well be the dumbest damn thing I have had to program.
-    protected void setSettings(Settings settings) {
-        super.setSettings(settings);
-        this.settings = settings;
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
 
     @Override
     public void draw(Canvas canvas) {
         switch (settings.getOrientation()) {
-            case 0:
-                drawVertical(canvas);
+            case 2:
+                drawOrbiting(canvas);
                 break;
             case 1:
-                drawHorizontal(canvas);
+                drawVertical(canvas);
                 break;
             default:
-                drawOrbiting(canvas);
+                drawHorizontal(canvas);
         }
-
     }
 
     public void drawHorizontal(Canvas canvas) {

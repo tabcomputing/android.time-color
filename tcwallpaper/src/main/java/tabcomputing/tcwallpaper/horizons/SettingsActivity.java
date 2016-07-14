@@ -1,12 +1,13 @@
 package tabcomputing.tcwallpaper.horizons;
 
-import tabcomputing.library.paper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.R;
 
 public class SettingsActivity extends AbstractSettingsActivity {
 
     @Override
     public int getPrefResId() {
-        return tabcomputing.wallpaper.horizons.R.xml.horizons_preferences;
+        return R.xml.horizons_preferences;
     }
 
 }

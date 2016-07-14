@@ -58,7 +58,7 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     protected int getPrefResId() {
-        String uri = "tabcomputing.wallpaper.bigtime.Wallpaper";
+        String uri = "tabcomputing.tcwallpaper.bigtime.Wallpaper";
 
         Resources res = getResources();
 

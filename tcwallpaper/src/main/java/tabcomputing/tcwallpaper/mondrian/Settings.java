@@ -1,6 +1,6 @@
 package tabcomputing.tcwallpaper.mondrian;
 
-import tabcomputing.library.paper.CommonSettings;
+import tabcomputing.tcwallpaper.CommonSettings;
 
 public class Settings extends CommonSettings {
 

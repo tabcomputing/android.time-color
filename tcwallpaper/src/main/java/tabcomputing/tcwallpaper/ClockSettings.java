@@ -15,7 +15,6 @@ import tabcomputing.library.clock.HeximalTime;
 import tabcomputing.library.clock.MilitaryTime;
 import tabcomputing.library.clock.StandardTime;
 import tabcomputing.library.clock.TimeSystem;
-import tabcomputing.library.paper.AbstractSettings;
 import tabcomputing.library.color.ColorWheel;
 
 
@@ -71,7 +70,7 @@ public class ClockSettings extends AbstractSettings {
     }
 
     /**
-     * Get shared preferences.
+     * Get shared pieslice_preferences.
      *
      * @return      SharedPreferences
      */
@@ -82,7 +81,7 @@ public class ClockSettings extends AbstractSettings {
             Context prefContext = context.createPackageContext("tabcomputing.wallpaper", Context.MODE_PRIVATE);
             prefs = prefContext.getSharedPreferences(getDefaultSharedPreferencesName(prefContext), Activity.MODE_PRIVATE);
         } catch (Exception e) {
-            Log.d("SettingsObserver", "Could not access shared preferences.");
+            Log.d("SettingsObserver", "Could not access shared pieslice_preferences.");
             prefs = PreferenceManager.getDefaultSharedPreferences(context); //AbstractWallpaper.this);
         }
 
@@ -94,7 +93,7 @@ public class ClockSettings extends AbstractSettings {
     }
 
     /**
-     * Read preferences given the context.
+     * Read pieslice_preferences given the context.
      */
     public void readPreferences(Context context) {
         SharedPreferences prefs = getPreferences(context);

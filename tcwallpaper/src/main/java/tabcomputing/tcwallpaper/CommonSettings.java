@@ -32,11 +32,11 @@ public class CommonSettings extends AbstractSettings {
     public static final String KEY_TYPEFACE       = "typeface";
 
     public static final int TIME_TRADITIONAL = 0;
-    public static final int TIME_MILITARY = 1;
-    public static final int TIME_HEXADECIMAL = 2;
-    public static final int TIME_HEXIMAL = 3;
-    public static final int TIME_DECIMAL = 4;
-    public static final int TIME_DUODECIMAL = 5;
+    public static final int TIME_MILITARY = 0;
+    public static final int TIME_DECIMAL = 1;
+    public static final int TIME_DUODECIMAL = 2;
+    public static final int TIME_HEXADECIMAL = 3;
+    public static final int TIME_HEXIMAL = 4;
 
     private ColorWheel colorWheel;
     private TimeSystem timeSystem;
@@ -59,17 +59,17 @@ public class CommonSettings extends AbstractSettings {
     public TimeSystem newTimeSystem() {
         int timeType = integerSettings.get(KEY_TIME_SYSTEM);
         switch (timeType) {
-            case TIME_HEXADECIMAL:
-                timeSystem = new HexadecimalTime();
-                break;
             case TIME_HEXIMAL:
                 timeSystem = new HeximalTime();
                 break;
-            case TIME_DECIMAL:
-                timeSystem = new DecimalTime();
+            case TIME_HEXADECIMAL:
+                timeSystem = new HexadecimalTime();
                 break;
             case TIME_DUODECIMAL:
                 timeSystem = new DuodecimalTime();
+                break;
+            case TIME_DECIMAL:
+                timeSystem = new DecimalTime();
                 break;
             default:
                 // TODO: can just be one class?

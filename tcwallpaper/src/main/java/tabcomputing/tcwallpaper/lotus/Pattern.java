@@ -4,20 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import tabcomputing.library.paper.AbstractPattern;
-import tabcomputing.library.paper.CommonSettings;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 public class Pattern extends AbstractPattern {
 
-    public Pattern(CommonSettings settings) {
-        setSettings(settings);
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
-
-    //public PatternLotus(Settings settings, TimeSystem timeSystem, ColorWheel colorWheel) {
-    //    this.settings   = settings;
-    //    this.timeSystem = timeSystem;
-    //    this.colorWheel = colorWheel;
-    //}
 
     @Override
     public void draw(Canvas canvas) {

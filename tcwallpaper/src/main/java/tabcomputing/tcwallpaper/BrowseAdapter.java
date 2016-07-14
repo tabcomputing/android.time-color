@@ -89,7 +89,7 @@ public class BrowseAdapter extends BaseAdapter {
         Item item = getItem(i);
 
         picture.setImageResource(item.drawableId);
-        name.setText(item.name);
+        name.setText(item.title);
         tag.setText(item.tag);
 
         return v;
@@ -118,31 +118,34 @@ public class BrowseAdapter extends BaseAdapter {
 
 
     public void setupItems() {
-        addItem("solid", "Solid", "free", R.drawable.thumbnail_solid);    // always free
-        addItem("gradient", "Gradient", "free", R.drawable.thumbnail_gradient);
-        addItem("orb", "Orb", "free", R.drawable.thumbnail_orb);
+        addItem("solid", "Solid", R.drawable.thumbnail_solid);    // always free
+        addItem("gradient", "Gradient", R.drawable.thumbnail_gradient);
+        addItem("orb", "Orb", R.drawable.thumbnail_orb);
 
-        addItem("stripes", "Stripes", "set1", R.drawable.thumbnail_stripes);
-        addItem("binary", "Binary", "set1", R.drawable.thumbnail_binary);
-        addItem("plaid", "Plaid", "set1", R.drawable.thumbnail_plaid);
+        addItem("stripes", "Stripes", R.drawable.thumbnail_stripes);
+        addItem("binary", "Binary", R.drawable.thumbnail_binary);
+        addItem("plaid", "Plaid", R.drawable.thumbnail_plaid);
 
-        addItem("caterpillar", "Caterpillar", "set1", R.drawable.thumbnail_caterpillar);
-        addItem("echo", "Echo", "set1", R.drawable.thumbnail_echo);
-        addItem("horizons", "Horizons", "set1", R.drawable.thumbnail_horizons);
+        addItem("caterpillar", "Caterpillar", R.drawable.thumbnail_caterpillar);
+        addItem("echo", "Echo", R.drawable.thumbnail_echo);
+        addItem("horizons", "Horizons", R.drawable.thumbnail_horizons);
 
-        addItem("lotus", "Lotus", "set1", R.drawable.thumbnail_lotus);
-        addItem("radial", "Radial", "set1", R.drawable.thumbnail_radial);
-        addItem("bigtime", "Big Time", "set1", R.drawable.thumbnail_squares);
+        addItem("lotus", "Lotus", R.drawable.thumbnail_lotus);
+        addItem("radial", "Radial", R.drawable.thumbnail_radial);
+        addItem("relic", "Relic", R.drawable.thumbnail_relic);
 
-        addItem("mondrian", "Mondrian", "set1", R.drawable.thumbnail_mondrian);
-        addItem("pieslice", "Pie Slice", "set1", R.drawable.thumbnail_pieslice);
-        addItem("squares", "Squares", "set1", R.drawable.thumbnail_squares);
+        addItem("mondrian", "Mondrian", R.drawable.thumbnail_mondrian);
+        addItem("pieslice", "Pie Slice", R.drawable.thumbnail_pieslice);
+        addItem("squares", "Squares", R.drawable.thumbnail_squares);
+
+        // bonus patterns
+        //addItem("bigtime", "Big Time", R.drawable.thumbnail_bigtime);
     }
 
     HashMap<String, Item> itemIndex = new HashMap<>();
 
-    public void addItem(String name, String title, String sku, int drawId) {
-        Item item = new Item(name, title, sku, drawId);
+    public void addItem(String name, String title, int drawId) {
+        Item item = new Item(name, title, drawId);
         itemIndex.put(name, item);
         mItems.add(item);
     }
@@ -151,6 +154,7 @@ public class BrowseAdapter extends BaseAdapter {
         return itemIndex.containsKey(sku);
     }
 
+    /*
     public void markPrice(String sku, String price) {
         for(Item item : mItems) {
             if (item.hasSku(sku)) {
@@ -158,7 +162,9 @@ public class BrowseAdapter extends BaseAdapter {
             }
         }
     }
+    */
 
+    /*
     public void markAvailable(String sku) {
         for(Item item : mItems) {
             if (item.hasSku(sku)) {
@@ -166,6 +172,7 @@ public class BrowseAdapter extends BaseAdapter {
             }
         }
     }
+    */
 
     /**
      * Mark item with matching name as purchased.
@@ -186,7 +193,7 @@ public class BrowseAdapter extends BaseAdapter {
     /**
      * If google play doesn't return product list, then we mark the wallpaper items with
      * an "unknown" status.
-     */
+     *
     public void markUnknown() {
         for(Item item : mItems) {
             if (! item.isFree()) {
@@ -194,6 +201,7 @@ public class BrowseAdapter extends BaseAdapter {
             }
         }
     }
+    */
 
     /*
     // references to our images
@@ -265,23 +273,34 @@ public class BrowseAdapter extends BaseAdapter {
      */
 
     /**
+     * Get a list of wallpaper names.
+     */
+    public List<String> getNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for(Item item : mItems) {
+            names.add(item.name);
+        }
+        return names;
+    }
+
+    /**
      * TODO: Libraries are currently "wallpaper" but should be "tcwallpaper" or moved to main package.
-     * @param sku       product id
+     * @param name      name of pattern
      * @return          name of package
      */
-    public String getPackageName(String sku) {
-        return ("tabcomputing.wallpaper." + sku);
+    public String getPackageName(String name) {
+        return ("tabcomputing.tcwallpaper." + name);
     }
 
-    public String getSku(int position) {
-        Item item = mItems.get(position);
-        return item.sku;
-    }
+    //public String getSku(int position) {
+    //    Item item = mItems.get(position);
+    //    return item.sku;
+    //}
 
-    public String isPurchased(int position) {
-        Item item = mItems.get(position);
-        return item.sku;
-    }
+    //public String isPurchased(int position) {
+    //    Item item = mItems.get(position);
+    //    return item.sku;
+    //}
 
     public boolean isPurchased(String name) {
         if (itemIndex.containsKey(name)) {
@@ -295,7 +314,7 @@ public class BrowseAdapter extends BaseAdapter {
      * Return a string of owned items, the name of each per line.
      *
      * @return      bill of sale list
-     */
+     *
     public String billOfSale() {
         ArrayList<String> list = new ArrayList<>();
         for(Item item : mItems) {
@@ -305,6 +324,7 @@ public class BrowseAdapter extends BaseAdapter {
         }
         return TextUtils.join("\n", list);
     }
+    */
 
     /**
      *
@@ -318,7 +338,6 @@ public class BrowseAdapter extends BaseAdapter {
 
         public final String name;
         public final String title;
-        public final String sku;
         public final int drawableId;
 
         // has been purchased?
@@ -326,24 +345,23 @@ public class BrowseAdapter extends BaseAdapter {
 
         public String tag = ITEM_TAG_FREE; //"✗";
 
-        Item(String name, String title, String sku, int drawableId) {
+        Item(String name, String title, int drawableId) {
             this.name = name;
             this.title = title;
-            this.sku = sku;
             this.drawableId = drawableId;
         }
 
-        public boolean hasSku(String sku) {
-            return this.sku.equals(sku);
-        }
+        //public boolean hasSku(String sku) {
+        //    return this.sku.equals(sku);
+        //}
 
-        public boolean isFree() {
-            return (sku.equals("free"));
-        }
+        //public boolean isFree() {
+        //    return (sku.equals("free"));
+        //}
 
-        public boolean isOwned() {
-            return this.bought || isFree();
-        }
+        //public boolean isOwned() {
+        //    return this.bought || isFree();
+        //}
 
         public boolean isSelected() {
             return this.tag.equals(ITEM_TAG_SELECTED);
@@ -353,10 +371,10 @@ public class BrowseAdapter extends BaseAdapter {
             this.tag = tag;
         }
 
-        public void markAvailable() {
-            this.bought = !isFree();
-            this.tag = ITEM_TAG_AVAILABLE;
-        }
+        //public void markAvailable() {
+        //    this.bought = !isFree();
+        //    this.tag = ITEM_TAG_AVAILABLE;
+        //}
 
         public void markPurchased() {
             this.bought = true;
@@ -371,10 +389,10 @@ public class BrowseAdapter extends BaseAdapter {
             }
         }
 
-        public void markUnknown() {
-            this.bought = !isFree();
-            this.tag = ITEM_TAG_UNKNOWN;
-        }
+        //public void markUnknown() {
+        //    this.bought = !isFree();
+        //    this.tag = ITEM_TAG_UNKNOWN;
+        //}
 
     }
 

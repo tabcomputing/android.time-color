@@ -5,14 +5,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 import java.util.Arrays;
 
 public class Pattern extends AbstractPattern {
 
-    public Pattern(Settings settings) {
-        setSettings(settings);
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
 
     @Override

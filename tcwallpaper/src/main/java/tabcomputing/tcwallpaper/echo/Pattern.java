@@ -5,21 +5,19 @@ import android.graphics.Paint;
 
 import java.util.Arrays;
 
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 /**
  */
 public class Pattern extends AbstractPattern {
 
-    public Pattern(Settings settings) {
-        setSettings(settings);
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
 
     @Override
     public void draw(Canvas canvas) {
-    }
-
-    public void drawShit(Canvas canvas) {
         float cx = centerX(canvas);
         float cy = centerY(canvas);
 

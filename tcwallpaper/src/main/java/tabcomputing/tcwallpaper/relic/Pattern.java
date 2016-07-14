@@ -13,8 +13,8 @@ import android.text.TextPaint;
 
 import java.util.Arrays;
 
-import tabcomputing.library.paper.AbstractPattern;
-import tabcomputing.library.paper.FontScale;
+import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.FontScale;
 
 /**
  *
@@ -54,7 +54,11 @@ public class Pattern extends AbstractPattern {
 
     @Override
     public void draw(Canvas canvas) {
-        drawSmall(canvas);
+        if (settings.getStyle() == 0) {
+            drawSmall(canvas);
+        } else {
+            drawLarge(canvas);
+        }
     }
 
     public void drawSmall(Canvas canvas) {
@@ -125,7 +129,7 @@ public class Pattern extends AbstractPattern {
         float estSize = textSizeForRect(time[1], rect, paint);
         paint.setTextSize(estSize);
 
-        FontScale fs = settings.typefaceScale();
+        FontScale fs = new FontScale(0.1f, 0, 1, 1);
 
         Bitmap bmp;
 

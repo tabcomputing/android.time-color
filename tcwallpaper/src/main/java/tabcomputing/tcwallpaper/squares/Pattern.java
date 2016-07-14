@@ -4,16 +4,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import tabcomputing.library.paper.AbstractPattern;
-import tabcomputing.library.paper.CommonSettings;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 /**
  * Draw series of spiraling square within other spiraling squares.
  */
 public class Pattern extends AbstractPattern {
 
-    public Pattern(CommonSettings settings) {
-        this.settings = settings;
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
 
     @Override

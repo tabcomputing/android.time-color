@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
@@ -52,7 +53,11 @@ import java.util.Stack;
 public class BrowserActivity extends AppCompatActivity {
 
     // TODO: Okay what are we going to do wit this?
-    private static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhYt78mTecdGIo2yy/38446QR9ASKufTdM9mmTmcjsL3aNUBoo2pJSd5f1A2r+HWHMKYJZmFhMMT2qh/ga6debjXWu6zGfypCpxyKv3xEvuB0gwPi7w61pYmdDqt5l8x6/j/Qm6Q8h3xY5peYmGeEqdCi6vqFVbnRPeiigTE4K//VQ/TUEvWodcDI/0ScRutsTfuvcyPhB3H2PnxCQArjI8aydUsyvTFlt2Qec7q+RJqjPVTR2sR9nINKlIk6lRk9TwOl3NxkN4zZVWB4lQSASWiIZ+B7b4e8UywqUAGlNbm2qYlLMKAycs1uTNPnMVHqZSy2nN3VFLP709KOTIhrQQIDAQAB";
+    private static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhYt78mTecdGIo2yy" +
+            "/38446QR9ASKufTdM9mmTmcjsL3aNUBoo2pJSd5f1A2r+HWHMKYJZmFhMMT2qh" +
+            "/ga6debjXWu6zGfypCpxyKv3xEvuB0gwPi7w61pYmdDqt5l8x6/j" +
+            "/Qm6Q8h3xY5peYmGeEqdCi6vqFVbnRPeiigTE4K" +
+            "//VQ/TUEvWodcDI/0ScRutsTfuvcyPhB3H2PnxCQArjI8aydUsyvTFlt2Qec7q+RJqjPVTR2sR9nINKlIk6lRk9TwOl3NxkN4zZVWB4lQSASWiIZ+B7b4e8UywqUAGlNbm2qYlLMKAycs1uTNPnMVHqZSy2nN3VFLP709KOTIhrQQIDAQAB";
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -78,6 +83,8 @@ public class BrowserActivity extends AppCompatActivity {
 
     private View buyButtonBox;
     private View buyButton;
+
+    private BillOfSale billOfSale;
 
     // price list
     private HashMap<String,Float> priceList = new HashMap<>();
@@ -160,7 +167,7 @@ public class BrowserActivity extends AppCompatActivity {
     private final View.OnClickListener buyClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            buyWallpaper();
+            buyProduct("all");
         }
     };
 
@@ -212,8 +219,14 @@ public class BrowserActivity extends AppCompatActivity {
         buyButtonBox = findViewById(R.id.buy_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        buyButtonBox.setVisibility(View.GONE);
+        billOfSale = new BillOfSale(this);
+        billOfSale.readBillOfSale();
 
+        if (billOfSale.isOwned("all")) {
+            buyButtonBox.setVisibility(View.GONE);
+        } else {
+            buyButtonBox.setVisibility(View.VISIBLE);
+        }
 
         // Set up the user interaction to manually show or hide the system UI.
         //mContentView.setOnClickListener(new View.OnClickListener() {
@@ -252,7 +265,6 @@ public class BrowserActivity extends AppCompatActivity {
         });
 
         // billing service
-        //billingService = new BillingService(getApplicationContext());
         billingService = new BillingService(this, updateRunner);
 
         //Log.d("------------>", "BILLING READY: " + billingService.isReady());
@@ -341,12 +353,15 @@ public class BrowserActivity extends AppCompatActivity {
 
                     // verify purchase
                     if (transactions.containsKey(dp)) {
-                        Transaction trans = transactions.get(dp);
+                        String id = transactions.get(dp);
+                        if (id.equals(sku)) {
+                            savePurchase(sku);
+                        } else {
+                            alert("Purchase transaction returned invalid product id.");
+                        }
                         transactions.remove(dp);
-
-                        transactions.put(token, trans);
-
-                        billingService.consumeProduct(token);
+                        //transactions.put(token, trans);
+                        //billingService.consumeProduct(token);
                     } else {
                         alert("Purchase transaction returned invalid verification code.");
                     }
@@ -362,9 +377,9 @@ public class BrowserActivity extends AppCompatActivity {
     /**
      * When a purchase transaction is completed, we need to consume the credits and activate
      * the selected wallpapers. This is called by the BillingService.
-     */
+     *
     public void onConsumption(String token) {
-        writeBillOfSale();
+        //writeBillOfSale();
 
         Transaction trans = transactions.get(token);
 
@@ -377,7 +392,22 @@ public class BrowserActivity extends AppCompatActivity {
 
         alert("Thank you for your purchase. Enjoy!");
     }
+    */
 
+    /**
+     * Add product to bill-of-sale and save.
+     *
+     * @param sku       product id
+     */
+    private void savePurchase(String sku) {
+        billOfSale.add(sku);
+        billOfSale.writeBillOfSale();
+        hideBuyButton();
+    }
+
+    /**
+     * Redraw the context view.
+     */
     private void refreshUI() {
         mContentView.invalidate();
     }
@@ -397,12 +427,13 @@ public class BrowserActivity extends AppCompatActivity {
      * Live Wallpaper selector list.
      *
      * @param name      wallpaper service name
-     */
+     *
     private void enableWallpaperService(String name) {
         String pkgName = getPackageName();
         ComponentName cmpName = new ComponentName(pkgName, pkgName + "." + name + ".Wallpaper");
         getPackageManager().setComponentEnabledSetting(cmpName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
+     */
 
     /*
     private void toggle() {
@@ -463,47 +494,40 @@ public class BrowserActivity extends AppCompatActivity {
     }
     */
 
+    private String getPrice(String sku) {
+        return billingService.getPrice(sku);
+    }
 
+    //
     Runnable updateRunner = new Runnable() {
         public void run() {
-            updateAvailableProducts(billingService.availableProducts);
-            updateAvailableCredits(billingService.purchasedProducts);
             updatePurchasedProducts();
-            mContentView.invalidate();
+            refreshUI();  // TODO: do we need this any more?
         }
     };
 
-    // available product list
-    private List<BillingService.AvailableProduct> availableProducts;
-
-    // credits that have not yet been used (should be empty)
-    private List<BillingService.PurchasedProduct> availableCredits;
-
-    protected void updateAvailableProducts(List<BillingService.AvailableProduct> products) {
-        //Log.d("BrowserActivity", "updateAvailableProducts");
-        if(products == null) {
-            alert("Oh no! Google Play is not available.");
-        } else {
-            availableProducts = products;
-        }
-    }
-
-    protected void updateAvailableCredits(List<BillingService.PurchasedProduct> credits) {
-        if(credits == null) {
-            alert("Oh no! Google Play is not available.");
-        } else {
-            availableCredits = credits;
-            alert("You have unused credits!");
-        }
-    }
-
+    /**
+     *
+     */
     protected void updatePurchasedProducts() {
-        List<String> list = readBillOfSale();
-        for(String name : list) {
-            browserAdapter.markPurchased(name);
-            enableWallpaperService(name);
+        if (billingService.isOwned("all")) {
+            billOfSale.add("all");
+            hideBuyButton();
+        } else {
+            showBuyButton();
         }
     }
+
+    /*
+    // TODO: Do we need to read the preferences and make sure to only write them if their is a change?
+    private void writeOwnershipToSettings(String name) {
+        String prefName = name + "_preferences";
+        SharedPreferences sharedPref = getSharedPreferences(prefName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("owned", true);
+        editor.apply();  //editor.commit();  // Use commit() if it doesn't need to save immediately.
+    }
+     */
 
     // TODO: Show setting of current wallpaper if a T+C=W Wallpaper is active
     public void showSettings() {
@@ -521,12 +545,7 @@ public class BrowserActivity extends AppCompatActivity {
 
     private void clickWallpaper(int position) {
         BrowseAdapter.Item item = browserAdapter.getItem(position);
-        //Log.d("---------->", item.name + " " + item.sku + " " item.isPurchased());
-        if (item.isOwned()) {
-            openWallpaper(item);
-        } else {
-            selectWallpaper(item);
-        }
+        openWallpaper(item);
     }
 
     // any code will do?
@@ -554,7 +573,7 @@ public class BrowserActivity extends AppCompatActivity {
     private HashSet<BrowseAdapter.Item> selection = new HashSet<>();
 
     /**
-     * When user click on a wallpaper they do not own it get selected (or unselected).
+     * When user click on a wallpaper they do not own.
      *
      * @param item      pattern product
      */
@@ -576,7 +595,7 @@ public class BrowserActivity extends AppCompatActivity {
             hideBuyButton();
         }
 
-        mContentView.invalidate();
+        refreshUI();
     }
 
     /*
@@ -598,18 +617,17 @@ public class BrowserActivity extends AppCompatActivity {
     */
 
     private void showBuyButton() {
-        int itemCount = selection.size();
-
         Button buyButton = (Button)findViewById(R.id.buy_button);
-        String price = getPrice();
+        String price = getPrice("all");
 
         Resources resources = getApplicationContext().getResources();
 
         if (price != null && buyButton != null) {
             buyButtonBox.setVisibility(View.VISIBLE);
 
-            String buyPhrase = String.format(resources.getString(R.string.buy_phrase), itemCount, price);
+            String buyPhrase = String.format(resources.getString(R.string.buy_all), price);
             buyButton.setText(buyPhrase);
+            buyButton.invalidate();
         }
     }
 
@@ -618,116 +636,21 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     /**
-     * Buy wallpaper.
+     * Buy product.
      */
-    private void buyWallpaper() {
-        String sku = "buy" + selection.size();
+    private void buyProduct(String sku) {
         String devPayload = billingService.buyProduct(sku, this);
+
         if (devPayload == null) {
-            alert("");
+            alert("Transaction canceled.");
         } else {
-            Transaction trans = new Transaction(devPayload, selection);
-            transactions.put(devPayload, trans);
+            transactions.put(devPayload, sku);
         }
     }
 
     // store current transactions for sale verification
-    HashMap<String, Transaction> transactions = new HashMap<>();
+    HashMap<String, String> transactions = new HashMap<>();
 
-    /**
-     * Simplify the purchase code by using a Transaction class.
-     */
-    private class Transaction {
-        String payload;
-        Set<BrowseAdapter.Item> items;
 
-        public Transaction(String payload, Set<BrowseAdapter.Item> items) {
-            this.payload = payload;
-            this.items = items;
-        }
-
-        public boolean hasPayload(String payload) {
-            return this.payload.equals(payload);
-        }
-    }
-
-    // bill-of-sale file
-    String BILL_OF_SALE_FILE = "tcwallpaper.bos";
-
-    /**
-     * Read bill-of-sale from user file.
-     *
-     * @return      list of names
-     */
-    private List<String> readBillOfSale() {
-        List<String> list = new ArrayList<>();
-
-        int n;
-        FileInputStream fs;
-        StringBuffer data = new StringBuffer("");
-
-        try {
-            fs = openFileInput(BILL_OF_SALE_FILE);
-        } catch (FileNotFoundException e) {
-            return list;
-        }
-
-        byte[] buffer = new byte[1024];
-        try {
-            while ((n = fs.read(buffer)) != -1) {
-                data.append(new String(buffer, 0, n));
-            }
-            fs.close();
-        } catch (IOException e) {
-            try {
-                fs.close();
-            } catch (IOException e2) {
-                Log.e("BILL-OF-SALE", e2.toString());
-            }
-        }
-
-        list = Arrays.asList(data.toString().split("\n"));
-
-        return list;
-    }
-
-    /**
-     * Write bill-of-sale to user file.
-     */
-    private void writeBillOfSale() {
-        FileOutputStream fs;
-
-        String bos = browserAdapter.billOfSale();
-
-        try {
-            fs = openFileOutput(BILL_OF_SALE_FILE, Context.MODE_PRIVATE);
-        } catch (FileNotFoundException e) {
-            // NOTE: This ought never happen.
-            Log.e("BILL-OF-SALE", e.toString());
-            return;
-        }
-
-        try {
-            fs.write(bos.getBytes());
-        } catch (IOException e) {
-            Log.e("BILL-OF-SALE", e.toString());
-        }
-
-        try {
-            fs.close();
-        } catch (IOException e) {
-            Log.e("BILL-OF-SALE", e.toString());
-        }
-
-    }
-
-    private String getPrice() {
-        for(BillingService.AvailableProduct product : availableProducts) {
-            if (product.sku.equals("all")) {
-                return product.price;
-            }
-        }
-        return "N/A";  // should never happen
-    }
 
 }

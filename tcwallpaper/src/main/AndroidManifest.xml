@@ -41,6 +41,15 @@
             android:exported="true" />
         -->
 
+        <!--
+        <receiver android:name="tabcomputing.library.paper.SettingsReceiver" >
+            <intent-filter>
+                <action android:name="tabcomputing.wallpaper.broadcast.settings" />
+            </intent-filter>
+        </receiver>
+        -->
+
+
         <activity
             android:name=".ClockSettingsActivity"
             android:label="@string/app_name"
@@ -53,11 +62,382 @@
             android:parentActivityName=".BrowserActivity"
             android:theme="@style/FullscreenTheme" />
 
+        <!-- DEPRECATED -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_browser"
             android:theme="@style/FullscreenTheme">
+        </activity>
+
+        <!-- Abstraction -->
+        <service
+            android:name=".relic.Wallpaper"
+            android:label="@string/relic_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/relic_label"
+                android:thumbnail="@drawable/thumbnail_relic"
+                android:resource="@xml/relic_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.relic.SettingsActivity"
+            android:label="@string/relic_label"
+            android:exported="true" >
+        </activity>
+
+        <!-- Big Time -->
+        <!--
+        <service
+            android:name=".bigtime.Wallpaper"
+            android:label="@string/bigtime_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/bigtime_label"
+                android:thumbnail="@drawable/thumbnail_bigtime"
+                android:resource="@xml/bigtime_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.bigtime.SettingsActivity"
+            android:label="@string/bigtime_label"
+            android:exported="true" >
+        </activity>
+        -->
+
+        <!-- Binary Stripes -->
+        <service
+            android:name=".binary.Wallpaper"
+            android:label="@string/binary_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/binary_label"
+                android:thumbnail="@drawable/thumbnail_binary"
+                android:resource="@xml/binary_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.binary.SettingsActivity"
+            android:label="@string/binary_label"
+            android:exported="true" >
+        </activity>
+
+        <!-- Caterpillar -->
+        <service
+            android:name=".caterpillar.Wallpaper"
+            android:label="@string/caterpillar_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/caterpillar_label"
+                android:thumbnail="@drawable/thumbnail_caterpillar"
+                android:resource="@xml/caterpillar_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.caterpillar.SettingsActivity"
+            android:label="@string/caterpillar_label"
+            android:exported="true" >
+        </activity>
+
+        <!-- Echo -->
+        <service
+            android:name=".echo.Wallpaper"
+            android:label="@string/echo_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/echo_label"
+                android:thumbnail="@drawable/thumbnail_echo"
+                android:resource="@xml/echo_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.echo.SettingsActivity"
+            android:exported="true"
+            android:label="@string/echo_label" >
+        </activity>
+
+        <!-- Gradient -->
+        <service
+            android:name=".gradient.Wallpaper"
+            android:label="@string/gradient_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/gradient_label"
+                android:thumbnail="@drawable/thumbnail_gradient"
+                android:resource="@xml/gradient_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.gradient.SettingsActivity"
+            android:exported="true"
+            android:label="@string/gradient_label" >
+        </activity>
+
+        <!-- Horizons -->
+        <service
+            android:name=".horizons.Wallpaper"
+            android:label="@string/horizons_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/horizons_label"
+                android:thumbnail="@drawable/thumbnail_horizons"
+                android:resource="@xml/horizons_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.horizons.SettingsActivity"
+            android:label="@string/horizons_label"
+            android:exported="true" >
+        </activity>
+
+        <!-- Lotus -->
+        <service
+            android:name=".lotus.Wallpaper"
+            android:label="@string/lotus_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/lotus_label"
+                android:thumbnail="@drawable/thumbnail_lotus"
+                android:resource="@xml/lotus_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.lotus.SettingsActivity"
+            android:exported="true"
+            android:label="@string/lotus_label" >
+        </activity>
+
+        <!-- Mondrian -->
+        <service
+            android:name=".mondrian.Wallpaper"
+            android:label="@string/mondrian_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/mondrian_label"
+                android:thumbnail="@drawable/thumbnail_mondrian"
+                android:resource="@xml/mondrian_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.mondrian.SettingsActivity"
+            android:exported="true"
+            android:label="@string/mondrian_label" >
+        </activity>
+
+        <!-- Orb -->
+        <service
+            android:name=".orb.Wallpaper"
+            android:label="@string/orb_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/orb_label"
+                android:thumbnail="@drawable/thumbnail_orb"
+                android:resource="@xml/orb_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.orb.SettingsActivity"
+            android:exported="true"
+            android:label="@string/orb_label" >
+        </activity>
+
+        <!-- Pie Slice -->
+        <service
+            android:name=".pieslice.Wallpaper"
+            android:label="@string/label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/label"
+                android:thumbnail="@drawable/thumbnail_pieslice"
+                android:resource="@xml/pieslice_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.pieslice.SettingsActivity"
+            android:exported="true"
+            android:label="@string/label" >
+        </activity>
+
+        <!-- Plaid -->
+        <service
+            android:name=".plaid.Wallpaper"
+            android:label="@string/plaid_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/plaid_label"
+                android:thumbnail="@drawable/thumbnail_plaid"
+                android:resource="@xml/plaid_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.plaid.SettingsActivity"
+            android:exported="true"
+            android:label="@string/plaid_label">
+        </activity>
+
+        <!-- Radial -->
+        <service
+            android:name=".radial.Wallpaper"
+            android:label="@string/radial_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/radial_label"
+                android:thumbnail="@drawable/thumbnail_radial"
+                android:resource="@xml/radial_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.radial.SettingsActivity"
+            android:exported="true"
+            android:label="@string/radial_label" >
+        </activity>
+
+        <!-- Solid -->
+        <service
+            android:name=".solid.Wallpaper"
+            android:label="@string/solid_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/solid_label"
+                android:thumbnail="@drawable/thumbnail_solid"
+                android:resource="@xml/solid_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.solid.SettingsActivity"
+            android:exported="true"
+            android:label="@string/solid_label">
+        </activity>
+
+        <!-- Scooby Squares -->
+        <service
+            android:name=".squares.Wallpaper"
+            android:label="@string/squares_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/squares_label"
+                android:thumbnail="@drawable/thumbnail_squares"
+                android:resource="@xml/squares_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.squares.SettingsActivity"
+            android:exported="true"
+            android:label="@string/squares_label" >
+        </activity>
+
+        <!-- Stripes -->
+        <service
+            android:name=".stripes.Wallpaper"
+            android:label="@string/stripes_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/stripes_label"
+                android:thumbnail="@drawable/thumbnail_stripes"
+                android:resource="@xml/stripes_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.stripes.SettingsActivity"
+            android:exported="true"
+            android:label="@string/stripes_label" >
         </activity>
 
     </application>

@@ -2,7 +2,7 @@ package tabcomputing.tcwallpaper.solid;
 
 import android.graphics.Canvas;
 
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 /**
  * Make background a solid color based on time. By default it is by hour, but if
@@ -10,15 +10,10 @@ import tabcomputing.library.paper.AbstractPattern;
  */
 public class Pattern extends AbstractPattern {
 
-    public Pattern(Settings settings) {
-        setSettings(settings);
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
-
-    //public PatternSolid(Settings settings, TimeSystem timeSystem, ColorWheel colorWheel) {
-    //    this.settings   = settings;
-    //    this.timeSystem = timeSystem;
-    //    this.colorWheel = colorWheel;
-    //}
 
     @Override
     public void draw(Canvas canvas) {

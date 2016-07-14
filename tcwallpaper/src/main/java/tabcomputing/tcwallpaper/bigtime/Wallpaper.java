@@ -1,8 +1,7 @@
 package tabcomputing.tcwallpaper.bigtime;
 
-import tabcomputing.library.paper.AbstractPattern;
-import tabcomputing.library.paper.AbstractWallpaper;
-import tabcomputing.library.paper.CommonSettings;
+import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractWallpaper;
 
 public class Wallpaper extends AbstractWallpaper {
 
@@ -11,7 +10,7 @@ public class Wallpaper extends AbstractWallpaper {
 
     public Wallpaper() {
         settings = new Settings();
-        pattern  = new Pattern(settings);
+        pattern  = new Pattern(this);
     }
 
     @Override
@@ -20,7 +19,7 @@ public class Wallpaper extends AbstractWallpaper {
     }
 
     @Override
-    protected CommonSettings getSettings() {
+    protected Settings getSettings() {
         return settings;
     }
 

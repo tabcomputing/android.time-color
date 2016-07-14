@@ -34,25 +34,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':library.clock')
     compile project(':library.color')
-    compile project(':library.paper')
-    compile project(':wallpaper.bigtime')
-    compile project(':wallpaper.binary')
-    compile project(':wallpaper.caterpillar')
-    compile project(':wallpaper.echo')
-    compile project(':wallpaper.gradient')
-    compile project(':wallpaper.horizons')
-    compile project(':wallpaper.lotus')
-    compile project(':wallpaper.mondrian')
-    compile project(':wallpaper.pieslice')
-    compile project(':wallpaper.plaid')
-    compile project(':wallpaper.radial')
-    compile project(':wallpaper.orb')
-    compile project(':wallpaper.solid')
-    compile project(':wallpaper.squares')
-    compile project(':wallpaper.stripes')
+    // testing
     testCompile 'junit:junit:4.12'
-    // think this is b/c API 21 is needed w/o this
+    // think this is b/c API 21 is needed w/o it
     compile 'com.android.support:appcompat-v7:23.4.0'
+    //
     compile 'com.android.support:design:23.4.0'
     compile 'com.nispok:snackbar:2.6.1'
     compile 'com.android.support:support-v4:23.4.0'

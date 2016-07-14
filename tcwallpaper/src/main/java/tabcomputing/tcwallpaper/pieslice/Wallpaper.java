@@ -1,8 +1,8 @@
 package tabcomputing.tcwallpaper.pieslice;
 
-import tabcomputing.library.paper.AbstractPattern;
-import tabcomputing.library.paper.AbstractWallpaper;
-import tabcomputing.library.paper.CommonSettings;
+import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractWallpaper;
+import tabcomputing.tcwallpaper.CommonSettings;
 
 public class Wallpaper extends AbstractWallpaper {
 
@@ -11,7 +11,7 @@ public class Wallpaper extends AbstractWallpaper {
 
     public Wallpaper() {
         settings = new Settings();
-        pattern  = new Pattern(settings);
+        pattern  = new Pattern(this);
     }
 
     @Override

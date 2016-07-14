@@ -9,15 +9,15 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Shader;
 
-import tabcomputing.library.paper.AbstractPattern;
-import tabcomputing.library.paper.CommonSettings;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 import java.util.Arrays;
 
 public class Pattern extends AbstractPattern {
 
-    public Pattern(CommonSettings settings) {
-        setSettings(settings);
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
 
     @Override

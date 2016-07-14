@@ -7,7 +7,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 import java.util.Arrays;
 
@@ -16,8 +16,9 @@ import java.util.Arrays;
  */
 public class PatternCaterpillar extends AbstractPattern {
 
-    public PatternCaterpillar(Settings settings) {
-        setSettings(settings);
+    public PatternCaterpillar(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
 
     @Override

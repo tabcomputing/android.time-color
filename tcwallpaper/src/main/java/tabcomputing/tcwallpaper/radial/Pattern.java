@@ -5,12 +5,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractPattern;
 
 public class Pattern extends AbstractPattern {
 
-    public Pattern(Settings settings) {
-        setSettings(settings);
+    public Pattern(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
     }
 
     @Override
@@ -45,6 +46,16 @@ public class Pattern extends AbstractPattern {
         float d;
         RectF rect;
 
+        // TODO: move clock rotation into the time system itself
+        int offset;
+        if (settings.isRotated()) {
+            offset = 270;
+        } else {
+            offset = 90;
+        }
+
+        // --- OUTER CIRCLE ---
+
         //d = canvas.getHeight();
         //RectF rect = new RectF(cx - d, cy - d, cx + d, cy + d);
 
@@ -54,14 +65,6 @@ public class Pattern extends AbstractPattern {
         float sweepAngle = 360.0f / hc;
         float startAngle = 0.0f - (sweepAngle / 2.0f);
 
-        // TODO: move clock rotation into the time system itself
-        int offset;
-        if (settings.isRotated()) {
-            offset = 270;
-        } else {
-            offset = 90;
-        }
-
         // draw wheel
         for (i = 0; i < hc; i++) {
             //r = ((double) i) / hc;
@@ -69,8 +72,7 @@ public class Pattern extends AbstractPattern {
             canvas.drawArc(rect, startAngle - offset, sweepAngle, true, paint);
             startAngle = startAngle + sweepAngle;
         }
-
-        i = 1;
+        i = (settings.isSwapped() ? 1 : 0);
 
         sweepAngle = 360.0f / ts[i];
         //startAngle = sweepAngle * (float) t - (sweepAngle / 2.0f);
@@ -84,6 +86,8 @@ public class Pattern extends AbstractPattern {
         canvas.drawArc(rect, startAngle - offset, sweepAngle, true, paint);
 
         canvas.drawCircle(cx, cy, d * 0.25f, paint);
+
+        // --- INNER CIRCLE ---
 
         //offset = offset - 10;
 
@@ -101,7 +105,7 @@ public class Pattern extends AbstractPattern {
             startAngle = startAngle + sweepAngle;
         }
 
-        i = 0;
+        i = (settings.isSwapped() ? 0 : 1);
 
         sweepAngle = 360.0f / ts[i];
         //startAngle = sweepAngle * (float) t - (sweepAngle / 2.0f);

@@ -1,10 +1,9 @@
 package tabcomputing.tcwallpaper.gradient;
 
-import tabcomputing.library.paper.CommonSettings;
+import tabcomputing.tcwallpaper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
-    public static final String KEY_ORIENTATION = "orientation";
 
     public Settings() {
         propertyInteger(KEY_COLOR_GAMUT, 0);
@@ -19,8 +18,5 @@ public class Settings extends CommonSettings {
         propertyInteger(KEY_ORIENTATION, 0);
     }
 
-    public int getOrientation() {
-        return getInteger(KEY_ORIENTATION);
-    }
 
 }

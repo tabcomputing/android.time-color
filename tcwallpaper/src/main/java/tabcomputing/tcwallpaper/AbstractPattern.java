@@ -98,19 +98,19 @@ public abstract class AbstractPattern implements SettingsListener {
             int pick = hour % 4;
             switch (pick) {
                 case 4:
-                    msg = res.getString(tabcomputing.library.paper.R.string.bug_phrase_4);
+                    msg = res.getString(R.string.bug_phrase_4);
                     break;
                 case 3:
-                    msg = res.getString(tabcomputing.library.paper.R.string.bug_phrase_3);
+                    msg = res.getString(R.string.bug_phrase_3);
                     break;
                 case 2:
-                    msg = res.getString(tabcomputing.library.paper.R.string.bug_phrase_2);
+                    msg = res.getString(R.string.bug_phrase_2);
                     break;
                 case 1:
-                    msg = res.getString(tabcomputing.library.paper.R.string.bug_phrase_1);
+                    msg = res.getString(R.string.bug_phrase_1);
                     break;
                 default:
-                    msg = res.getString(tabcomputing.library.paper.R.string.bug_phrase_0);
+                    msg = res.getString(R.string.bug_phrase_0);
             }
 
             float gap = canvas.getWidth() * 0.05f;
@@ -304,11 +304,11 @@ public abstract class AbstractPattern implements SettingsListener {
     }
 
     /**
-     * @param ratio color ratio
-     * @return color integer
+     * @param ratio     color ratio
+     * @return          color integer
      */
     protected int color(double ratio) {
-        return color(ratio); //, settings.hasDynamicColor());
+        return colorWheel.color(ratio); //, settings.hasDynamicColor());
     }
 
     //For traditional clocks, the time of day is mapped

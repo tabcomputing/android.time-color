@@ -1,7 +1,7 @@
 package tabcomputing.tcwallpaper.relic;
 
-import tabcomputing.library.paper.AbstractPattern;
-import tabcomputing.library.paper.AbstractWallpaper;
+import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.AbstractWallpaper;
 
 public class Wallpaper extends AbstractWallpaper {
 
