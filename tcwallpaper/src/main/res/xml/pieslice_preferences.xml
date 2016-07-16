@@ -45,11 +45,13 @@
     <PreferenceCategory
         android:title="@string/category_time_title"
         android:key="category_time_settings">
+        <!--
         <CheckBoxPreference
             android:key="timeSeconds"
             android:title="@string/timeSeconds_title"
             android:summary="@string/timeSeconds_summary"
             android:defaultValue="false" />
+        -->
         <CheckBoxPreference
             android:key="timeRotate"
             android:title="@string/timeRotate_title"

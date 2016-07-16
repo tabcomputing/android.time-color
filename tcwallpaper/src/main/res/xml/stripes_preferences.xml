@@ -34,7 +34,7 @@
             android:dialogTitle="@string/colorGamut_title"
             android:defaultValue="@string/colorGamut_default" />
     </PreferenceCategory>
-    <PreferenceCategory
+cd     <PreferenceCategory
         android:title="@string/category_time_title"
         android:key="category_time_settings">
         <CheckBoxPreference
