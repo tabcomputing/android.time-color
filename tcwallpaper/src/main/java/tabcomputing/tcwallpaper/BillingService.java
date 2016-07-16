@@ -30,7 +30,8 @@ import java.util.List;
 public class BillingService implements ServiceConnection {
 
     private BrowserActivity mContext;
-    //private Context mContext;
+
+    private Context appContext;
 
     private IInAppBillingService mService;
 
@@ -53,7 +54,8 @@ public class BillingService implements ServiceConnection {
      * @param callback      callback to run when products are finished loading
      */
     public BillingService(BrowserActivity context, Runnable callback) {
-        this.mContext = context;
+        this.mContext     = context;
+        this.appContext   = context.getApplicationContext();
         this.updateRunner = callback;
 
         bindService();
@@ -78,12 +80,12 @@ public class BillingService implements ServiceConnection {
     public void bindService() {
         Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
         serviceIntent.setPackage("com.android.vending");
-        mContext.bindService(serviceIntent, this, Context.BIND_AUTO_CREATE);
+        appContext.bindService(serviceIntent, this, Context.BIND_AUTO_CREATE);
     }
 
     public void unbindService() {
         if (mService != null) {
-            mContext.unbindService(this);
+            appContext.unbindService(this);
         }
     }
 

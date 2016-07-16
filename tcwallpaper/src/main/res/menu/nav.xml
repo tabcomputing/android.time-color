@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_wallpaper"
+            android:icon="@drawable/ic_home_white_48dp"
+            android:title="@string/nav_wallpaper" />
 
+        <item android:id="@+id/nav_clock"
+            android:icon="@drawable/ic_clock_white_48dp"
+            android:title="@string/nav_clock" />
+
+        <item android:id="@+id/nav_about"
+            android:icon="@drawable/ic_people_white_48dp"
+            android:title="@string/nav_about" />
+
+        <item android:id="@+id/nav_website"
+            android:icon="@drawable/ic_home_white_48dp"
+            android:title="@string/nav_website" />
+    </group>
 </menu>

@@ -211,16 +211,29 @@ public abstract class AbstractTime implements TimeSystem {
     }
 
     /**
+     * Returns time as an array or base-converted and formatted segments.
      *
-     * @return
+     * @return      time array
      */
     public String[] timeRebased() {
         int[] t = time();
         String[] baseTime = new String[t.length];
         for(int i=0; i < t.length; i++) {
-            baseTime[i] = base(t[i]);
+            baseTime[i] = fmtSegment(base(t[i]), i);
         }
         return baseTime;
+    }
+
+    /**
+     * Format a time segment. The segment is passed as a string because it will have already
+     * been base converted.
+     *
+     * @param segment       time segment as a string
+     * @param index         which segment of time is it
+     * @return              formatted segment
+     */
+    protected String fmtSegment(String segment, int index) {
+        return "00".substring(segment.length()) + segment;
     }
 
     protected String joinTime(ArrayList<String> segments) {

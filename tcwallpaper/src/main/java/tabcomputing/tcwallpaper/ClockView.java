@@ -38,7 +38,7 @@ public class ClockView extends SurfaceView {
     private Paint paint = new Paint();
 
     //
-    private Typeface font = Typeface.DEFAULT;
+    //private Typeface font = Typeface.DEFAULT;
 
     //
     private ColorWheel colorWheel;
@@ -164,9 +164,11 @@ public class ClockView extends SurfaceView {
 
         switch(settings.getClockType()) {
             case 1:
+                drawBackground();
                 drawTime(canvas, bounds);
                 break;
             default:
+                drawBackground();
                 drawColorWheel(canvas, bounds);
                 drawNumbers(canvas, bounds);
                 drawTicks(canvas, bounds);
@@ -179,9 +181,31 @@ public class ClockView extends SurfaceView {
      *
      */
     public void setupClock() {
+        settings.setAssets(getContext().getAssets());
+
         //font = settings.getTypeface();
         timeSystem = settings.getTimeSystem();
         colorWheel = settings.getColorWheel();
+    }
+
+    /**
+     * TODO: Time background looks add for digital, how to fix?
+     */
+    private void drawBackground() {
+        int[] colors = timeSystem.timeColors(colorWheel);
+
+        switch(settings.getBackground()) {
+            case 2:
+                // TODO: draw minute circle if analog
+                canvas.drawColor(colors[0]);
+                break;
+            case 1:
+                canvas.drawColor(Color.BLACK);
+                break;
+            default:
+                canvas.drawColor(Color.WHITE);
+                break;
+        }
     }
 
     /**
@@ -189,6 +213,8 @@ public class ClockView extends SurfaceView {
      */
     private void drawTime(Canvas canvas, Rect bounds) {
         Rect d;
+
+        Typeface font = settings.getTypeface();
 
         //String stamp = timeStamp();
         String[] time = timeSystem.timeRebased();
@@ -214,7 +240,7 @@ public class ClockView extends SurfaceView {
         //digitalPaint.setShadowLayer(3.0f, -3.0f, -3.0f, Color.BLACK);
 
         //setTextSizeForWidth(digitalPaint, x * 0.8f, sampleTime());
-        setTextSizeForWidth(digitalPaint, off * 0.75f, "44");
+        setTextSizeForWidth(digitalPaint, off * 0.75f, "X4", 0.9f);
 
         d = textDimensions("44", digitalPaint);
 
@@ -379,6 +405,8 @@ public class ClockView extends SurfaceView {
         double r;
         float x,y;
 
+        Typeface font = settings.getTypeface();
+
         float radius = spotRadius(bounds);
         float textWidth = faceRadius(bounds) - radius;
 
@@ -396,14 +424,14 @@ public class ClockView extends SurfaceView {
         paint.setStyle(Paint.Style.FILL);
         paint.setShadowLayer(5.0f, 1.0f, 1.0f, Color.LTGRAY);
         paint.setTypeface(font);
-        paint.setTextSize(100.0f);
+        paint.setTextSize(120.0f);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTypeface(font);
 
         //if (settings.isClockNumbered()) {
             paint.setColor(Color.WHITE);
 
-            setTextSizeForWidth(paint, textWidth, "X4");
+            setTextSizeForWidth(paint, textWidth, "X4", 1.1f);
 
             float th = textHeight("X4", paint) / 2f;
 
@@ -566,7 +594,7 @@ public class ClockView extends SurfaceView {
      * @return      vertical origin
      */
     private float centerY(Rect bounds) {
-        return bounds.height() / 2;
+        return bounds.height() / 2 * 0.85f;
     }
 
     /**
@@ -602,12 +630,12 @@ public class ClockView extends SurfaceView {
      * @param desiredWidth      desired width
      * @param text              the text that should be that width
      */
-    private void setTextSizeForWidth(Paint paint, float desiredWidth, String text) {
+    private void setTextSizeForWidth(Paint paint, float desiredWidth, String text, float fudge) {
         // Pick a reasonably large value for the test. Larger values produce
         // more accurate results, but may cause problems with hardware
         // acceleration. But there are workarounds for that, too; refer to
         // http://stackoverflow.com/questions/6253528/font-size-too-large-to-fit-in-cache
-        final float testTextSize = 48f;
+        final float testTextSize = 72f;
 
         // Get the bounds of the text, using our testTextSize.
         paint.setTextSize(testTextSize);
@@ -615,7 +643,7 @@ public class ClockView extends SurfaceView {
         paint.getTextBounds(text, 0, text.length(), bounds);
 
         // Calculate the desired size as a proportion of our testTextSize.
-        float desiredTextSize = (testTextSize * desiredWidth / bounds.width()) * 0.90f;
+        float desiredTextSize = (testTextSize * desiredWidth / bounds.width()) * fudge;
 
         // Set the paint for that size.
         paint.setTextSize(desiredTextSize);

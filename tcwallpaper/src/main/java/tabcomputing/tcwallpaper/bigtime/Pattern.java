@@ -244,7 +244,7 @@ public class Pattern extends AbstractPattern {
         paint.setStrokeWidth(3.0f);
         paint.setStyle(Paint.Style.FILL);
         paint.setShadowLayer(3.0f, 0.0f, 0.0f, Color.BLACK);
-        paint.setTypeface(settings.getAbstraction());
+        paint.setTypeface(settings.getTypeface());
         paint.setTextAlign(Paint.Align.CENTER);
 
         return paint;

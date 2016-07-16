@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context="tabcomputing.wallpaper.BrowserActivity">
+    tools:context="tabcomputing.tcwallpaper.BrowserActivity">
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fullscreen_content"
@@ -17,8 +17,7 @@
         android:layout_marginTop="55dp"
         android:gravity="center" />
 
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
+    <!-- This FrameLayout insets its children based on system windows using android:fitsSystemWindows. -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,6 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="#ffffff"
                 android:text="@string/buy_button" />
 
         </LinearLayout>

@@ -36,22 +36,23 @@ public class ClockSettings extends AbstractSettings {
     public static final int TIME_DECIMAL = 4;
     public static final int TIME_DUODECIMAL = 5;
 
-    public static final String KEY_FLARE          = "flare";
+    //public static final String KEY_FLARE          = "flare";
 
     public static final String KEY_COLOR_GAMUT    = "colorGamut";
-    public static final String KEY_COLOR_DYNAMIC  = "dynamicColor";
+    public static final String KEY_COLOR_DYNAMIC  = "colorDaylight";
     public static final String KEY_COLOR_REVERSE  = "colorReversed";
     public static final String KEY_COLOR_DUPLEX   = "duplex";
 
-    public static final String KEY_SECONDS        = "displaySeconds";
-
+    public static final String KEY_SECONDS        = "timeSeconds";
     public static final String KEY_TIME_TYPE      = "timeType";
     public static final String KEY_TIME_ROTATE    = "timeRotate";
+
     public static final String KEY_BASE           = "baseConversion";
 
     public static final String KEY_NUMBER_SYSTEM  = "numberSystem";
     public static final String KEY_TYPEFACE       = "typeface";
     public static final String KEY_CLOCK_TYPE     = "clockType";
+    public static final String KEY_CLOCK_BACKGROUND = "clockBackground";
 
     public ClockSettings() {
         propertyBoolean(KEY_COLOR_DYNAMIC, true);
@@ -61,29 +62,30 @@ public class ClockSettings extends AbstractSettings {
         propertyBoolean(KEY_BASE, true);
         propertyBoolean(KEY_SECONDS, false);
 
-        propertyInteger(KEY_FLARE, 0);
+        //propertyInteger(KEY_FLARE, 0);
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyInteger(KEY_TIME_TYPE, 0);
         propertyInteger(KEY_NUMBER_SYSTEM, 0);
         propertyInteger(KEY_TYPEFACE, 0);
         propertyInteger(KEY_CLOCK_TYPE, 0);
+        propertyInteger(KEY_CLOCK_BACKGROUND, 0);
     }
 
     /**
-     * Get shared pieslice_preferences.
+     * Get shared preferences.
      *
      * @return      SharedPreferences
      */
     public SharedPreferences getPreferences(Context context) {
         SharedPreferences prefs;
 
-        try {
-            Context prefContext = context.createPackageContext("tabcomputing.wallpaper", Context.MODE_PRIVATE);
-            prefs = prefContext.getSharedPreferences(getDefaultSharedPreferencesName(prefContext), Activity.MODE_PRIVATE);
-        } catch (Exception e) {
-            Log.d("SettingsObserver", "Could not access shared pieslice_preferences.");
+        //try {
+        //    Context prefContext = context.createPackageContext("tabcomputing.wallpaper", Context.MODE_PRIVATE);
+        //    prefs = prefContext.getSharedPreferences(getDefaultSharedPreferencesName(prefContext), Activity.MODE_PRIVATE);
+        //} catch (Exception e) {
+            Log.d("SettingsObserver", "Could not access shared preferences.");
             prefs = PreferenceManager.getDefaultSharedPreferences(context); //AbstractWallpaper.this);
-        }
+        //}
 
         return prefs;
     }
@@ -93,7 +95,7 @@ public class ClockSettings extends AbstractSettings {
     }
 
     /**
-     * Read pieslice_preferences given the context.
+     * Read preferences given the context.
      */
     public void readPreferences(Context context) {
         SharedPreferences prefs = getPreferences(context);
@@ -102,13 +104,13 @@ public class ClockSettings extends AbstractSettings {
 
     // -- readers --
 
-    public int getFlare() {
-        return integerSettings.get(KEY_FLARE);
-    }
+    //public int getFlare() {
+    //    return integerSettings.get(KEY_FLARE);
+    //}
 
-    public int getFont() {
-        return integerSettings.get(KEY_TYPEFACE);
-    }
+    //public int getFont() {
+    //    return integerSettings.get(KEY_TYPEFACE);
+    //}
 
     public int getNumberSystem() {
         return integerSettings.get(KEY_NUMBER_SYSTEM);
@@ -128,6 +130,10 @@ public class ClockSettings extends AbstractSettings {
 
     public int getClockType() {
         return integerSettings.get(KEY_CLOCK_TYPE);
+    }
+
+    public int getBackground() {
+        return integerSettings.get(KEY_CLOCK_BACKGROUND);
     }
 
     public boolean isDuplexed() {
@@ -152,13 +158,12 @@ public class ClockSettings extends AbstractSettings {
 
     // -- writers --
 
-    public void setFlare(String val) {
-        integerSettings.put(KEY_FLARE, Integer.parseInt(val));
-    }
-
-    public void setFlare(int val) {
-        integerSettings.put(KEY_FLARE, val);
-    }
+    //public void setFlare(String val) {
+    //    integerSettings.put(KEY_FLARE, Integer.parseInt(val));
+    //}
+    //public void setFlare(int val) {
+    //    integerSettings.put(KEY_FLARE, val);
+    //}
 
     public void setTimeType(String val) {
         integerSettings.put(KEY_TIME_TYPE, Integer.parseInt(val));
@@ -177,7 +182,7 @@ public class ClockSettings extends AbstractSettings {
         integerSettings.put(KEY_CLOCK_TYPE, Integer.parseInt(val));
     }
 
-    public void setFont(String val) {
+    public void setTypeface(String val) {
         integerSettings.put(KEY_TYPEFACE, Integer.parseInt(val));
     }
 
@@ -253,34 +258,36 @@ public class ClockSettings extends AbstractSettings {
         return timeSystem;
     }
 
+
+    private Typeface typeface;
+    private int typefaceId = 0;
+
+    public Typeface getTypeface() {
+        if (getInteger(KEY_TYPEFACE) != typefaceId || typeface == null) {
+            typefaceId = getInteger(KEY_TYPEFACE);
+            typeface = newTypeface();
+        }
+        return typeface;
+    }
+
     /**
      *
-     * @param assets        instance of AssetManager
      * @return              typeface
      */
-    public Typeface getTypeface(AssetManager assets) {
+    private Typeface newTypeface() {
         Typeface font;
 
         int typeface = integerSettings.get(KEY_TYPEFACE);
 
         switch (typeface) {
-            case 7:
-                font = Typeface.createFromAsset(assets, "arcade.ttf");
-                break;
-            case 6:
-                font = Typeface.createFromAsset(assets, "basic.ttf");
-                break;
-            case 5:
+            case 4:
                 font = Typeface.createFromAsset(assets, "cubes.ttf");
                 break;
-            case 4:
+            case 3:
                 font = Typeface.createFromAsset(assets, "digital.ttf");
                 break;
-            case 3:
-                font = Typeface.MONOSPACE;
-                break;
             case 2:
-                font = Typeface.SANS_SERIF;
+                font = Typeface.MONOSPACE;
                 break;
             case 1:
                 font = Typeface.SERIF;

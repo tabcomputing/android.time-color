@@ -10,6 +10,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v7.app.ActionBar;
@@ -58,6 +59,8 @@ public class BrowserActivity extends AppCompatActivity {
             "/ga6debjXWu6zGfypCpxyKv3xEvuB0gwPi7w61pYmdDqt5l8x6/j" +
             "/Qm6Q8h3xY5peYmGeEqdCi6vqFVbnRPeiigTE4K" +
             "//VQ/TUEvWodcDI/0ScRutsTfuvcyPhB3H2PnxCQArjI8aydUsyvTFlt2Qec7q+RJqjPVTR2sR9nINKlIk6lRk9TwOl3NxkN4zZVWB4lQSASWiIZ+B7b4e8UywqUAGlNbm2qYlLMKAycs1uTNPnMVHqZSy2nN3VFLP709KOTIhrQQIDAQAB";
+
+    private static final String HOMEPAGE = "http://tabcomputing.com/tcwallpaper/";
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -327,6 +330,10 @@ public class BrowserActivity extends AppCompatActivity {
             showSettings(); // TODO: show settings of current wallpaper, not clock
         } else if (id == R.id.action_clock) {
             showClock();
+        } else if (id == R.id.action_acknowledge) {
+            showCopyrights();
+        } else if (id == R.id.action_homepage) {
+            showHomepage();
         }
 
         return super.onOptionsItemSelected(item);
@@ -541,6 +548,17 @@ public class BrowserActivity extends AppCompatActivity {
 
         //ClockView clock = new ClockView(getBaseContext());
         //setContentView(clock);
+    }
+
+    public void showCopyrights() {
+        Intent intent = new Intent(BrowserActivity.this, AcknowledgeActivity.class);
+        startActivity(intent);
+    }
+
+    public void showHomepage() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(HOMEPAGE));
+        startActivity(intent);
     }
 
     private void clickWallpaper(int position) {

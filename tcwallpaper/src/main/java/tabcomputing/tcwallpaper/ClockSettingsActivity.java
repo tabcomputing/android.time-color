@@ -2,6 +2,7 @@ package tabcomputing.tcwallpaper;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ServiceInfo;
@@ -19,11 +20,9 @@ public class ClockSettingsActivity extends PreferenceActivity {
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
     }
 
-    public static class SettingsFragment extends PreferenceFragment
-    {
+    public static class SettingsFragment extends PreferenceFragment {
         @Override
-        public void onCreate(final Bundle savedInstanceState)
-        {
+        public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.clock_preferences);
         }
