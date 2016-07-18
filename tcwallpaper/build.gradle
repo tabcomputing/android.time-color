@@ -15,8 +15,8 @@ android {
         applicationId 'tabcomputing.tcwallpaper'
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.4"
         signingConfig signingConfigs.config
     }
     buildTypes {
@@ -40,6 +40,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     //
     compile 'com.android.support:design:23.4.0'
-    compile 'com.nispok:snackbar:2.6.1'
+    //compile 'com.nispok:snackbar:2.6.1'
     compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:preference-v7:23.0.1'
 }
