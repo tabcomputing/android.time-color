@@ -1,5 +1,6 @@
 package tabcomputing.tcwallpaper;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,23 +8,31 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
-//import tabcomputing.library.paper.BroadcastSettingsActivity;
-
-/**
- * Clock Activity for reference.
- */
-public class ClockActivity extends AppCompatActivity { //implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ClockFragment extends Fragment {
 
     ClockSettings settings = ClockSettings.getInstance();
 
     //SharedPreferences prefs;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        //return inflater.inflate(R.layout.clockarticle_view, container, false);
+
+        // clock view
+        ClockView clock = new ClockView(getActivity().getApplicationContext());
+        return clock;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // register listener on changed preference
@@ -31,18 +40,19 @@ public class ClockActivity extends AppCompatActivity { //implements SharedPrefer
         //prefs.registerOnSharedPreferenceChangeListener(this);
 
         // read settings
-        settings.readPreferences(this);
+        settings.readPreferences(getActivity().getApplicationContext());
 
         // clock view
-        ClockView clock = new ClockView(getApplicationContext());
-        setContentView(clock);
+        //ClockView clock = new ClockView(getApplicationContext());
+        //setContentView(clock);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        //ActionBar actionBar = getSupportActionBar();
+        //if (actionBar != null) {
+        //    actionBar.setDisplayHomeAsUpEnabled(true);
+        //}
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -50,7 +60,9 @@ public class ClockActivity extends AppCompatActivity { //implements SharedPrefer
 
         return super.onCreateOptionsMenu(menu);
     }
+    */
 
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -66,11 +78,14 @@ public class ClockActivity extends AppCompatActivity { //implements SharedPrefer
 
         return super.onOptionsItemSelected(item);
     }
+    */
 
+    /*
     public void showSettings() {
         Intent intent = new Intent(ClockActivity.this, ClockSettingsActivity.class); //BroadcastSettingsActivity.class);
         startActivity(intent);
     }
+    */
 
     //@Override
     //public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -79,30 +94,30 @@ public class ClockActivity extends AppCompatActivity { //implements SharedPrefer
     //}
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         //getSharedPrefs().registerOnSharedPreferenceChangeListener(this);
         //prefs.registerOnSharedPreferenceChangeListener(this);
 
         // read settings
-        settings.readPreferences(this);
+        settings.readPreferences(getActivity().getApplicationContext());
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //getSharedPrefs().unregisterOnSharedPreferenceChangeListener(this);
-        //prefs.unregisterOnSharedPreferenceChangeListener(this);
-    }
+    //@Override
+    //protected void onPause() {
+    //    super.onPause();
+    //    //getSharedPrefs().unregisterOnSharedPreferenceChangeListener(this);
+    //    //prefs.unregisterOnSharedPreferenceChangeListener(this);
+    //}
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //prefs.unregisterOnSharedPreferenceChangeListener(this);
-    }
+    //@Override
+    //protected void onDestroy() {
+    //    super.onDestroy();
+    //    //prefs.unregisterOnSharedPreferenceChangeListener(this);
+    //}
 
     private SharedPreferences getSharedPrefs() {
-        return PreferenceManager.getDefaultSharedPreferences(this);
+        return PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
     }
 
 }

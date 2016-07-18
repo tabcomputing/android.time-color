@@ -42,20 +42,26 @@ public class Pattern extends AbstractPattern {
         float cy = centerY(canvas);
 
         float rm = min(cx, cy);
+        float gw = rm * 2.0f;
 
         switch (settings.orbSize()) {
             case 0:
-                rm = rm * 0.25f;
+                gw = rm * 1.1f;
+                rm = rm * 0.01f;
                 break;
             case 1:
-                rm = rm * 0.5f;
+                rm = rm * 0.25f;
+                gw = rm * 2.0f;
                 break;
             case 2:
+                rm = rm * 0.5f;
+                gw = rm * 2.0f;
+                break;
+            case 3:
                 rm = rm * 0.75f;
+                gw = rm * 2.0f;
                 break;
         }
-
-        float gw = rm * 2.0f;
 
         int[] colors = timeColors();
 

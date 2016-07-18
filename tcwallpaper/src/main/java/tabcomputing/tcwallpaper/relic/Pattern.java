@@ -33,7 +33,7 @@ public class Pattern extends AbstractPattern {
 
     private Typeface getFont() {
         if (font == null) {
-            font = Typeface.createFromAsset(context.getAssets(), "abstract_futurelic.ttf");
+            font = Typeface.createFromAsset(context.getAssets(), "futurelic.ttf");
         }
         return font;
     }

@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class BillingService implements ServiceConnection {
 
-    private BrowserActivity mContext;
+    private MainActivity mContext;
 
     private Context appContext;
 
@@ -53,8 +53,8 @@ public class BillingService implements ServiceConnection {
      * @param context       activity context
      * @param callback      callback to run when products are finished loading
      */
-    public BillingService(BrowserActivity context, Runnable callback) {
-        this.mContext     = context;
+    public BillingService(Context context, Runnable callback) {
+        //this.mContext   = context;
         this.appContext   = context.getApplicationContext();
         this.updateRunner = callback;
 
@@ -106,7 +106,7 @@ public class BillingService implements ServiceConnection {
     public boolean isSupported() {
         if (mService == null) { return false; }
         try {
-            int result = mService.isBillingSupported(3, mContext.getPackageName(), "inapp");
+            int result = mService.isBillingSupported(3, appContext.getPackageName(), "inapp");
             if (result == 0) { return true; }
         } catch (RemoteException e) {
             Log.d("isSupported", e.toString());
@@ -155,7 +155,7 @@ public class BillingService implements ServiceConnection {
         Bundle skuDetails;
 
         try {
-            skuDetails = mService.getSkuDetails(3, mContext.getPackageName(), "inapp", querySkus);
+            skuDetails = mService.getSkuDetails(3, appContext.getPackageName(), "inapp", querySkus);
 
             int response = skuDetails.getInt("RESPONSE_CODE");
             if (response == 0) {
@@ -231,7 +231,7 @@ public class BillingService implements ServiceConnection {
         Bundle ownedItems;
         if (token.equals(FAKE_TOKEN)) { token = null; }
         try {
-            ownedItems = mService.getPurchases(3, mContext.getPackageName(), "inapp", token);
+            ownedItems = mService.getPurchases(3, appContext.getPackageName(), "inapp", token);
         } catch(RemoteException e) {
             return null;
         }
@@ -287,7 +287,7 @@ public class BillingService implements ServiceConnection {
         String developerPayload = generateDeveloperPayload(sku);
 
         try {
-             buyIntentBundle = mService.getBuyIntent(3, mContext.getPackageName(), sku, "inapp", "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
+             buyIntentBundle = mService.getBuyIntent(3, appContext.getPackageName(), sku, "inapp", "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
         } catch (RemoteException e) {
             Log.d("buyProduct", e.toString());
             return null;

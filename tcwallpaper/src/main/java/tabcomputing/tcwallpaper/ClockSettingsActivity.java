@@ -1,17 +1,12 @@
 package tabcomputing.tcwallpaper;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ServiceInfo;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.util.Log;
 
+/**
+ * @deprecated
+ */
 public class ClockSettingsActivity extends PreferenceActivity {
 
     @Override

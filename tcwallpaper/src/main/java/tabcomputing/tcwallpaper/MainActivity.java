@@ -1,29 +1,60 @@
 package tabcomputing.tcwallpaper;
 
-import android.app.Activity;
-import android.app.WallpaperManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBar;
+//import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
+
+    // TODO: Okay what are we going to do with this?
+    private static final String BASE64_PUBLIC_KEY = "" +
+            "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhYt78mTecdGIo2yy" +
+            "/38446QR9ASKufTdM9mmTmcjsL3aNUBoo2pJSd5f1A2r+HWHMKYJZmFhMMT2" +
+            "qh/ga6debjXWu6zGfypCpxyKv3xEvuB0gwPi7w61pYmdDqt5l8x6/j/Qm6Q8" +
+            "h3xY5peYmGeEqdCi6vqFVbnRPeiigTE4K//VQ/TUEvWodcDI/0ScRutsTfuv" +
+            "cyPhB3H2PnxCQArjI8aydUsyvTFlt2Qec7q+RJqjPVTR2sR9nINKlIk6lRk9" +
+            "TwOl3NxkN4zZVWB4lQSASWiIZ+B7b4e8UywqUAGlNbm2qYlLMKAycs1uTNPn" +
+            "MVHqZSy2nN3VFLP709KOTIhrQQIDAQAB";
+
+    private static final String HOMEPAGE = "http://tabcomputing.com/tcwallpaper/";
 
     private DrawerLayout mDrawer;
     //private Toolbar toolbar;
     private NavigationView nvDrawer;
-    private ActionBarDrawerToggle drawerToggle;
+    //private ActionBarDrawerToggle drawerToggle;
+
+    private BillingService billingService;
+    private BillOfSale billOfSale;
+
+    private Handler nagHandler = new Handler();
+    private Boolean nagDismiss = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main);
 
         // Set a Toolbar to replace the ActionBar.
@@ -35,15 +66,72 @@ public class MainActivity extends AppCompatActivity {
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         // Setup drawer view
         setupDrawerContent(nvDrawer);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
+        if (savedInstanceState == null) {
+            // on first time display view for first nav item
+            selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_wallpaper));
+        }
+
+        // billing service
+        billingService = new BillingService(this, updateRunner);
+
+        billOfSale = new BillOfSale(this);
+        billOfSale.readBillOfSale();
+
+        if (! billOfSale.isOwned(PRODUCT_ID)) {
+            nagHandler.postDelayed(nagRunner, 15000);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        nagDismiss = true;
+        nagHandler.removeCallbacks(nagRunner);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (nagDismiss) {
+            nagDismiss = false;
+            if (! billOfSale.isOwned(PRODUCT_ID)) {
+                nagHandler.postDelayed(nagRunner, 15000);
+            }
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
+            case android.R.id.home:  // this ID represents the Home or Up button.
+                //NavUtils.navigateUpFromSameTask(this);
+                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+                    mDrawer.closeDrawer(GravityCompat.START);
+                } else {
+                    mDrawer.openDrawer(GravityCompat.START);
+                }
                 return true;
+            case R.id.nav_clock:
+                showClock();
+                return true;
+            case R.id.nav_about:
+                showAbout();
+                return true;
+            case R.id.nav_website:
+                showWebsite();
+                return true;
+            //case R.id.nav_settings:
+            //    showSettings();
+            //    return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -55,32 +143,54 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
     }
 
+    @Override
+    public void onDestroy() {
+        billingService.unbindService();
+        super.onDestroy();
+    }
+
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
-            new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(MenuItem menuItem) {
-                    selectDrawerItem(menuItem);
-                    return true;
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
                 }
-            }
         );
     }
 
+    private final static String PRODUCT_ID = "freedom";
+
+    /**
+     * Create a new fragment and specify the fragment to show based on nav item clicked.
+     */
     public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
 
         switch(menuItem.getItemId()) {
-            case R.id.nav_wallpaper:
-                fragmentClass = FirstFragment.class;
-                break;
+            case R.id.nav_freedom:
+                buyProduct(PRODUCT_ID);
+                return;
+            case R.id.nav_website:
+                showWebsite();
+                return;
             case R.id.nav_about:
-                fragmentClass = SecondFragment.class;
+                fragmentClass = AboutFragment.class;
+                break;
+            case R.id.nav_settings:
+                fragmentClass = ClockSettingsFragment.class;
+                break;
+            case R.id.nav_clock:
+                fragmentClass = ClockFragment.class;
+                break;
+            case R.id.nav_wallpaper:
+                fragmentClass = BrowserFragment.class;
                 break;
             default:
-                fragmentClass = FirstFragment.class;
+                fragmentClass = BrowserFragment.class;
         }
 
         try {
@@ -89,17 +199,207 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        setFragment(fragment);
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
         // Set action bar title
-        setTitle(menuItem.getTitle());
+        setTitle("T+C=W " + menuItem.getTitle());
         // Close the navigation drawer
         mDrawer.closeDrawers();
     }
+
+    /**
+     * Insert the fragment by replacing any existing fragment.
+     *
+     * TODO: work on back stack, should only ever be one deep?
+     */
+    private void setFragment(Fragment fragment) {
+        //String fragName = fragment.getClass().getName();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragName).commit();
+    }
+
+
+    //@Override
+    //public boolean onCreateOptionsMenu(Menu menu) {
+    //    MenuInflater inflater = getMenuInflater();
+    //    inflater.inflate(R.menu.activity_main_actions, menu);
+    //    return super.onCreateOptionsMenu(menu);
+    //}
+
+
+    // TODO: Show setting of current wallpaper if a T+C=W Wallpaper is active
+    public void showSettings() {
+        //Intent intent = new Intent(BrowserFragment.this, ClockSettingsActivity.class);
+        //startActivity(intent);
+    }
+
+    public void showClock() {
+        //Intent intent = new Intent(BrowserFragment.this, ClockActivity.class);
+        //startActivity(intent);
+
+        //ClockView clock = new ClockView(getBaseContext());
+        //setContentView(clock);
+    }
+
+    public void showAbout() {
+        //Intent intent = new Intent(BrowserFragment.this, AcknowledgeActivity.class);
+        //startActivity(intent);
+    }
+
+    public void showWebsite() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(HOMEPAGE));
+        startActivity(intent);
+    }
+
+
+
+    //@Override
+    //protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    //    super.onActivityResult(requestCode, resultCode, data);
+    //}
+
+    // store current transactions for sale verification
+    HashMap<String, String> transactions = new HashMap<>();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1001) {
+            int responseCode     = data.getIntExtra("RESPONSE_CODE", 0);
+            String purchaseData  = data.getStringExtra("INAPP_PURCHASE_DATA");
+            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");  // TODO: Use this to further verify purchase?
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    JSONObject jo = new JSONObject(purchaseData);
+                    String sku   = jo.getString("productId");
+                    String dp    = jo.getString("developerPayload");
+                    String token = jo.getString("purchaseToken");
+
+                    // verify purchase
+                    if (transactions.containsKey(dp)) {
+                        String id = transactions.get(dp);
+                        if (id.equals(sku)) {
+                            savePurchase(sku);
+                        } else {
+                            alert("Purchase transaction returned invalid product id.");
+                        }
+                        transactions.remove(dp);
+                        //transactions.put(token, trans);
+                        //billingService.consumeProduct(token);
+                    } else {
+                        alert("Purchase transaction returned invalid verification code.");
+                    }
+                }
+                catch (JSONException e) {
+                    alert("Failed to parse purchase data.");
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * Buy product.
+     */
+    private void buyProduct(String sku) {
+        String devPayload = billingService.buyProduct(sku, this);
+
+        if (devPayload == null) {
+            alert("Transaction canceled.");
+        } else {
+            transactions.put(devPayload, sku);
+        }
+    }
+
+    /**
+     * Add product to bill-of-sale and save.
+     *
+     * @param sku       product id
+     */
+    private void savePurchase(String sku) {
+        billOfSale.add(sku);
+        billOfSale.writeBillOfSale();
+        //hideBuyButton();
+    }
+
+    private String getPrice(String sku) {
+        return billingService.getPrice(sku);
+    }
+
+    // Update bill of sale.
+    private Runnable updateRunner = new Runnable() {
+        public void run() {
+            updatePurchasedProducts();
+            //refreshUI();  // TODO: do we need this any more?
+        }
+    };
+
+    // Show a nag dialog.
+    private Runnable nagRunner = new Runnable() {
+        @Override
+        public void run() {
+            showNagDialog();
+            //nagHandler.postDelayed(this, 120000);
+        }
+    };
+
+    protected void updatePurchasedProducts() {
+        if (billingService.isOwned(PRODUCT_ID)) {
+            if (! billOfSale.isOwned(PRODUCT_ID)) {
+                savePurchase(PRODUCT_ID);
+                //billOfSale.add(PRODUCT_ID);
+                //billOfSale.writeBillOfSale();
+            }
+            cancelNagDialog();
+        } else {
+            //showBuyButton();
+        }
+    }
+
+    private void showNagDialog() {
+        //DialogFragment dialog = new NagDialogFragment();
+        nagDialogFragment.show(getFragmentManager(), "What's this tag shit for?");
+    }
+
+    private void cancelNagDialog() {
+        nagHandler.removeCallbacks(nagRunner);
+    }
+
+    private void showBuyButton() {
+        //BrowserFragment fragment = (BrowserFragment) getFragmentManager().findFragmentById(R.id.nav_wallpaper);
+        //fragment.showBuyButton(getPrice("all"));
+        //buyButtonBox.setVisibility(View.VISIBLE);
+    }
+
+    private void hideBuyButton() {
+        //BrowserFragment fragment = (BrowserFragment) getFragmentManager().findFragmentById(R.id.nav_wallpaper);
+        //fragment.hideBuyButton();
+    }
+
+    public DialogFragment nagDialogFragment = new DialogFragment() {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.dialog_nag_message)
+                    .setPositiveButton(R.string.dialog_nag_yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            buyProduct(PRODUCT_ID);
+                        }
+                    })
+                    .setNegativeButton(R.string.dialog_nag_no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    };
 
 
     /*
@@ -141,5 +441,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     */
+
+    /**
+     * Flash message.
+     *
+     * @param msg       message to give to user
+     */
+    private void alert(String msg) {
+        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
 }

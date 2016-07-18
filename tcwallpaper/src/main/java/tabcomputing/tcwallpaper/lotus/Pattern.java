@@ -16,7 +16,8 @@ public class Pattern extends AbstractPattern {
     @Override
     public void draw(Canvas canvas) {
         float cx = centerX(canvas);
-        float cy = centerY(canvas);
+        //float cy = centerY(canvas);
+        float cy = canvas.getHeight() / 2;
 
         float x,y;
 
@@ -44,7 +45,7 @@ public class Pattern extends AbstractPattern {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
 
-        int i, j, k;
+        int i, k;
         double r = 0;
 
         int h = timeSystem.time()[0];
@@ -53,21 +54,22 @@ public class Pattern extends AbstractPattern {
             k = mod(h + i + 1, hc);
             r = (double) k / hc;
 
-            x = (float) (cx + l * sin(r + rot()));
-            y = (float) (cy - l * cos(r + rot()));
+            x = (float) (cx + l * sin(r + rot() + (1 / hc)));
+            y = (float) (cy - l * cos(r + rot() + (1 / hc)));
 
-            //color = colorWheel.alphaColor(hcolors[k], (float) (i+1) / hc);
             paint.setColor(hcolors[k]);
-            paint.setAlpha(50);
+            paint.setAlpha(50);   // (i+1) / hc
             canvas.drawCircle(x, y, d, paint);
         }
 
+        // TODO: colors seem like they are off by a slight angle
         for (i = 0; i < s; i++) {
             r = (double) ((int) (hr[i] * hc)) / hc;
             x = (float) (cx + (l / 2) * sin(r + rot()));
             y = (float) (cy - (l / 2) * cos(r + rot()));
 
             paint.setColor(colors[i]);
+            paint.setAlpha(255);
             canvas.drawCircle(x, y, d / 16, paint);
         }
     }

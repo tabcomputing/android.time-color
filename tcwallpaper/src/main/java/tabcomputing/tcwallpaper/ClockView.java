@@ -314,7 +314,7 @@ public class ClockView extends SurfaceView {
         //colors = hourColors();
 
         paint = new Paint();
-        paint.setAntiAlias(false);
+        paint.setAntiAlias(settings.getBackground() != 2);
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(10.0f);
         paint.setStyle(Paint.Style.FILL);
