@@ -14,10 +14,11 @@
         android:verticalSpacing="1dp"
         android:horizontalSpacing="1dp"
         android:stretchMode="columnWidth"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="1dp"
         android:gravity="center" />
 
     <!-- This FrameLayout insets its children based on system windows using android:fitsSystemWindows. -->
+    <!--
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,5 +45,5 @@
 
         </LinearLayout>
     </FrameLayout>
-
+    -->
 </FrameLayout>

@@ -31,14 +31,20 @@
 
     <string name="nav_wallpaper">Wallpaper</string>
     <string name="nav_clock">Clock</string>
-    <string name="nav_website">Website</string>
-    <string name="nav_about">About</string>
     <string name="nav_settings">Settings</string>
+    <string name="nav_about">About</string>
+    <string name="nav_website">Website</string>
+    <string name="nav_freedom">Freedom!</string>
 
     <string name="category_mode_title">PATTERN</string>
     <string name="category_time_title">TIME</string>
     <string name="category_color_title">COLOR</string>
     <string name="category_clock_title">CLOCK</string>
+
+    <string name="dialog_nag_message">We don\'t mean to nag, but&#8230; If you like Time+Color=Wallpaper, going nag free would really help us out, and rid you of these pesky nag notices.</string>
+    <string name="dialog_nag_yes">Sure, I\'ll Help</string>
+    <string name="dialog_nag_no">No, Thanks</string>
+
 
     <!-- COMMON SETTINGS -->
 
@@ -187,6 +193,7 @@
     <string name="orb_size_summary">Choose a size for the orb.</string>
 
     <string-array name="orb_size_entries">
+        <item>Point</item>
         <item>Small</item>
         <item>Medium</item>
         <item>Large</item>
@@ -196,6 +203,7 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string name="orb_size_default">1</string>

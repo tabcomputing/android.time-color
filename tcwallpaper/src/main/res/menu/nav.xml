@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/menu_fragments"
+        android:checkableBehavior="single">
         <item android:id="@+id/nav_wallpaper"
             android:icon="@drawable/ic_home_white_48dp"
             android:title="@string/nav_wallpaper" />
-
         <item android:id="@+id/nav_clock"
             android:icon="@drawable/ic_clock_white_48dp"
             android:title="@string/nav_clock" />
-
+        <item android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_white_48dp"
+            android:title="@string/nav_settings" />
         <item android:id="@+id/nav_about"
             android:icon="@drawable/ic_people_white_48dp"
             android:title="@string/nav_about" />
-
+    </group>
+    <group android:id="@+id/menu_intents"
+        android:checkableBehavior="single">
         <item android:id="@+id/nav_website"
             android:icon="@drawable/ic_home_white_48dp"
             android:title="@string/nav_website" />
+        <item android:id="@+id/nav_freedom"
+            android:icon="@drawable/ic_loyalty_white_48dp"
+            android:title="@string/nav_freedom" />
     </group>
 </menu>
