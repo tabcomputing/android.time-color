@@ -519,6 +519,7 @@ public class ClockView extends SurfaceView {
         l = ((r0 - r1) * 0.90f);
 
         paint = new Paint();
+        paint.setAntiAlias(true);
         paint.setStrokeWidth(20.0f);
         paint.setColor(Color.LTGRAY);
         paint.setStrokeCap(Paint.Cap.ROUND);

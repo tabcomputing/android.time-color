@@ -1,6 +1,5 @@
 package tabcomputing.tcwallpaper;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -35,14 +34,16 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
 
             Bundle args = getArguments();
 
-            String name = args.getString("name") + "_preferences";
+            String name = args.getString("name");
             int resId = args.getInt("resId");
 
             PreferenceManager manager = getPreferenceManager();
             //manager.setSharedPreferencesMode(MODE_PRIVATE);
+
+            // Apparently this is the only way to tell the settings activity to use a specific file.
             manager.setSharedPreferencesName(name);
 
-            //Log.d("------>", "pref name: " + manager.getSharedPreferencesName());
+            //Log.d("settings", "pref name: " + manager.getSharedPreferencesName());
 
             addPreferencesFromResource(resId);
         }
@@ -52,12 +53,12 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
      *  Use the library package name for preference settings name.
      *
      *  NOTE: Originally this was an abstract method like getRefResId() that
-     *        had to be overridden. Maybe that's safer, but this seems to work.
+     *        had to be overridden. Maybe that's safer, but this works too.
      */
     public String getPrefName() {
-        String cName = getClass().getName();
-        String[] cParts = cName.split("[.]");
-        return cParts[cParts.length - 2];
+        String[] parts = getClass().getName().split("[.]");
+        String name = parts[parts.length - 2];
+        return name + "_preferences";
     }
 
     //public abstract String getPrefName();
@@ -66,6 +67,8 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
      * Resource Id to preferences XML. This must be overridden in subclasses.
      *
      * TODO: Is there a way to generalize this so subclasses aren't needed?
+     *       It would be difficult b/c the settings activity has to be
+     *       referenced in the AndroidManifest.
      */
     public abstract int getPrefResId();
 

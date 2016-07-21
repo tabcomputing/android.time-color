@@ -50,12 +50,14 @@ public abstract class AbstractPattern implements SettingsListener {
 
     public void preferenceChanged(String key) {
         if (key.equals(CommonSettings.KEY_TIME_SYSTEM)) {
-            timeSystem = settings.newTimeSystem();
+            timeSystem = settings.getTimeSystem();
         } else if (key.equals(CommonSettings.KEY_TYPEFACE)) {
-            typeface = settings.newTypeface();
+            typeface = settings.getTypeface();
         } else if (key.equals(CommonSettings.KEY_COLOR_GAMUT)) {
+            //colorWheel = settings.getColorWheel();
             colorWheel.setColorGamut(settings.getColorGamut());
         } else if (key.equals(CommonSettings.KEY_COLOR_DAYLIGHT)) {
+            //colorWheel = settings.getColorWheel();
             colorWheel.setDaylightFactor(settings.isDaylight() ? 0.7 : 0.0);
         }
     }
@@ -63,7 +65,7 @@ public abstract class AbstractPattern implements SettingsListener {
     public void resetPreferences() {
         timeSystem = settings.getTimeSystem();
         colorWheel = settings.getColorWheel();
-        typeface = settings.getTypeface();
+        typeface   = settings.getTypeface();
     }
 
     /**
@@ -95,8 +97,11 @@ public abstract class AbstractPattern implements SettingsListener {
         int minute = time[1];
 
         if (minute >= 0 && minute < 5) {
-            int pick = hour % 4;
+            int pick = hour % 6;
             switch (pick) {
+                case 5:
+                    msg = res.getString(R.string.bug_phrase_5);
+                    break;
                 case 4:
                     msg = res.getString(R.string.bug_phrase_4);
                     break;
@@ -117,15 +122,25 @@ public abstract class AbstractPattern implements SettingsListener {
             float cut = canvas.getWidth() * 0.9f;
 
             TextPaint paint = new TextPaint();
+            paint.setAntiAlias(true);
             paint.setTextSize(80.0f);
             paint.setColor(Color.WHITE);
             paint.setShadowLayer(10.0f, 10.0f, 10.0f, Color.BLACK);
             paint.setTextAlign(Paint.Align.CENTER);
 
+            StaticLayout txt;
+
             canvas.save();
-            canvas.translate(cx, cy / 2.0f);
-            StaticLayout txt = new StaticLayout(msg, paint, (int) (cut), Layout.Alignment.ALIGN_NORMAL, 1.0f, 1.0f, true);
+            canvas.translate(cx, cy / 1.6f);
+            txt = new StaticLayout(msg, paint, (int) (cut), Layout.Alignment.ALIGN_NORMAL, 1.0f, 1.0f, true);
             txt.draw(canvas);
+
+            canvas.translate(0, txt.getHeight() + 40);
+            msg = "Time + Color = Wallpaper";
+            paint.setTextSize(55.0f);
+            txt = new StaticLayout(msg, paint, (int) (cut), Layout.Alignment.ALIGN_NORMAL, 1.0f, 1.0f, true);
+            txt.draw(canvas);
+
             canvas.restore();
         }
     }
@@ -724,6 +739,54 @@ public abstract class AbstractPattern implements SettingsListener {
 
     protected int max(int a, int b) {
         return ((a > b) ? a : b);
+    }
+
+
+    /**
+     * Some patterns, if they are rather plain, can offer this as an option to spice
+     * things up a bit.
+     *
+     * @param canvas    Canvas
+     */
+    public void drawSunFlare(Canvas canvas) {
+        float x, y;
+
+        int m = 5; // change to day number or week + 2?
+
+        float cx = centerX(canvas);
+        float cy = centerY(canvas);
+
+        int hc = hoursOnClock();
+
+        float w = faceRadius(canvas); // * 2f;
+        float d = w;
+
+        double[] t = timeSystem.handRatios();
+
+        double r = t[0];
+
+        Paint paint = new Paint();
+        paint.setShadowLayer(3.0f, 0f, 0f, Color.WHITE);
+
+        for (int i = 1; i < m; i++) {
+            //r = ((double) i) / hc;
+            int c = color(r / i, 0.5);  // TODO: daylight?
+
+            paint.setColor(c); //colors[i]);
+            paint.setAlpha(196);
+
+            d = (1.5f*w) / i;
+
+            x = (float) (cx + d * sin(r + rot()));
+            y = (float) (cy - d * cos(r + rot()));
+
+            canvas.drawCircle(x, y, w/16, paint);
+
+            x = (float) (cx + d * sin(r + rot() + 0.5));
+            y = (float) (cy - d * cos(r + rot() + 0.5));
+
+            canvas.drawCircle(x, y, d/3.5f, paint);
+        }
     }
 
 }

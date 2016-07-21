@@ -22,7 +22,11 @@ public abstract class AbstractWallpaper extends WallpaperService {
         return null;
     }
 
-    //
+    /**
+     * @deprecated
+     *
+     * @param key   settings key
+     */
     protected void onPreferenceChange(String key) {
         //pattern.preferenceChanged(key);
     }
@@ -38,18 +42,13 @@ public abstract class AbstractWallpaper extends WallpaperService {
         private Canvas canvas = null;
         //private Rect bounds;
 
-        //private Paint paint = new Paint();
-        //private Typeface font = Typeface.SERIF;
-
-        //private TimeSystem timeSystem = new StandardTime();
-        //private ColorWheel colorWheel = new ColorWheel();
-
         private CommonSettings settings;
         private AbstractPattern pattern;
 
-        //private AbstractFlare flare;
-
         private SettingsMonitor monitor;
+
+        private BillOfSale billOfSale;
+
 
         public WallpaperEngine(AbstractPattern pattern, CommonSettings settings) {
             //prefs = PreferenceManager.getDefaultSharedPreferences(AbstractWallpaper.this);
@@ -63,9 +62,12 @@ public abstract class AbstractWallpaper extends WallpaperService {
 
             this.handler = new Handler();
 
+            // TODO: So we need the SettingsMonitor anymore, since there is only one pattern now?
             monitor = new SettingsMonitor(getBaseContext(), settings);
             monitor.add(pattern);
         }
+
+        // TODO: What's the difference between application and base context?
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
@@ -76,6 +78,8 @@ public abstract class AbstractWallpaper extends WallpaperService {
             //settings.readPreferences(prefs);
 
             //configure();
+            billOfSale = new BillOfSale(getApplicationContext());
+            billOfSale.readBillOfSale();
         }
 
         private Runnable drawRunner = new Runnable() {
@@ -104,77 +108,8 @@ public abstract class AbstractWallpaper extends WallpaperService {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             settings.changePreference(sharedPreferences, key);
-
-            //if (Settings.KEY_PATTERN.equals(key)) {
-            //    configurePattern();
-            //}
-
-            if (Settings.KEY_DUPLEX.equals(key)) {
-                pattern.resetTimeSystem();
-            }
-
-            if (Settings.KEY_TIME_TYPE.equals(key)) {
-                pattern.resetTimeSystem();
-            }
-
-            if (Settings.KEY_BASE.equals(key)) {
-                pattern.resetTimeSystem();
-                //pattern.reconfigureBaseConversion();
-            }
-
-            if (Settings.KEY_DYNAMIC.equals(key)) {
-                configureColorWheel();
-            }
-
-            if (Settings.KEY_COLOR_GAMUT.equals(key)) {
-                configureColorWheel();
-            }
-
-            if (Settings.KEY_TYPE_FACE.equals(key)) {
-                configureTypeface();
-            }
-
-            // TODO: This is probably a good idea.
-            //if (Settings.KEY_ROTATE_TIME.equals(key)) {
-            //    configureTimeOffset();
-            //}
         }
         */
-
-        /*
-        private void configurePattern() {
-            pattern.setSettings(settings);
-            pattern.setTimeSystem(timeSystem);
-            pattern.setColorWheel(colorWheel);
-        }
-
-        private void configureTimeSystem() {
-            timeSystem = settings.getTimeSystem();
-
-            configureColorWheel();
-
-            pattern.setTimeSystem(timeSystem);
-        }
-
-        private void configureBaseConversion() {
-            timeSystem.setBaseConverted(settings.baseConvert());
-        }
-
-        private void configureColorWheel() {
-            colorWheel.setColorGamut(settings.colorGamut());
-
-            //double offset = (double) timeSystem.gmtOffset() / 24;
-            double offset = 0.0;
-            colorWheel.setOffset(offset);
-
-            pattern.setColorWheel(colorWheel);
-        }
-        */
-
-        //private void configureTypeface() {
-        //    font = settings.getTypeface(getAssets());
-        //}
-
 
         private void draw() {
             SurfaceHolder holder = getSurfaceHolder();
@@ -205,39 +140,19 @@ public abstract class AbstractWallpaper extends WallpaperService {
         private void drawWallpaper() {
             canvas.save();
             drawPattern();
-            //drawFlare();
             canvas.restore();
         }
 
         private void drawPattern() {
-            if (settings.isOwned()) {
+            if (isOwned()) {
                 pattern.draw(canvas);
             } else {
-                // TODO: Just in case it takes a minute to verify ownership, there should be a delay on using this. How to do?
                 pattern.drawWithNag(canvas);
             }
         }
 
-        private void drawFlare() {
-            /*
-            switch (settings.getFlare()) {
-                case 1:
-                    flare = new FlareGlare();
-                    break;
-                case 2:
-                    flare = new FlareGlare(); // TODO: Sunspot
-                    break;
-                case 3:
-                    flare = new FlareGlare(); // TODO: Moonspot?
-                    break;
-                default:
-                    flare = null;
-            }
-
-            if (flare != null) {
-                flare.draw(canvas);
-            }
-            */
+        private boolean isOwned() {
+            return billOfSale.isOwned(BillOfSale.PRODUCT_ID);
         }
 
     }

@@ -54,19 +54,24 @@ public class Pattern extends AbstractPattern {
             k = mod(h + i + 1, hc);
             r = (double) k / hc;
 
-            x = (float) (cx + l * sin(r + rot() + (1 / hc)));
-            y = (float) (cy - l * cos(r + rot() + (1 / hc)));
+            x = (float) (cx + l * sin(r + rot() + (1.0 / hc)));
+            y = (float) (cy - l * cos(r + rot() + (1.0 / hc)));
 
             paint.setColor(hcolors[k]);
             paint.setAlpha(50);   // (i+1) / hc
             canvas.drawCircle(x, y, d, paint);
         }
 
+        float w = cx / s;
+        float radius;
+
         // TODO: colors seem like they are off by a slight angle
         for (i = 0; i < s; i++) {
+            radius = w * (i + 1);
+
             r = (double) ((int) (hr[i] * hc)) / hc;
-            x = (float) (cx + (l / 2) * sin(r + rot()));
-            y = (float) (cy - (l / 2) * cos(r + rot()));
+            x = (float) ((cx + radius) * sin(r + rot()));
+            y = (float) ((cy - radius) * cos(r + rot()));
 
             paint.setColor(colors[i]);
             paint.setAlpha(255);

@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     //private ActionBarDrawerToggle drawerToggle;
 
     private BillingService billingService;
-    private BillOfSale billOfSale;
 
     private Handler nagHandler = new Handler();
     private Boolean nagDismiss = false;
@@ -82,12 +81,14 @@ public class MainActivity extends AppCompatActivity {
         // billing service
         billingService = new BillingService(this, updateRunner);
 
-        billOfSale = new BillOfSale(this);
-        billOfSale.readBillOfSale();
-
-        if (! billOfSale.isOwned(PRODUCT_ID)) {
+        if (! billingService.isOwned(PRODUCT_ID)) {
             nagHandler.postDelayed(nagRunner, 15000);
         }
+
+        // TODO: should we do this here? Do we need to run this async and use a callback?
+        //if (! billingService.isSupported()) {
+        //    cancelNagDialog();
+        //}
     }
 
     @Override
@@ -102,11 +103,20 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (nagDismiss) {
             nagDismiss = false;
-            if (! billOfSale.isOwned(PRODUCT_ID)) {
+            if (! billingService.isOwned(PRODUCT_ID)) {
                 nagHandler.postDelayed(nagRunner, 15000);
             }
         }
     }
+
+    // Show a nag dialog.
+    private Runnable nagRunner = new Runnable() {
+        @Override
+        public void run() {
+            showNagDialog();
+            //nagHandler.postDelayed(this, 120000);
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -171,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         Class fragmentClass;
 
         switch(menuItem.getItemId()) {
-            case R.id.nav_freedom:
+            case R.id.nav_upgrade:
                 buyProduct(PRODUCT_ID);
                 return;
             case R.id.nav_website:
@@ -255,50 +265,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
     //@Override
     //protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     //    super.onActivityResult(requestCode, resultCode, data);
     //}
 
-    // store current transactions for sale verification
-    HashMap<String, String> transactions = new HashMap<>();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1001) {
-            int responseCode     = data.getIntExtra("RESPONSE_CODE", 0);
-            String purchaseData  = data.getStringExtra("INAPP_PURCHASE_DATA");
-            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");  // TODO: Use this to further verify purchase?
-
-            if (resultCode == RESULT_OK) {
-                try {
-                    JSONObject jo = new JSONObject(purchaseData);
-                    String sku   = jo.getString("productId");
-                    String dp    = jo.getString("developerPayload");
-                    String token = jo.getString("purchaseToken");
-
-                    // verify purchase
-                    if (transactions.containsKey(dp)) {
-                        String id = transactions.get(dp);
-                        if (id.equals(sku)) {
-                            savePurchase(sku);
-                        } else {
-                            alert("Purchase transaction returned invalid product id.");
-                        }
-                        transactions.remove(dp);
-                        //transactions.put(token, trans);
-                        //billingService.consumeProduct(token);
-                    } else {
-                        alert("Purchase transaction returned invalid verification code.");
-                    }
-                }
-                catch (JSONException e) {
-                    alert("Failed to parse purchase data.");
-                    e.printStackTrace();
-                }
-            }
+            billingService.buyResult(requestCode, resultCode, data);
         }
     }
 
@@ -307,23 +283,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void buyProduct(String sku) {
         String devPayload = billingService.buyProduct(sku, this);
-
-        if (devPayload == null) {
-            alert("Transaction canceled.");
-        } else {
-            transactions.put(devPayload, sku);
-        }
-    }
-
-    /**
-     * Add product to bill-of-sale and save.
-     *
-     * @param sku       product id
-     */
-    private void savePurchase(String sku) {
-        billOfSale.add(sku);
-        billOfSale.writeBillOfSale();
-        //hideBuyButton();
     }
 
     private String getPrice(String sku) {
@@ -333,36 +292,16 @@ public class MainActivity extends AppCompatActivity {
     // Update bill of sale.
     private Runnable updateRunner = new Runnable() {
         public void run() {
-            updatePurchasedProducts();
-            //refreshUI();  // TODO: do we need this any more?
-        }
-    };
-
-    // Show a nag dialog.
-    private Runnable nagRunner = new Runnable() {
-        @Override
-        public void run() {
-            showNagDialog();
-            //nagHandler.postDelayed(this, 120000);
-        }
-    };
-
-    protected void updatePurchasedProducts() {
-        if (billingService.isOwned(PRODUCT_ID)) {
-            if (! billOfSale.isOwned(PRODUCT_ID)) {
-                savePurchase(PRODUCT_ID);
-                //billOfSale.add(PRODUCT_ID);
-                //billOfSale.writeBillOfSale();
+            if (billingService.isOwned(PRODUCT_ID)) {
+                cancelNagDialog();
             }
-            cancelNagDialog();
-        } else {
-            //showBuyButton();
+            //refreshUI();
         }
-    }
+    };
 
     private void showNagDialog() {
         //DialogFragment dialog = new NagDialogFragment();
-        nagDialogFragment.show(getFragmentManager(), "What's this tag shit for?");
+        nagDialogFragment.show(getFragmentManager(), "What's this for?");
     }
 
     private void cancelNagDialog() {
@@ -447,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param msg       message to give to user
      */
-    private void alert(String msg) {
+    public void alert(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();
     }

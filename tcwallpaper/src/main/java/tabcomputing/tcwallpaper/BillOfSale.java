@@ -24,6 +24,9 @@ public class BillOfSale {
 
     private Context context;
 
+    // TODO: rename
+    public final static String PRODUCT_ID = "freedom";
+
     // bill-of-sale file
     final String BILL_OF_SALE_FILE = "tcwallpaper.bos";
 

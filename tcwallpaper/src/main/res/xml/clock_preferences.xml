@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+        android:title="@string/category_general_title"
+        android:key="category_general_settings">
+        <CheckBoxPreference
+            android:key="usePatternSettings"
+            android:title="@string/usePatternSettings_title"
+            android:summary="@string/usePatternSettings_summary"
+            android:defaultValue="true"
+            android:disableDependentsState="true" />
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="@string/category_clock_title"
         android:key="category_clock_settings">
         <ListPreference
@@ -69,10 +79,11 @@
             android:dialogTitle="@string/clockBackground_title"
             android:defaultValue="@string/clockBackground_default" />
         <CheckBoxPreference
-            android:key="timeSeconds"
-            android:title="@string/timeSeconds_title"
-            android:summary="@string/timeSeconds_summary"
-            android:defaultValue="false" />
+            android:key="timeRotate"
+            android:title="@string/timeRotate_title"
+            android:summary="@string/timeRotate_summary"
+            android:defaultValue="false"
+            android:dependency="usePatternSettings" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -85,17 +96,20 @@
             android:entries="@array/timeSystem_entries"
             android:entryValues="@array/timeSystem_values"
             android:dialogTitle="@string/timeSystem_title"
-            android:defaultValue="@string/timeSystem_default" />
+            android:defaultValue="@string/timeSystem_default"
+            android:dependency="usePatternSettings" />
         <CheckBoxPreference
             android:key="baseConversion"
             android:title="@string/baseConversion_title"
             android:summary="@string/baseConversion_summary"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            android:dependency="usePatternSettings" />
         <CheckBoxPreference
-            android:key="timeRotate"
-            android:title="@string/timeRotate_title"
-            android:summary="@string/timeRotate_summary"
-            android:defaultValue="false" />
+            android:key="timeSeconds"
+            android:title="@string/timeSeconds_title"
+            android:summary="@string/timeSeconds_summary"
+            android:defaultValue="false"
+            android:dependency="usePatternSettings" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -108,12 +122,14 @@
             android:entries="@array/colorGamut_entries"
             android:entryValues="@array/colorGamut_values"
             android:dialogTitle="@string/colorGamut_title"
-            android:defaultValue="@string/colorGamut_default" />
+            android:defaultValue="@string/colorGamut_default"
+            android:dependency="usePatternSettings" />
         <CheckBoxPreference
             android:key="colorDaylight"
             android:title="@string/colorDaylight_title"
             android:summary="@string/colorDaylight_summary"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            android:dependency="usePatternSettings" />
         <!--
         <CheckBoxPreference
             android:key="colorSwap"
@@ -125,7 +141,8 @@
             android:key="colorDuplex"
             android:title="@string/colorDuplex_title"
             android:summary="@string/colorDuplex_summary"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            android:dependency="usePatternSettings" />
     </PreferenceCategory>
 
 </PreferenceScreen>

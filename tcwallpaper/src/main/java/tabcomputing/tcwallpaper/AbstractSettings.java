@@ -14,7 +14,7 @@ public abstract class AbstractSettings {
     public static final int TYPE_BOOLEAN = 0;
     public static final int TYPE_INTEGER = 1;
 
-    protected HashMap<String, Integer> propertyTypes = new HashMap<String, Integer>();
+    protected HashMap<String, Integer> propertyTypes = new HashMap<>();
 
     protected HashMap<String, Boolean> booleanDefaults = new HashMap<String, Boolean>();
     protected HashMap<String, Integer> integerDefaults = new HashMap<String, Integer>();
@@ -43,10 +43,12 @@ public abstract class AbstractSettings {
 
         switch (type) {
             case TYPE_BOOLEAN:
+                //Log.d("AbstractSettings", "key: " + key + " value: " + prefs.getBoolean(key, false));
                 booleanSettings.put(key, prefs.getBoolean(key, false));
                 break;
             case TYPE_INTEGER:
                 // TODO: Why can't we use getInteger?
+                //Log.d("AbstractSettings", "key: " + key + " value: " + Integer.parseInt(prefs.getString(key, "0")));
                 integerSettings.put(key, Integer.parseInt(prefs.getString(key, "0")));
                 break;
         }
@@ -57,23 +59,6 @@ public abstract class AbstractSettings {
             readPreference(prefs, key);
         }
     }
-
-    /**
-     * Generic method to get the value of a setting.
-     *
-     * @param key       setting's key
-     * @return          setting's value
-     *
-    public Object getValue(String key) {
-        switch(getType(key)) {
-            case TYPE_BOOLEAN:
-                return booleanSettings.get(key);
-            case TYPE_INTEGER:
-                return integerSettings.get(key);
-        }
-        return null;
-    }
-    */
 
     public boolean getBoolean(String key) {
         if (booleanSettings.containsKey(key)) {
@@ -103,17 +88,38 @@ public abstract class AbstractSettings {
         return integerSettings.put(key, val);
     }
 
+    /**
+     * Return the type of a given key.
+     *
+     * @param key       key name
+     * @return          key type
+     */
     public int getType(String key) {
         return propertyTypes.get(key);
     }
 
-    protected Set<String> keySet() {
+    /**
+     * Return the set of property keys.
+     *
+     * @return      set of keys
+     */
+    public Set<String> keySet() {
         return propertyTypes.keySet();
     }
 
-
+    /**
+     * Store the AssetManager instance.
+     */
     protected AssetManager assets;
 
+    /**
+     * Unfortunately to have a typeface setting, this class needs a reference to an AssetManager,
+     * which it can only get from the current activity.
+     *
+     * TODO: Maybe the settings should just return the typeface id and let the pattern class worry about the actual Typeface instance.
+     *
+     * @param assets        instance of AssetManager
+     */
     public void setAssets(AssetManager assets) {
         this.assets = assets;
     }
@@ -121,12 +127,16 @@ public abstract class AbstractSettings {
     /**
      * Get a unique name to use for storing preferences in the file system.
      *
+     * This is a bit of a hack, but it works because each pattern is in a sub-package.
+     * So each subclass of AbstractSettings has a name like: "tabcomputing.tcwallpaper.binary.Settings".
+     * We take the second to last point section, e.g. "binary", and use that to return a unique name.
+     *
      * @return      name
      */
     public String getPrefName() {
-        String cName = getClass().getName();
-        String[] cParts = cName.split("[.]");
-        return cParts[cParts.length - 2];
+        String[] parts = getClass().getName().split("[.]");
+        String name = parts[parts.length - 2];
+        return name + "_preferences";
     }
 
 }

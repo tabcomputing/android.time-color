@@ -8,6 +8,8 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.sql.Time;
+
 import tabcomputing.library.clock.DecimalTime;
 import tabcomputing.library.clock.DuodecimalTime;
 import tabcomputing.library.clock.HexadecimalTime;
@@ -38,35 +40,41 @@ public class ClockSettings extends AbstractSettings {
 
     //public static final String KEY_FLARE          = "flare";
 
-    public static final String KEY_COLOR_GAMUT    = "colorGamut";
-    public static final String KEY_COLOR_DYNAMIC  = "colorDaylight";
-    public static final String KEY_COLOR_REVERSE  = "colorReversed";
-    public static final String KEY_COLOR_DUPLEX   = "duplex";
+    public static final String KEY_COLOR_GAMUT      = "colorGamut";
+    public static final String KEY_COLOR_DYNAMIC    = "colorDaylight";
+    public static final String KEY_COLOR_REVERSE    = "colorReversed";
+    public static final String KEY_COLOR_DUPLEX     = "duplex";
 
-    public static final String KEY_SECONDS        = "timeSeconds";
-    public static final String KEY_TIME_TYPE      = "timeType";
-    public static final String KEY_TIME_ROTATE    = "timeRotate";
+    public static final String KEY_TIME_SYSTEM      = "timeSystem";
+    public static final String KEY_TIME_ROTATE      = "timeRotate";
+    public static final String KEY_TIME_SECONDS     = "timeSeconds";
 
-    public static final String KEY_BASE           = "baseConversion";
+    public static final String KEY_BASE             = "baseConversion";
 
-    public static final String KEY_NUMBER_SYSTEM  = "numberSystem";
-    public static final String KEY_TYPEFACE       = "typeface";
-    public static final String KEY_CLOCK_TYPE     = "clockType";
+    public static final String KEY_NUMBER_SYSTEM    = "numberSystem";
+    public static final String KEY_CLOCK_TYPEFACE   = "typeface";
+    public static final String KEY_CLOCK_TYPE       = "clockType";
     public static final String KEY_CLOCK_BACKGROUND = "clockBackground";
 
+    public static final String KEY_PATTERN_SETTINGS = "usePatternSettings";
+
+
     public ClockSettings() {
+        propertyBoolean(KEY_PATTERN_SETTINGS, true);
+
         propertyBoolean(KEY_COLOR_DYNAMIC, true);
         propertyBoolean(KEY_COLOR_REVERSE, false);
         propertyBoolean(KEY_COLOR_DUPLEX, false);
+        propertyInteger(KEY_COLOR_GAMUT, 0);
+
+        propertyInteger(KEY_TIME_SYSTEM, 0);
+        propertyBoolean(KEY_TIME_SECONDS, false);
         propertyBoolean(KEY_TIME_ROTATE, false);
         propertyBoolean(KEY_BASE, true);
-        propertyBoolean(KEY_SECONDS, false);
 
-        //propertyInteger(KEY_FLARE, 0);
-        propertyInteger(KEY_COLOR_GAMUT, 0);
-        propertyInteger(KEY_TIME_TYPE, 0);
         propertyInteger(KEY_NUMBER_SYSTEM, 0);
-        propertyInteger(KEY_TYPEFACE, 0);
+
+        propertyInteger(KEY_CLOCK_TYPEFACE, 0);
         propertyInteger(KEY_CLOCK_TYPE, 0);
         propertyInteger(KEY_CLOCK_BACKGROUND, 0);
     }
@@ -83,41 +91,60 @@ public class ClockSettings extends AbstractSettings {
         //    Context prefContext = context.createPackageContext("tabcomputing.wallpaper", Context.MODE_PRIVATE);
         //    prefs = prefContext.getSharedPreferences(getDefaultSharedPreferencesName(prefContext), Activity.MODE_PRIVATE);
         //} catch (Exception e) {
-            Log.d("SettingsObserver", "Could not access shared preferences.");
             prefs = PreferenceManager.getDefaultSharedPreferences(context); //AbstractWallpaper.this);
         //}
 
         return prefs;
     }
 
-    private static String getDefaultSharedPreferencesName(Context context) {
-        return context.getPackageName() + "_preferences";
-    }
+    //private static String getDefaultSharedPreferencesName(Context context) {
+    //    return context.getPackageName() + "_preferences";
+    //}
 
     /**
-     * Read preferences given the context.
+     * Read clock preferences given the context.
      */
     public void readPreferences(Context context) {
         SharedPreferences prefs = getPreferences(context);
         readPreferences(prefs);
     }
 
+    /**
+     * Read pattern preferences.
+     *
+     * @param patternServiceName        pattern's service name
+     * @param context                   context
+     */
+    public void readPreferences(String patternServiceName, Context context) {
+        String prefName = getPrefName(patternServiceName);
+        //Log.d("readPreferences", "! pref name: " + prefName);
+        SharedPreferences prefs = context.getSharedPreferences(prefName, Activity.MODE_PRIVATE);
+        readPreferences(prefs);
+    }
+
+    /**
+     * Get a unique name to use for storing preferences in the file system.
+     *
+     * @return      name
+     */
+    public String getPrefName(String serviceName) {
+        String[] serviceNameParts = serviceName.split("[.]");
+        String name = serviceNameParts[serviceNameParts.length - 2];
+        return name + "_preferences";
+    }
+
     // -- readers --
 
-    //public int getFlare() {
-    //    return integerSettings.get(KEY_FLARE);
-    //}
-
-    //public int getFont() {
-    //    return integerSettings.get(KEY_TYPEFACE);
-    //}
+    public boolean usePatternSettings() {
+        return booleanSettings.get(KEY_PATTERN_SETTINGS);
+    }
 
     public int getNumberSystem() {
         return integerSettings.get(KEY_NUMBER_SYSTEM);
     }
 
-    public int timeType() {
-        return integerSettings.get(KEY_TIME_TYPE);
+    public int timeSystem() {
+        return integerSettings.get(KEY_TIME_SYSTEM);
     }
 
     public boolean rotateTime() {
@@ -125,7 +152,7 @@ public class ClockSettings extends AbstractSettings {
     }
 
     public boolean displaySeconds() {
-        return booleanSettings.get(KEY_SECONDS);
+        return booleanSettings.get(KEY_TIME_SECONDS);
     }
 
     public int getClockType() {
@@ -165,10 +192,10 @@ public class ClockSettings extends AbstractSettings {
     //    integerSettings.put(KEY_FLARE, val);
     //}
 
-    public void setTimeType(String val) {
-        integerSettings.put(KEY_TIME_TYPE, Integer.parseInt(val));
-        resetTimeSystem();
-    }
+    //public void setTimeType(String val) {
+    //   integerSettings.put(KEY_TIME_SYSTEM, Integer.parseInt(val));
+    //    resetTimeSystem();
+    //}
 
     public void setNumberSystem(String val) {
         integerSettings.put(KEY_NUMBER_SYSTEM, Integer.parseInt(val));
@@ -183,11 +210,11 @@ public class ClockSettings extends AbstractSettings {
     }
 
     public void setTypeface(String val) {
-        integerSettings.put(KEY_TYPEFACE, Integer.parseInt(val));
+        integerSettings.put(KEY_CLOCK_TYPEFACE, Integer.parseInt(val));
     }
 
     public void hasSeconds(boolean val) {
-        booleanSettings.put(KEY_SECONDS, val);
+        booleanSettings.put(KEY_TIME_SECONDS, val);
     }
 
     public void setBaseConversion(boolean val) {
@@ -215,14 +242,25 @@ public class ClockSettings extends AbstractSettings {
     }
 
     public ColorWheel colorWheel;
-    public TimeSystem timeSystem;
 
-    /**
-     *
-     */
-    private TimeSystem resetTimeSystem() {
-        int timeType = integerSettings.get(KEY_TIME_TYPE);
-        switch (timeType) {
+    private TimeSystem timeSystem;
+    private int timeSystemId = 0;
+
+    public TimeSystem getTimeSystem() {
+        if (getInteger(KEY_TIME_SYSTEM) != timeSystemId || timeSystem == null) {
+            setupTimeSystem();
+        }
+        return timeSystem;
+    }
+
+    protected void setupTimeSystem() {
+        timeSystemId = getInteger(KEY_TIME_SYSTEM);
+        timeSystem   = newTimeSystem(timeSystemId);
+    }
+
+    private TimeSystem newTimeSystem(int id) {
+        TimeSystem timeSystem;
+        switch (id) {
             case TIME_HEXADECIMAL:
                 timeSystem = new HexadecimalTime();
                 break;
@@ -251,21 +289,14 @@ public class ClockSettings extends AbstractSettings {
         return timeSystem;
     }
 
-    public TimeSystem getTimeSystem() {
-        if (timeSystem == null) {
-            resetTimeSystem();
-        }
-        return timeSystem;
-    }
-
 
     private Typeface typeface;
     private int typefaceId = 0;
 
     public Typeface getTypeface() {
-        if (getInteger(KEY_TYPEFACE) != typefaceId || typeface == null) {
-            typefaceId = getInteger(KEY_TYPEFACE);
-            typeface = newTypeface();
+        if (getInteger(KEY_CLOCK_TYPEFACE) != typefaceId || typeface == null) {
+            typefaceId = getInteger(KEY_CLOCK_TYPEFACE);
+            typeface = newTypeface(typefaceId);
         }
         return typeface;
     }
@@ -274,12 +305,10 @@ public class ClockSettings extends AbstractSettings {
      *
      * @return              typeface
      */
-    private Typeface newTypeface() {
+    private Typeface newTypeface(int id) {
         Typeface font;
 
-        int typeface = integerSettings.get(KEY_TYPEFACE);
-
-        switch (typeface) {
+        switch (id) {
             case 4:
                 font = Typeface.createFromAsset(assets, "cubes.ttf");
                 break;

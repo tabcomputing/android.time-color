@@ -3,7 +3,7 @@
     <group android:id="@+id/menu_fragments"
         android:checkableBehavior="single">
         <item android:id="@+id/nav_wallpaper"
-            android:icon="@drawable/ic_home_white_48dp"
+            android:icon="@drawable/ic_apps_white_48dp"
             android:title="@string/nav_wallpaper" />
         <item android:id="@+id/nav_clock"
             android:icon="@drawable/ic_clock_white_48dp"
@@ -20,8 +20,8 @@
         <item android:id="@+id/nav_website"
             android:icon="@drawable/ic_home_white_48dp"
             android:title="@string/nav_website" />
-        <item android:id="@+id/nav_freedom"
+        <item android:id="@+id/nav_upgrade"
             android:icon="@drawable/ic_loyalty_white_48dp"
-            android:title="@string/nav_freedom" />
+            android:title="@string/nav_upgrade" />
     </group>
 </menu>

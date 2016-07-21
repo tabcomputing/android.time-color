@@ -16,12 +16,12 @@
     <string name="buy_button">GO NAG FREE!</string>
     <string name="buy_all">GO NAG FREE FOR %1$s!</string>
 
-    <string name="bug_phrase_0">Have you ever seen a starving programmer?\nIt ain\'t pretty.\n\n(Time+Color=Wallpaper)</string>
-    <string name="bug_phrase_1">It doesn\'t cost much to get rid of this annoying message.\n\n(Time+Color=Wallpaper)</string>
-    <string name="bug_phrase_2">Generosity is the root of all happiness.\n\n(Time+Color=Wallpaper)</string>
-    <string name="bug_phrase_3">Starving programmer needs cash.\n\n(Time+Color=Wallpaper)</string>
-    <string name="bug_phrase_4">Get rid of this annoying message for only a buck.\n\n(Time+Color=Wallpaper)</string>
-    <string name="bug_phrase_5">Please show your appreciation.\n\n(Time+Color=Wallpaper)</string>
+    <string name="bug_phrase_0">Have you ever seen a starving programmer?\nIt ain\'t pretty.</string>
+    <string name="bug_phrase_1">It doesn\'t cost much to get rid of this annoying message.</string>
+    <string name="bug_phrase_2">Generosity is the root of all happiness.</string>
+    <string name="bug_phrase_3">Buy us a coffee and we\'ll rid you of these nag messages.</string>
+    <string name="bug_phrase_4">You can get rid of this annoying message.</string>
+    <string name="bug_phrase_5">Please show your support.</string>
 
 
     <string name="action_clock">Clock</string>
@@ -34,19 +34,27 @@
     <string name="nav_settings">Settings</string>
     <string name="nav_about">About</string>
     <string name="nav_website">Website</string>
-    <string name="nav_freedom">Freedom!</string>
+    <string name="nav_upgrade">Upgrade!</string>
 
+    <string name="category_general_title">GENERAL</string>
     <string name="category_mode_title">PATTERN</string>
     <string name="category_time_title">TIME</string>
     <string name="category_color_title">COLOR</string>
     <string name="category_clock_title">CLOCK</string>
 
-    <string name="dialog_nag_message">We don\'t mean to nag, but&#8230; If you like Time+Color=Wallpaper, going nag free would really help us out, and rid you of these pesky nag notices.</string>
-    <string name="dialog_nag_yes">Sure, I\'ll Help</string>
-    <string name="dialog_nag_no">No, Thanks</string>
+    <string name="dialog_nag_message">
+        If you like Time + Color = Wallpaper, please show your support by upgrading. Not only will allow us to continue
+        to support this program and our other offerings, it will also rid you of these pesky nag notices!\n\n
+        Would you like to upgrade?
+    </string>
+    <string name="dialog_nag_yes">Sure</string>
+    <string name="dialog_nag_no">Nope</string>
 
 
     <!-- COMMON SETTINGS -->
+
+    <string name="usePatternSettings_title">Use current pattern settings?</string>
+    <string name="usePatternSettings_summary">Adjust clock settings to match current pattern.</string>
 
     <string name="colorSwap_title">Swap colors?</string>
     <string name="colorSwap_summary">Swap the use of colors.\n(e.g. hour color with minute color)</string>
@@ -398,6 +406,10 @@
 
     <string name="textCredits">
         \n
+        Time + Color = Wallpaper combines time and color to create beautiful and useful wallpapers.
+        In part T+C=W was created as an experiment in synesthesia, asking the question: Can we
+        become so accustomed to associating the time of day with a color, that it becomes second nature.\n
+        \n
         Time + Color = Wallpaper\n
         Copyright 2016 by Tab Computing\n
         tabcomputing.com\n
@@ -407,4 +419,17 @@
         www.eric-michael.com\n
         \n
     </string>
+
+    <!-- Error messages for billing service -->
+    <string name="RESULT_USER_CANCELED">User cancelled purchase transaction.</string>
+    <string name="RESULT_BILLING_UNAVAILABLE">Google Play service is currently unavailable.</string>
+    <string name="RESULT_ITEM_UNAVAILABLE">Product does not exist.</string>
+    <string name="RESULT_ITEM_ALREADY_OWNED">Product is already owned.</string>
+    <string name="RESULT_ITEM_NOT_OWNED">Product is not consumable because it is not owned.</string>
+    <string name="RESULT_DEVELOPER_ERROR">Invalid arguments, please report this issue.</string>
+    <string name="RESULT_ERROR">Unspecified error, please report this issue.</string>
+    <string name="VERIFY_INVALID_PRODUCT_ID">Purchase transaction returned invalid product id.</string>
+    <string name="VERIFY_INVALID_CODE">Purchase transaction returned invalid verification code.</string>
+    <string name="VERIFY_DATA_PARSE_FAILURE">Failed to parse purchase data.</string>
+
 </resources>

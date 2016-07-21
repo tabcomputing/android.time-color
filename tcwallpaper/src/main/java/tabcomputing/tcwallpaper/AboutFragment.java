@@ -20,8 +20,11 @@ public class AboutFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getView().setBackgroundColor(Color.WHITE);
-        getView().setClickable(true);
+        View v = getView();
+        if (v != null) {
+            v.setBackgroundColor(Color.WHITE);
+            v.setClickable(true);
+        }
     }
 
 }

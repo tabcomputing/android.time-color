@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
 
@@ -20,16 +22,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Interface to Google billing service.
+ * Interface to Google billing service. This class also use BillOfSale class to save
+ * purchases to file, presently in plain text, but eventually we should encode that
+ * to help prevent any piracy.
  */
 public class BillingService implements ServiceConnection {
 
-    private MainActivity mContext;
+    //private MainActivity mContext;
 
     private Context appContext;
 
@@ -37,9 +42,11 @@ public class BillingService implements ServiceConnection {
 
     private final Handler mHandler = new Handler();
 
-    private boolean ready = false;
+    //private boolean ready = false;
 
-    private Runnable updateRunner;
+    private Runnable loadCallback;
+
+    private BillOfSale billOfSale;
 
     /* Products that have been purchased. */
     ArrayList<PurchasedProduct> purchasedProducts;
@@ -47,18 +54,28 @@ public class BillingService implements ServiceConnection {
     /* Products that are available for purchase. */
     ArrayList<AvailableProduct> availableProducts;
 
+    // store current transactions for sale verification
+    HashMap<String, String> transactions = new HashMap<>();
+
+    private String[] skus;
+
     /**
      * Powerful is the constructor that takes a callback!
      *
-     * @param context       activity context
-     * @param callback      callback to run when products are finished loading
+     * @param context  activity context
+     * @param callback callback to run when products are finished loading
      */
     public BillingService(Context context, Runnable callback) {
         //this.mContext   = context;
         this.appContext   = context.getApplicationContext();
-        this.updateRunner = callback;
+        this.loadCallback = callback;
+
+        skus = appContext.getResources().getStringArray(R.array.productIds);
 
         bindService();
+
+        billOfSale = new BillOfSale(context);
+        billOfSale.readBillOfSale();
     }
 
     @Override
@@ -89,25 +106,20 @@ public class BillingService implements ServiceConnection {
         }
     }
 
-    final int RESULT_OK = 0;                   // success
-    final int RESULT_USER_CANCELED = 1;        // user pressed back or canceled a dialog
-    final int RESULT_BILLING_UNAVAILABLE = 3;  // this billing API version is not supported for the type requested
-    final int RESULT_ITEM_UNAVAILABLE = 4;     // requested SKU is not available for purchase
-    final int RESULT_DEVELOPER_ERROR = 5;      // invalid arguments provided to the API
-    final int RESULT_ERROR = 6;                // Fatal error during the API action
-    final int RESULT_ITEM_ALREADY_OWNED = 7;   // Failure to purchase since item is already owned
-    final int RESULT_ITEM_NOT_OWNED = 8;       // Failure to consume since item is not owned
-
     /**
      * Is billing supported?
      *
-     * @return      true or false
+     * @return true or false
      */
     public boolean isSupported() {
-        if (mService == null) { return false; }
+        if (mService == null) {
+            return false;
+        }
         try {
             int result = mService.isBillingSupported(3, appContext.getPackageName(), "inapp");
-            if (result == 0) { return true; }
+            if (result == 0) {
+                return true;
+            }
         } catch (RemoteException e) {
             Log.d("isSupported", e.toString());
             return false;
@@ -115,9 +127,10 @@ public class BillingService implements ServiceConnection {
         return false;
     }
 
-    // TODO: define these else where and pass them in
     // list of product skus
+    /*
     final String[] skus = {
+            "freedom",
             "binary",
             "caterpillar",
             "echo",
@@ -134,10 +147,12 @@ public class BillingService implements ServiceConnection {
             "squares",
             "stripes"
     };
+    */
 
     class AvailableProduct {
         String sku;
         String price;
+
         public AvailableProduct(String sku, String price) {
             this.sku = sku;
             this.price = price;
@@ -150,6 +165,7 @@ public class BillingService implements ServiceConnection {
 
         Bundle querySkus = new Bundle();
 
+        // kind of odd to load sku details we have to already know the skus
         querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
 
         Bundle skuDetails;
@@ -183,6 +199,7 @@ public class BillingService implements ServiceConnection {
         String sku;
         String data;
         String signature;
+
         public PurchasedProduct(String sku, String data, String signature) {
             this.sku = sku;
             this.data = data;
@@ -197,10 +214,12 @@ public class BillingService implements ServiceConnection {
         String continuationToken = FAKE_TOKEN;
         ArrayList<PurchasedProduct> products = new ArrayList<>();
 
-        while(continuationToken != null) {
+        while (continuationToken != null) {
             Bundle ownedItems = queryOwnedItems(continuationToken);
 
-            if (ownedItems == null) { return; }
+            if (ownedItems == null) {
+                return;
+            }
 
             int response = ownedItems.getInt("RESPONSE_CODE");
 
@@ -223,16 +242,17 @@ public class BillingService implements ServiceConnection {
     /**
      * Make the call to billing service to get purchase data.
      *
-     * @param token     continuation token (if not null there is more to load)
-     *
-     * @return          bundle with info about owned items
+     * @param token continuation token (if not null there is more to load)
+     * @return bundle with info about owned items
      */
     private Bundle queryOwnedItems(String token) {
         Bundle ownedItems;
-        if (token.equals(FAKE_TOKEN)) { token = null; }
+        if (token.equals(FAKE_TOKEN)) {
+            token = null;
+        }
         try {
             ownedItems = mService.getPurchases(3, appContext.getPackageName(), "inapp", token);
-        } catch(RemoteException e) {
+        } catch (RemoteException e) {
             return null;
         }
         return ownedItems;
@@ -246,26 +266,42 @@ public class BillingService implements ServiceConnection {
         public void run() {
             loadPurchasedItems();
             loadSkuDetails();
-            ready = true;
-            updateBrowser();
+            updateBillOfSale();
+            updateActivity();
         }
     };
 
-    private void updateBrowser() {
-        mHandler.post(updateRunner);
-    }
-
-    /**
-     * Returns true if purchase data has finished loading.
-     *
-     * @return
-     */
-    public boolean isReady() {
-        return ready;
-    }
+    // Update bill of sale.
+    //private Runnable updateRunner = new Runnable() {
+    //    public void run() {
+    //        updateBillOfSale();
+    //        //refreshUI();  // TODO: do we need this any more?
+    //    }
+    //};
 
     public void load() {
         mHandler.post(loadRunner);
+    }
+
+    /**
+     * If the list of purchased items reported by Google Play differs from the bill-of-sale,
+     * rewrite the bill-of-sale.
+     */
+    protected void updateBillOfSale() {
+        boolean needSave = false;
+        for(String sku : getPurchasedSkus()) {
+            if (! billOfSale.isOwned(sku)) {
+                billOfSale.add(sku);
+                needSave = true;
+            }
+        }
+        if (needSave) {
+            billOfSale.writeBillOfSale();
+        }
+    }
+
+    private void updateActivity() {
+        mHandler.post(loadCallback);
     }
 
     /*
@@ -280,6 +316,23 @@ public class BillingService implements ServiceConnection {
     }
     */
 
+
+    /**
+     * Returns true if purchase data has finished loading.
+     *
+     * @return
+     */
+    //public boolean isReady() {
+    //    return ready;
+    //}
+
+    /**
+     * Initiate payment flow.
+     *
+     * @param sku      product id
+     * @param activity activity
+     * @return payload used for verification of sale
+     */
     public String buyProduct(String sku, Activity activity) {
         Bundle buyIntentBundle;
         IntentSender intentSender;
@@ -287,9 +340,10 @@ public class BillingService implements ServiceConnection {
         String developerPayload = generateDeveloperPayload(sku);
 
         try {
-             buyIntentBundle = mService.getBuyIntent(3, appContext.getPackageName(), sku, "inapp", "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
+            buyIntentBundle = mService.getBuyIntent(3, appContext.getPackageName(), sku, "inapp", "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
         } catch (RemoteException e) {
-            Log.d("buyProduct", e.toString());
+            alert(e.toString());
+            //Log.d("buyProduct", e.toString());
             return null;
         }
 
@@ -302,31 +356,155 @@ public class BillingService implements ServiceConnection {
         intentSender = pendingIntent.getIntentSender();
 
         try {
-            activity.startIntentSenderForResult(intentSender, 1001, new Intent(), 0, 0, 0);  // Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
-        } catch(IntentSender.SendIntentException e) {
-            Log.d("buyProduct", e.toString());
+            activity.startIntentSenderForResult(intentSender, BUY_REQUEST_CODE, new Intent(), 0, 0, 0);  // Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+        } catch (IntentSender.SendIntentException e) {
+            alert(e.toString());
+            //Log.d("buyProduct", e.toString());
             return null;
+        }
+
+        // if success add dev payload and sku to pending transactions
+        if (developerPayload == null) {
+            alert("Transaction canceled.");
+        } else {
+            transactions.put(developerPayload, sku);
         }
 
         return developerPayload;
     }
 
+    public static final int BUY_REQUEST_CODE = 1001;
+
+    final int RESULT_OK = 0;                   // success
+    final int RESULT_USER_CANCELED = 1;        // user pressed back or canceled a dialog
+    final int RESULT_BILLING_UNAVAILABLE = 3;  // this billing API version is not supported for the type requested
+    final int RESULT_ITEM_UNAVAILABLE = 4;     // requested SKU is not available for purchase
+    final int RESULT_DEVELOPER_ERROR = 5;      // invalid arguments provided to the API
+    final int RESULT_ERROR = 6;                // Fatal error during the API action
+    final int RESULT_ITEM_ALREADY_OWNED = 7;   // Failure to purchase since item is already owned
+    final int RESULT_ITEM_NOT_OWNED = 8;       // Failure to consume since item is not owned
+
+    final int VERIFY_INVALID_PRODUCT_ID = 9;
+    final int VERIFY_INVALID_CODE = 10;
+    final int VERIFY_DATA_PARSE_FAILURE = 11;
+
+    /**
+     *
+     */
+    public void buyResult(int requestCode, int resultCode, Intent data) {
+        int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+        String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+        String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");  // TODO: Use this to further verify purchase?
+
+        switch(resultCode) {
+            case RESULT_OK:
+                try {
+                    JSONObject jo = new JSONObject(purchaseData);
+                    String sku = jo.getString("productId");
+                    String dp = jo.getString("developerPayload");
+                    String token = jo.getString("purchaseToken");
+
+                    // verify purchase
+                    if (transactions.containsKey(dp)) {
+                        String id = transactions.get(dp);
+                        if (id.equals(sku)) {
+                            savePurchase(sku);
+                        } else {
+                            reportError(VERIFY_INVALID_PRODUCT_ID);
+                        }
+                        transactions.remove(dp);
+                        //transactions.put(token, trans);
+                        //consumeProduct(token);
+                    } else {
+                        reportError(VERIFY_INVALID_CODE);
+                    }
+                } catch (JSONException e) {
+                    reportError(VERIFY_DATA_PARSE_FAILURE);
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                reportError(resultCode);
+                break;
+        }
+    }
+
+    /**
+     * Lots of possible errors when handling purchase transactions.
+     *
+     * @param errorCode     error reference number
+     */
+    private void reportError(int errorCode) {
+        Integer resId = -1;
+
+        switch(errorCode) {
+            case RESULT_USER_CANCELED:
+                break;
+            case RESULT_BILLING_UNAVAILABLE:
+                resId = R.string.RESULT_BILLING_UNAVAILABLE;
+                break;
+            case RESULT_ITEM_UNAVAILABLE:
+                resId = R.string.RESULT_ITEM_UNAVAILABLE;
+                break;
+            case RESULT_ITEM_ALREADY_OWNED:
+                resId = R.string.RESULT_ITEM_ALREADY_OWNED;
+                break;
+            case RESULT_ITEM_NOT_OWNED:
+                resId = R.string.RESULT_ITEM_NOT_OWNED;
+                break;
+            case RESULT_DEVELOPER_ERROR:
+                resId = R.string.RESULT_DEVELOPER_ERROR;
+                break;
+            case RESULT_ERROR:
+                resId = R.string.RESULT_ERROR;
+                break;
+            case VERIFY_INVALID_PRODUCT_ID:
+                resId = R.string.VERIFY_INVALID_PRODUCT_ID;
+                break;
+            case VERIFY_INVALID_CODE:
+                resId = R.string.VERIFY_INVALID_CODE;
+                break;
+            case VERIFY_DATA_PARSE_FAILURE:
+                resId = R.string.VERIFY_DATA_PARSE_FAILURE;
+                break;
+        }
+
+        if (! resId.equals(-1)) {
+            alert(appContext.getResources().getString(resId));
+        }
+    }
+
+
+    /**
+     * Flash message.
+     *
+     * @param msg message to give to user
+     */
+    public void alert(String msg) {
+        Toast toast = Toast.makeText(appContext, msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
     // TODO: encrypt the sku
     private String generateDeveloperPayload(String sku) {
-        return (sku + (int)(Math.random() * 10000));
+        return (sku + (int) (Math.random() * 10000));
     }
 
     /**
      * Get the set of purchased skus.
      *
-     * @return          set of purchased skus
+     * @return set of purchased skus
      */
     public HashSet<String> getPurchasedSkus() {
         HashSet<String> skus = new HashSet<>();
-        for(PurchasedProduct product : purchasedProducts) {
+        for (PurchasedProduct product : purchasedProducts) {
             skus.add(product.sku);
         }
         return skus;
+    }
+
+    public boolean isOwned(String sku) {
+        return billOfSale.isOwned(sku);
     }
 
     /**
@@ -335,7 +513,7 @@ public class BillingService implements ServiceConnection {
      * @param sku       product id
      * @return          true if product had been purchased
      */
-    public boolean isOwned(String sku) {
+    public boolean isBought(String sku) {
         for(PurchasedProduct product : purchasedProducts) {
             if (product.sku.equals(sku)) {
                 return true;
@@ -344,6 +522,7 @@ public class BillingService implements ServiceConnection {
         return false;
     }
 
+
     public String getPrice(String sku) {
         for(AvailableProduct product : availableProducts) {
             if (product.sku.equals(sku)) {
@@ -351,6 +530,17 @@ public class BillingService implements ServiceConnection {
             }
         }
         return null;
+    }
+
+    /**
+     * Add product to bill-of-sale and save.
+     *
+     * @param sku       product id
+     */
+    private void savePurchase(String sku) {
+        billOfSale.add(sku);
+        billOfSale.writeBillOfSale();
+        //hideBuyButton();
     }
 
     //LinkedList<String> tokens = new LinkedList<>();

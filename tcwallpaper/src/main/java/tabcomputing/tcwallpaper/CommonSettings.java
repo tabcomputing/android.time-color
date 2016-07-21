@@ -1,6 +1,7 @@
 package tabcomputing.tcwallpaper;
 
 import android.graphics.Typeface;
+import android.util.Log;
 
 import tabcomputing.library.clock.DecimalTime;
 import tabcomputing.library.clock.DuodecimalTime;
@@ -16,8 +17,6 @@ import tabcomputing.library.color.ColorWheel;
  */
 public class CommonSettings extends AbstractSettings {
 
-    public static final String KEY_OWNED = "owned";
-
     public static final String KEY_COLOR_GAMUT    = "colorGamut";
     public static final String KEY_COLOR_DAYLIGHT = "colorDaylight";
     public static final String KEY_COLOR_DUPLEX   = "colorDuplex";
@@ -28,7 +27,7 @@ public class CommonSettings extends AbstractSettings {
     public static final String KEY_TIME_SECONDS   = "timeSeconds";
 
     // not all patterns use these but they aren't atypical
-    public static final String KEY_ORIENTATION = "orientation";
+    public static final String KEY_ORIENTATION    = "orientation";
     public static final String KEY_TYPEFACE       = "typeface";
 
     public static final int TIME_TRADITIONAL = 0;
@@ -39,26 +38,37 @@ public class CommonSettings extends AbstractSettings {
     public static final int TIME_HEXIMAL = 4;
 
     private ColorWheel colorWheel;
+    private int colorGamutId = 0;
+
     private TimeSystem timeSystem;
+    private int timeSystemId = 0;
+
     private Typeface   typeface;
+    private int typefaceId = 0;
 
     /**
      * Get instance of currently selected time system.
      */
     public TimeSystem getTimeSystem() {
+        int id = integerSettings.get(KEY_TIME_SYSTEM);
         if (timeSystem == null) {
-            newTimeSystem();
+            setupTimeSystem();
+        }
+        if (timeSystemId != id) {
+            setupTimeSystem();
         }
         return timeSystem;
     }
 
-    public void resetTimeSystem() {
-        timeSystem = newTimeSystem();
+    protected void setupTimeSystem() {
+        timeSystemId = integerSettings.get(KEY_TIME_SYSTEM);
+        timeSystem   = newTimeSystem(timeSystemId);
     }
 
-    public TimeSystem newTimeSystem() {
-        int timeType = integerSettings.get(KEY_TIME_SYSTEM);
-        switch (timeType) {
+    // FIXME: standard vs military ???
+    protected TimeSystem newTimeSystem(int id) {
+        TimeSystem timeSystem;
+        switch (id) {
             case TIME_HEXIMAL:
                 timeSystem = new HeximalTime();
                 break;
@@ -81,38 +91,51 @@ public class CommonSettings extends AbstractSettings {
                 break;
         }
 
+        // TODO: handle rotation in time system?
+        //if (Settings.KEY_ROTATE_TIME.equals(key)) {
+        //    configureTimeOffset();
+        //}
+
         // TODO: set base conversion
         //timeSystem.setBaseConverted(baseConvert());
-
         return timeSystem;
     }
 
     /**
+     * Get current color wheel instance.
      *
      * @return      color wheel
      */
     public ColorWheel getColorWheel() {
+        int id = getInteger(KEY_COLOR_GAMUT);
         if (colorWheel == null) {
-            colorWheel = newColorWheel();
+            setupColorWheel();
+        }
+        if (colorGamutId != id) {
+            setupColorWheel();
         }
         return colorWheel;
     }
 
-    private ColorWheel newColorWheel() {
-        ColorWheel colorWheel;
+    protected void setupColorWheel() {
+        colorGamutId = getInteger(KEY_COLOR_GAMUT);
+
+        if (colorWheel == null) {
+            colorWheel = new ColorWheel();
+        }
+
+        //double offset = (double) timeSystem.gmtOffset() / 24;
+        //double offset = 0.0;
+        //colorWheel.setOffset(offset);
 
         int     gamut    = getInteger(KEY_COLOR_GAMUT);
         boolean daylight = getBoolean(KEY_COLOR_DAYLIGHT);
-
-        colorWheel = new ColorWheel();
 
         colorWheel.setColorGamut(gamut);
 
         if (daylight) {
             colorWheel.setDaylightFactor(0.7f);
         }
-
-        return colorWheel;
     }
 
     /**
@@ -180,48 +203,51 @@ public class CommonSettings extends AbstractSettings {
      */
     public Typeface getTypeface() {
         if (typeface == null) {
-            typeface = newTypeface();
+            setupTypeface();
+        }
+        if (typefaceId != getInteger(KEY_TYPEFACE)) {
+            setupTypeface();
         }
         return typeface;
     }
 
     /**
-     * Get a new typeface.
-     *
-     * @return              typeface
+     * Setup new typeface.
      */
-    public Typeface newTypeface() {
+    protected void setupTypeface() {
+        typefaceId = getInteger(KEY_TYPEFACE);
+        typeface   = newTypeface(typefaceId);
+    }
+
+    protected Typeface newTypeface(int typefaceId) {
         //AssetManager assets = context.getAssets();
-        Typeface font;
-
-        int typeface = getInteger(KEY_TYPEFACE);
-
-        switch (typeface) {
+        Typeface typeface;
+        switch (typefaceId) {
             case 7:
-                font = Typeface.createFromAsset(assets, "arcade.ttf");
+                typeface = Typeface.createFromAsset(assets, "arcade.ttf");
                 break;
             case 6:
-                font = Typeface.createFromAsset(assets, "basic.ttf");
+                typeface = Typeface.createFromAsset(assets, "basic.ttf");
                 break;
             case 5:
-                font = Typeface.createFromAsset(assets, "cubes.ttf");
+                typeface = Typeface.createFromAsset(assets, "cubes.ttf");
                 break;
             case 4:
-                font = Typeface.createFromAsset(assets, "digital.ttf");
+                typeface = Typeface.createFromAsset(assets, "digital.ttf");
                 break;
             case 3:
-                font = Typeface.MONOSPACE;
+                typeface = Typeface.MONOSPACE;
                 break;
             case 2:
-                font = Typeface.SANS_SERIF;
+                typeface = Typeface.SANS_SERIF;
                 break;
             case 1:
-                font = Typeface.SERIF;
+                typeface = Typeface.SERIF;
                 break;
             default:
-                font = Typeface.DEFAULT;
+                typeface = Typeface.DEFAULT;
         }
-        return font;
+        return typeface;
     }
 
     /**
@@ -243,17 +269,5 @@ public class CommonSettings extends AbstractSettings {
     }
 
     // Setting Change Monitor ?
-
-    /**
-     *
-     *
-    public void setOwned(boolean owned) {
-        setBoolean(KEY_OWNED, owned);
-    }
-    */
-
-    public boolean isOwned() {
-        return getBoolean(KEY_OWNED);
-    }
 
 }

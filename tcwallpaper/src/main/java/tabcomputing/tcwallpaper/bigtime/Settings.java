@@ -26,49 +26,46 @@ public class Settings extends CommonSettings {
     //    return "bigtime";
     //}
 
-    private Typeface typeface;
+    //private Typeface typeface;
 
-    private int typefaceId = 0;
+    //private int typefaceId = 0;
 
-    public Typeface getTypeface() {
-        if (getInteger(KEY_TYPEFACE) != typefaceId || typeface == null) {
-            typefaceId = getInteger(KEY_TYPEFACE);
-            typeface = newTypeface();
-        }
-        return typeface;
-    }
+    //public Typeface getTypeface() {
+    //    if (getInteger(KEY_TYPEFACE) != typefaceId || typeface == null) {
+    //        setupTypeface();
+    //    }
+    //    return typeface;
+    //}
 
     /**
-     * Get the typeface that corresponds to the abstraction.
+     * Get a typeface that corresponds to the abstraction.
      *
      * @return              typeface
      */
     @Override
-    public Typeface newTypeface() {
+    public Typeface newTypeface(int id) {
         //AssetManager assets = context.getAssets();
-
-        Typeface font;
-
-        switch (getInteger(KEY_TYPEFACE)) {
+        Typeface typeface;
+        switch (id) {
             case 5:
-                font = Typeface.createFromAsset(assets, "toolego.ttf");
+                typeface = Typeface.createFromAsset(assets, "toolego.ttf");
                 break;
             case 4:
-                font = Typeface.createFromAsset(assets, "disco.ttf");
+                typeface = Typeface.createFromAsset(assets, "disco.ttf");
                 break;
             case 3:
-                font = Typeface.createFromAsset(assets, "origap.ttf");
+                typeface = Typeface.createFromAsset(assets, "origap.ttf");
                 break;
             case 2:
-                font = Typeface.createFromAsset(assets, "cubes.ttf");
+                typeface = Typeface.createFromAsset(assets, "cubes.ttf");
                 break;
             case 1:
-                font = Typeface.createFromAsset(assets, "neospacial.ttf");
+                typeface = Typeface.createFromAsset(assets, "neospacial.ttf");
                 break;
             default:
-                font = Typeface.createFromAsset(assets, "digital.ttf");
+                typeface = Typeface.createFromAsset(assets, "digital.ttf");
         }
-        return font;
+        return typeface;
     }
 
     @Override

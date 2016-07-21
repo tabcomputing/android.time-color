@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
+ * @deprecated
  */
 public class FlareGlare extends AbstractFlare {
 

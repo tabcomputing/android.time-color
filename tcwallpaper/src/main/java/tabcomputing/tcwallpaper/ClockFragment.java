@@ -1,17 +1,13 @@
 package tabcomputing.tcwallpaper;
 
 import android.app.Fragment;
-import android.content.Intent;
+import android.app.WallpaperInfo;
+import android.app.WallpaperManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -41,6 +37,8 @@ public class ClockFragment extends Fragment {
 
         // read settings
         settings.readPreferences(getActivity().getApplicationContext());
+
+        readPatternSettings();
 
         // clock view
         //ClockView clock = new ClockView(getApplicationContext());
@@ -96,11 +94,14 @@ public class ClockFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         //getSharedPrefs().registerOnSharedPreferenceChangeListener(this);
         //prefs.registerOnSharedPreferenceChangeListener(this);
 
         // read settings
         settings.readPreferences(getActivity().getApplicationContext());
+
+        readPatternSettings();
     }
 
     //@Override
@@ -120,4 +121,24 @@ public class ClockFragment extends Fragment {
         return PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
     }
 
+    /**
+     *
+     */
+    private void readPatternSettings() {
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(getActivity().getApplicationContext());
+        WallpaperInfo info = wallpaperManager.getWallpaperInfo();
+
+        if (info == null) { return; }
+
+        String serviceName = info.getServiceName();
+
+        if (! serviceName.contains("tabcomputing.tcwallpaper")) {
+            return;
+        }
+
+        if (settings.usePatternSettings()) {
+            Context context = getActivity().getApplicationContext();
+            settings.readPreferences(serviceName, context);
+        }
+    }
 }
