@@ -15,33 +15,12 @@ import android.widget.Toast;
 
 public class BrowserFragment extends Fragment {
 
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    //private static final boolean AUTO_HIDE = true;
-
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    //private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
-
-    /**
-     * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
-     */
-    //private static final int UI_ANIMATION_DELAY = 300;
-
     //private final Handler mHideHandler = new Handler();
 
     BrowseAdapter browserAdapter;
 
     private View mContentView;
     private GridView gridView;
-
-    //private View buyButtonBox;
-    //private TextView buyButton;
 
     /*
     @SuppressLint("InlinedApi")
@@ -72,89 +51,13 @@ public class BrowserFragment extends Fragment {
     }
     */
 
-    /*
-    private final Runnable mShowPart2Runnable = new Runnable() {
-        @Override
-        public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                //actionBar.show();
-            }
-            buyButtonBox.setVisibility(View.VISIBLE);
-        }
-    };
-    */
-
-    //private boolean mVisible;
-
-    /*
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
-
-    private final Runnable mShowRunnable = new Runnable() {
-        @Override
-        public void run() {
-            show();
-        }
-    };
-    */
-
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnClickListener buyClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            //buyProduct("all");
-        }
-    };
-
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     *
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
-    */
-
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     *
-    private final View.OnTouchListener mDelayShowTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                show(); //delayedShow(300);
-            }
-            return false;
-        }
-    };
-    */
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_browser, container, false);
+        View view = inflater.inflate(R.layout.browser, container, false);
 
         //mContentView = view.findViewById(R.id.fullscreen_content);
-        gridView     = (GridView) view.findViewById(R.id.fullscreen_content);
+        gridView = (GridView) view.findViewById(R.id.fullscreen_content);
 
         //buyButtonBox = view.findViewById(R.id.buy_controls);
         //buyButton    = (TextView) view.findViewById(R.id.buy_button);
@@ -425,27 +328,6 @@ public class BrowserFragment extends Fragment {
             String buyPhrase = String.format(resources.getString(R.string.buy_more_phrase), 3 - itemCount, price);
             buyButton.setText(buyPhrase);
         }
-    }
-    */
-
-    /*
-    public void showBuyButton(String price) {
-        //Button buyButton = (Button)findViewById(R.id.buy_button);
-        //String price = getPrice("all");
-
-        Resources resources = getContext().getResources();
-
-        if (price != null && buyButton != null) {
-            buyButtonBox.setVisibility(View.VISIBLE);
-
-            String buyPhrase = String.format(resources.getString(R.string.buy_all), price);
-            buyButton.setText(buyPhrase);
-            buyButton.invalidate();
-        }
-    }
-
-    public void hideBuyButton() {
-        buyButtonBox.setVisibility(View.GONE);
     }
     */
 

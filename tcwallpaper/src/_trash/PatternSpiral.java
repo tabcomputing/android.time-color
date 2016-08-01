@@ -3,9 +3,7 @@ package com.tabcomputing.chronochrome.wallpaper;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import tabcomputing.library.paper.AbstractPattern;
-
-import java.util.Arrays;
+import tabcomputing.library.wallpaper.AbstractPattern;
 
 /**
  * Make background a solid color based on time. By default it is by hour, but if
@@ -28,17 +26,15 @@ public class PatternSpiral extends AbstractPattern {
 
         int hc = hoursOnClock();
 
-        double[] hr = timeSystem.handRatios();
-
+        double[] hr = handRatios();
         int[] tc = timeColors();
-
-        int[] t = timeSystem.time();
+        int[] t = time();
 
         int s = hr.length;
 
-        if (!settings.displaySeconds()) {
-            s = s - 1;
-        }
+        //if (!settings.displaySeconds()) {
+        //    s = s - 1;
+        //}
 
         int[] hcolors = clockColors();
 
@@ -65,16 +61,16 @@ public class PatternSpiral extends AbstractPattern {
 
         int h = t[0];
 
-        if (!settings.displaySeconds()) {
-            t = Arrays.copyOf(t, t.length - 1);
-        }
+        //if (!settings.displaySeconds()) {
+        //    t = Arrays.copyOf(t, t.length - 1);
+        //}
 
         //Bitmap bitmap;
         //Canvas cnvs;
 
         double offset = 0.0; //0.176;
 
-        int[] ts = timeSystem.timeSegments();
+        int[] ts = timeSegments();
 
         l = (cx * 1.0f);
         d = (cx * 1.0f);

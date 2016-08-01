@@ -4,23 +4,28 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.BasePattern;
 
-import java.util.Arrays;
+public class Pattern extends BasePattern {
 
-public class Pattern extends AbstractPattern {
+    private Path path = new Path();
 
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
     }
 
+    /**
+     * TODO: need to draw the lines slightly outside the borders.
+     *
+     * @param canvas    canvas instance
+     */
     @Override
     public void draw(Canvas canvas) {
         float m; // = 0;
         float x1, y1, x2, y2;
-        Path p;
 
         float cx = centerX(canvas);
         float cy = centerY(canvas);
@@ -39,33 +44,28 @@ public class Pattern extends AbstractPattern {
         //    reverseArray(colors);
         //}
 
-        Paint paint = new Paint();
+        paint.reset();  //Paint paint = new Paint();
         paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.ROUND);
 
         //TODO
         //paint.setShadowLayer(20.0f, 0.0f, 0.0f, Color.BLACK);
 
         canvas.drawColor(Color.WHITE);
 
-        float ratio;
+        //float ratio;
         int i;
-        int[] colors;
 
-        double[] r = timeSystem.handRatios();
-
-        colors = timeColors();
-
-        if (!settings.displaySeconds()) {
-            colors = Arrays.copyOf(colors, colors.length - 1);
-        }
+        double[] hr = handRatios();
+        int[] colors = timeColors();
 
         for(int j=0; j < colors.length; j++) {
             i = colors.length - j - 1;
 
             radius = (fr / colors.length) * (j + 0.1f);
 
-            float x = (float) (cx + radius * sin(r[i] + rot()));
-            float y = (float) (cy - radius * cos(r[i] + rot()));
+            float x = (float) (cx + radius * sin(hr[i] + rot()));
+            float y = (float) (cy - radius * cos(hr[i] + rot()));
 
             if (y - cy == 0) {
                 y1 = 0.0f;
@@ -92,20 +92,19 @@ public class Pattern extends AbstractPattern {
 
             paint.setColor(colors[i]);
 
-            p = new Path();
-            p.moveTo(w, 0);
-
+            path.reset();
+            path.moveTo(w, 0);
             // this prevents the colors from switching side when m = INFINITY
             if (y - cy < 0) {
-                p.lineTo(0, 0);
+                path.lineTo(0, 0);
             } else {
-                p.lineTo(w, h);
+                path.lineTo(w, h);
             }
-            p.lineTo(0, h);
-            p.lineTo(x1, y1);
-            p.lineTo(x2, y2);
-            p.close();
-            canvas.drawPath(p, paint);
+            path.lineTo(0, h);
+            path.lineTo(x1, y1);
+            path.lineTo(x2, y2);
+            path.close();
+            canvas.drawPath(path, paint);
 
             paint.setColor(Color.BLACK);
             paint.setStrokeWidth(25.0f);

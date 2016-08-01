@@ -39,9 +39,7 @@
             android:name="tabcomputing.library.paper.BroadcastSettingsActivity"
             android:label="@string/app_name"
             android:exported="true" />
-        -->
 
-        <!--
         <receiver android:name="tabcomputing.library.paper.SettingsReceiver" >
             <intent-filter>
                 <action android:name="tabcomputing.wallpaper.broadcast.settings" />
@@ -49,13 +47,12 @@
         </receiver>
         -->
 
-
+        <!--
         <activity
             android:name=".ClockSettingsActivity"
             android:label="@string/app_name"
             android:exported="true" />
 
-        <!--
         <activity
             android:name=".ClockActivity"
             android:label="@string/app_name"
@@ -80,31 +77,7 @@
         </activity>
         -->
 
-        <!-- Relic -->
-        <service
-            android:name=".relic.Wallpaper"
-            android:label="@string/relic_label"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="true"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:label="@string/relic_label"
-                android:thumbnail="@drawable/thumbnail_relic"
-                android:resource="@xml/relic_wallpaper">
-            </meta-data>
-        </service>
-        <activity
-            android:name="tabcomputing.tcwallpaper.relic.SettingsActivity"
-            android:label="@string/relic_label"
-            android:exported="true" >
-        </activity>
-
         <!-- Big Time -->
-        <!--
         <service
             android:name=".bigtime.Wallpaper"
             android:label="@string/bigtime_label"
@@ -126,7 +99,6 @@
             android:label="@string/bigtime_label"
             android:exported="true" >
         </activity>
-        -->
 
         <!-- Binary Stripes -->
         <service
@@ -172,6 +144,52 @@
             android:name="tabcomputing.tcwallpaper.caterpillar.SettingsActivity"
             android:label="@string/caterpillar_label"
             android:exported="true" >
+        </activity>
+
+        <!-- Checker -->
+        <service
+            android:name=".checkers.Wallpaper"
+            android:label="@string/checkers_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/checkers_label"
+                android:thumbnail="@drawable/thumbnail_checkers"
+                android:resource="@xml/checkers_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.checkers.SettingsActivity"
+            android:exported="true"
+            android:label="@string/checkers_label" >
+        </activity>
+
+        <!-- Circles -->
+        <service
+            android:name=".circles.Wallpaper"
+            android:label="@string/circles_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/circles_label"
+                android:thumbnail="@drawable/thumbnail_circles"
+                android:resource="@xml/circles_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.circles.SettingsActivity"
+            android:exported="true"
+            android:label="@string/circles_label" >
         </activity>
 
         <!-- Echo -->
@@ -240,6 +258,29 @@
         <activity
             android:name="tabcomputing.tcwallpaper.horizons.SettingsActivity"
             android:label="@string/horizons_label"
+            android:exported="true" >
+        </activity>
+
+        <!-- Jack -->
+        <service
+            android:name=".jack.Wallpaper"
+            android:label="@string/jack_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/jack_label"
+                android:thumbnail="@drawable/thumbnail_jack"
+                android:resource="@xml/jack_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.jack.SettingsActivity"
+            android:label="@string/jack_label"
             android:exported="true" >
         </activity>
 
@@ -315,7 +356,7 @@
         <!-- Pie Slice -->
         <service
             android:name=".pieslice.Wallpaper"
-            android:label="@string/label"
+            android:label="@string/pieslice_label"
             android:permission="android.permission.BIND_WALLPAPER"
             android:exported="true"
             android:enabled="true">
@@ -324,7 +365,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.service.wallpaper"
-                android:label="@string/label"
+                android:label="@string/pieslice_label"
                 android:thumbnail="@drawable/thumbnail_pieslice"
                 android:resource="@xml/pieslice_wallpaper">
             </meta-data>
@@ -332,7 +373,7 @@
         <activity
             android:name="tabcomputing.tcwallpaper.pieslice.SettingsActivity"
             android:exported="true"
-            android:label="@string/label" >
+            android:label="@string/pieslice_label" >
         </activity>
 
         <!-- Plaid -->
@@ -358,6 +399,29 @@
             android:label="@string/plaid_label">
         </activity>
 
+        <!-- QBert -->
+        <service
+            android:name=".qbert.Wallpaper"
+            android:label="@string/qbert_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/qbert_label"
+                android:thumbnail="@drawable/thumbnail_qbert"
+                android:resource="@xml/qbert_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.qbert.SettingsActivity"
+            android:label="@string/qbert_label"
+            android:exported="true" >
+        </activity>
+
         <!-- Radial -->
         <service
             android:name=".radial.Wallpaper"
@@ -379,6 +443,29 @@
             android:name="tabcomputing.tcwallpaper.radial.SettingsActivity"
             android:exported="true"
             android:label="@string/radial_label" >
+        </activity>
+
+        <!-- Ring -->
+        <service
+            android:name=".ring.Wallpaper"
+            android:label="@string/ring_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/ring_label"
+                android:thumbnail="@drawable/thumbnail_ring"
+                android:resource="@xml/ring_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.ring.SettingsActivity"
+            android:label="@string/ring_label"
+            android:exported="true" >
         </activity>
 
         <!-- Solid -->
@@ -404,7 +491,53 @@
             android:label="@string/solid_label">
         </activity>
 
-        <!-- Scooby Squares -->
+        <!-- Space -->
+        <service
+            android:name=".space.Wallpaper"
+            android:label="@string/space_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/space_label"
+                android:thumbnail="@drawable/thumbnail_space"
+                android:resource="@xml/space_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.space.SettingsActivity"
+            android:label="@string/space_label"
+            android:exported="true" >
+        </activity>
+
+        <!-- Splits -->
+        <service
+            android:name=".splits.Wallpaper"
+            android:label="@string/splits_label"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:label="@string/splits_label"
+                android:thumbnail="@drawable/thumbnail_splits"
+                android:resource="@xml/splits_wallpaper">
+            </meta-data>
+        </service>
+        <activity
+            android:name="tabcomputing.tcwallpaper.splits.SettingsActivity"
+            android:exported="true"
+            android:label="@string/splits_label" >
+        </activity>
+
+        <!-- Squares -->
         <service
             android:name=".squares.Wallpaper"
             android:label="@string/squares_label"
@@ -425,29 +558,6 @@
             android:name="tabcomputing.tcwallpaper.squares.SettingsActivity"
             android:exported="true"
             android:label="@string/squares_label" >
-        </activity>
-
-        <!-- Stripes -->
-        <service
-            android:name=".stripes.Wallpaper"
-            android:label="@string/stripes_label"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="true"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:label="@string/stripes_label"
-                android:thumbnail="@drawable/thumbnail_stripes"
-                android:resource="@xml/stripes_wallpaper">
-            </meta-data>
-        </service>
-        <activity
-            android:name="tabcomputing.tcwallpaper.stripes.SettingsActivity"
-            android:exported="true"
-            android:label="@string/stripes_label" >
         </activity>
 
     </application>

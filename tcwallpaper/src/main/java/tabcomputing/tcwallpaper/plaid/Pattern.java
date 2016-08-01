@@ -4,9 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.BasePattern;
 
-public class Pattern extends AbstractPattern {
+public class Pattern extends BasePattern {
 
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
@@ -37,7 +37,7 @@ public class Pattern extends AbstractPattern {
      * transparency.
      */
     protected void drawRegular(Canvas canvas) {
-        Paint paint = new Paint();
+        paint.reset();
         paint.setColor(minuteColor());
         paint.setAntiAlias(true);
         //paint.setStrokeWidth(10.0f);
@@ -48,18 +48,14 @@ public class Pattern extends AbstractPattern {
         float wx = canvas.getWidth();
         float wy = canvas.getHeight();
 
-        int[] t = timeSystem.time();
-        int[] s = timeSystem.timeSegments();
-
-        int e = t.length;
-        if (!settings.displaySeconds()) {
-            e = e - 1;
-        }
-
-        float x = 0;
+        int[] t = time();
+        int[] s = timeSegments();
 
         int[] colors = timeColors();
 
+        int e = t.length;
+
+        float x = 0;
         float w = wx / e;
 
         canvas.drawColor(Color.WHITE);
@@ -127,7 +123,7 @@ public class Pattern extends AbstractPattern {
      * A slightly better design that weaves the strips together.
      */
     public void drawInterlaced(Canvas canvas) {
-        Paint paint = new Paint();
+        paint.reset();
         paint.setColor(minuteColor());
         paint.setAntiAlias(true);
         //paint.setStrokeWidth(10.0f);
@@ -138,15 +134,14 @@ public class Pattern extends AbstractPattern {
         float wx = canvas.getWidth();
         float wy = canvas.getHeight();
 
-        int[] t = timeSystem.time();
-        int[] s = timeSystem.timeSegments();
+        int[] t = time();
+        int[] s = timeSegments();
+        int[] colors = timeColors();
 
         int e = t.length;
-        if (!settings.displaySeconds()) {
-            e = e - 1;
-        }
-
-        int[] colors = timeColors();
+        //if (!settings.displaySeconds()) {
+        //    e = e - 1;
+        //}
 
         float w = wx / e;
         float h = wy / e;

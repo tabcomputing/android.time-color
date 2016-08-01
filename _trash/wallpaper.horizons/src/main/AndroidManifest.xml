@@ -1,25 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="tabcomputing.wallpaper.horizons">
     <application>
-        <service
-            android:name=".Wallpaper"
-            android:label="@string/horizons_label"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="true"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:label="@string/horizons_label"
-                android:thumbnail="@drawable/horizons_thumbnail"
-                android:resource="@xml/horizons_wallpaper">
-            </meta-data>
-        </service>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/horizons_label"
-            android:exported="true" >
-        </activity>
     </application>
 </manifest>

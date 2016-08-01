@@ -1,16 +1,18 @@
 package tabcomputing.tcwallpaper;
 
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import tabcomputing.library.clock.DecimalTime;
 import tabcomputing.library.clock.DuodecimalTime;
 import tabcomputing.library.clock.HexadecimalTime;
 import tabcomputing.library.clock.HeximalTime;
-import tabcomputing.library.clock.MilitaryTime;
 import tabcomputing.library.clock.StandardTime;
+import tabcomputing.library.clock.MeridiemTime;
 import tabcomputing.library.clock.TimeSystem;
 import tabcomputing.library.color.ColorWheel;
+import tabcomputing.library.paper.AbstractSettings;
+import tabcomputing.library.paper.FontScale;
 
 /**
  * Common Pattern Settings
@@ -25,44 +27,40 @@ public class CommonSettings extends AbstractSettings {
     public static final String KEY_TIME_SYSTEM    = "timeSystem";
     public static final String KEY_TIME_ROTATE    = "timeRotate";
     public static final String KEY_TIME_SECONDS   = "timeSeconds";
+    public static final String KEY_BASE_CONVERT   = "baseConvert";
 
     // not all patterns use these but they aren't atypical
     public static final String KEY_ORIENTATION    = "orientation";
     public static final String KEY_TYPEFACE       = "typeface";
 
-    public static final int TIME_TRADITIONAL = 0;
-    public static final int TIME_MILITARY = 0;
-    public static final int TIME_DECIMAL = 1;
-    public static final int TIME_DUODECIMAL = 2;
-    public static final int TIME_HEXADECIMAL = 3;
-    public static final int TIME_HEXIMAL = 4;
+    public static final int TIME_STANDARD = 0;
+    public static final int TIME_MERIDIEM = 1;
+    public static final int TIME_DECIMAL = 2;
+    public static final int TIME_DUODECIMAL = 3;
+    public static final int TIME_HEXADECIMAL = 4;
+    public static final int TIME_HEXIMAL = 5;
 
-    private ColorWheel colorWheel;
-    private int colorGamutId = 0;
-
-    private TimeSystem timeSystem;
-    private int timeSystemId = 0;
-
-    private Typeface   typeface;
-    private int typefaceId = 0;
+    private ColorWheel colorWheel = new ColorWheel();
+    private TimeSystem timeSystem = new MeridiemTime();
+    private Typeface typeface = Typeface.DEFAULT;
 
     /**
      * Get instance of currently selected time system.
      */
     public TimeSystem getTimeSystem() {
-        int id = integerSettings.get(KEY_TIME_SYSTEM);
+        //int id = integerSettings.get(KEY_TIME_SYSTEM);
         if (timeSystem == null) {
-            setupTimeSystem();
+            changeTimeSystem();
         }
-        if (timeSystemId != id) {
-            setupTimeSystem();
-        }
+        //if (timeSystemId != id) {
+        //    changeTimeSystem();
+        //}
         return timeSystem;
     }
 
-    protected void setupTimeSystem() {
-        timeSystemId = integerSettings.get(KEY_TIME_SYSTEM);
-        timeSystem   = newTimeSystem(timeSystemId);
+    protected void changeTimeSystem() {
+        //timeSystemId = integerSettings.get(KEY_TIME_SYSTEM);
+        timeSystem = newTimeSystem(integerSettings.get(KEY_TIME_SYSTEM));
     }
 
     // FIXME: standard vs military ???
@@ -81,13 +79,12 @@ public class CommonSettings extends AbstractSettings {
             case TIME_DECIMAL:
                 timeSystem = new DecimalTime();
                 break;
+            case TIME_MERIDIEM:
+                timeSystem = new MeridiemTime();
+                break;
+            case TIME_STANDARD:
             default:
-                // TODO: can just be one class?
-                if (isDuplexed()) {
-                    timeSystem = new StandardTime();
-                } else {
-                    timeSystem = new MilitaryTime();
-                }
+                timeSystem = new StandardTime();
                 break;
         }
 
@@ -96,8 +93,9 @@ public class CommonSettings extends AbstractSettings {
         //    configureTimeOffset();
         //}
 
-        // TODO: set base conversion
-        //timeSystem.setBaseConverted(baseConvert());
+        // set base conversion
+        timeSystem.setBaseConverted(isBaseConverted());
+
         return timeSystem;
     }
 
@@ -107,18 +105,18 @@ public class CommonSettings extends AbstractSettings {
      * @return      color wheel
      */
     public ColorWheel getColorWheel() {
-        int id = getInteger(KEY_COLOR_GAMUT);
+        //int id = getInteger(KEY_COLOR_GAMUT);
         if (colorWheel == null) {
-            setupColorWheel();
+            changeColorWheel();
         }
-        if (colorGamutId != id) {
-            setupColorWheel();
-        }
+        //if (colorGamutId != id) {
+        //    changeColorWheel();
+        //}
         return colorWheel;
     }
 
-    protected void setupColorWheel() {
-        colorGamutId = getInteger(KEY_COLOR_GAMUT);
+    protected void changeColorWheel() {
+        //colorGamutId = getInteger(KEY_COLOR_GAMUT);
 
         if (colorWheel == null) {
             colorWheel = new ColorWheel();
@@ -134,7 +132,9 @@ public class CommonSettings extends AbstractSettings {
         colorWheel.setColorGamut(gamut);
 
         if (daylight) {
-            colorWheel.setDaylightFactor(0.7f);
+            colorWheel.setDaylightFactor(true);
+        } else {
+            colorWheel.setDaylightFactor(false);
         }
     }
 
@@ -166,8 +166,11 @@ public class CommonSettings extends AbstractSettings {
      *
      * @return      true if seconds should be displayed
      */
-    public boolean displaySeconds() {
-        return getBoolean(KEY_TIME_SECONDS);
+    public boolean withSeconds() {
+        return  getBoolean(KEY_TIME_SECONDS);
+    }
+    public boolean sansSeconds() {
+        return !getBoolean(KEY_TIME_SECONDS);
     }
 
     /**
@@ -196,6 +199,10 @@ public class CommonSettings extends AbstractSettings {
         return getInteger(KEY_ORIENTATION);
     }
 
+    public boolean isBaseConverted() {
+        return getBoolean(KEY_BASE_CONVERT);
+    }
+
     /**
      * Get current typeface.
      *
@@ -203,10 +210,7 @@ public class CommonSettings extends AbstractSettings {
      */
     public Typeface getTypeface() {
         if (typeface == null) {
-            setupTypeface();
-        }
-        if (typefaceId != getInteger(KEY_TYPEFACE)) {
-            setupTypeface();
+            changeTypeface();
         }
         return typeface;
     }
@@ -214,9 +218,9 @@ public class CommonSettings extends AbstractSettings {
     /**
      * Setup new typeface.
      */
-    protected void setupTypeface() {
-        typefaceId = getInteger(KEY_TYPEFACE);
-        typeface   = newTypeface(typefaceId);
+    protected void changeTypeface() {
+        //typefaceId = getInteger(KEY_TYPEFACE);
+        typeface = newTypeface(getInteger(KEY_TYPEFACE));
     }
 
     protected Typeface newTypeface(int typefaceId) {
@@ -261,6 +265,9 @@ public class CommonSettings extends AbstractSettings {
     /**
      * Time between ticks on the clock.
      *
+     * TODO: Maybe minimum should be 1000. Currently Decimal is the lowest at 864.
+     *       The lower it gets the harder it is hard on the CPU.
+     *
      * @param wSeconds      include seconds in calculation?
      * @return              time in milliseconds
      */
@@ -268,6 +275,32 @@ public class CommonSettings extends AbstractSettings {
         return timeSystem.tickTime(wSeconds);
     }
 
-    // Setting Change Monitor ?
+    /**
+     * Override this if pattern settings class needs to create new instance of some
+     * type when a setting changes, but be sure to call super.
+     *
+     * @param prefs     shared preferences
+     * @param key       preference key
+     */
+    @Override
+    public void updatePreference(SharedPreferences prefs, String key) {
+        //Log.d("log", "updatePreference: " + key);
+        switch (key) {
+            case KEY_TIME_SYSTEM:
+                changeTimeSystem();
+                break;
+            case KEY_COLOR_DUPLEX:
+                changeTimeSystem();
+                break;
+            case KEY_COLOR_GAMUT:
+            case KEY_COLOR_DAYLIGHT:
+                changeColorWheel();
+                break;
+            case KEY_TYPEFACE:
+                changeTypeface();
+                break;
+        }
+        super.updatePreference(prefs, key);
+    }
 
 }

@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,14 +18,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 //import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
 
-import java.util.HashMap;
+import tabcomputing.library.paper.BillingService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,9 +82,11 @@ public class MainActivity extends AppCompatActivity {
         // billing service
         billingService = new BillingService(this, updateRunner);
 
-        if (! billingService.isOwned(PRODUCT_ID)) {
-            nagHandler.postDelayed(nagRunner, 15000);
+        if (billingService.isOwned(PRODUCT_ID)) {
+            nagDismiss = true;
         }
+
+        startNagMessage();
 
         // TODO: should we do this here? Do we need to run this async and use a callback?
         //if (! billingService.isSupported()) {
@@ -94,18 +97,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        nagDismiss = true;
-        nagHandler.removeCallbacks(nagRunner);
+        cancelNag(nagDismiss);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (nagDismiss) {
-            nagDismiss = false;
-            if (! billingService.isOwned(PRODUCT_ID)) {
-                nagHandler.postDelayed(nagRunner, 15000);
-            }
+        startNagMessage();
+    }
+
+    private void startNagMessage() {
+        if (! nagDismiss) {
+            nagHandler.postDelayed(nagRunner, 30000);
         }
     }
 
@@ -114,37 +117,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             showNagDialog();
-            //nagHandler.postDelayed(this, 120000);
         }
     };
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        switch (item.getItemId()) {
-            case android.R.id.home:  // this ID represents the Home or Up button.
-                //NavUtils.navigateUpFromSameTask(this);
-                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
-                    mDrawer.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawer.openDrawer(GravityCompat.START);
-                }
-                return true;
-            case R.id.nav_clock:
-                showClock();
-                return true;
-            case R.id.nav_about:
-                showAbout();
-                return true;
-            case R.id.nav_website:
-                showWebsite();
-                return true;
-            //case R.id.nav_settings:
-            //    showSettings();
-            //    return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     // This is called when activity start-up is complete after `onStart()`
     // NOTE! Make sure to override the method with only a single `Bundle` argument
@@ -179,8 +153,11 @@ public class MainActivity extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment = null;
         Class fragmentClass;
+        CharSequence title;
 
-        switch(menuItem.getItemId()) {
+        int navId = menuItem.getItemId();
+
+        switch(navId) {
             case R.id.nav_upgrade:
                 buyProduct(PRODUCT_ID);
                 return;
@@ -189,18 +166,21 @@ public class MainActivity extends AppCompatActivity {
                 return;
             case R.id.nav_about:
                 fragmentClass = AboutFragment.class;
+                title = menuItem.getTitle();
                 break;
             case R.id.nav_settings:
                 fragmentClass = ClockSettingsFragment.class;
+                title = menuItem.getTitle();
                 break;
             case R.id.nav_clock:
                 fragmentClass = ClockFragment.class;
+                title = menuItem.getTitle();
                 break;
             case R.id.nav_wallpaper:
-                fragmentClass = BrowserFragment.class;
-                break;
             default:
                 fragmentClass = BrowserFragment.class;
+                //title = "Time + Color = Wallpaper";
+                title = menuItem.getTitle();
         }
 
         try {
@@ -209,54 +189,190 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        setFragment(fragment);
+        setFragment(fragment, navId);
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
+
         // Set action bar title
-        setTitle("T+C=W " + menuItem.getTitle());
+        setTitle(title);
+
         // Close the navigation drawer
         mDrawer.closeDrawers();
+
+        invalidateOptionsMenu();
     }
+
+    private void setNavTitle(int navId) {
+        MenuItem menuItem = (MenuItem) findViewById(navId);
+        if (menuItem != null) {
+            setTitle(menuItem.getTitle());
+        }
+    }
+
+    ArrayList<Integer> navStack = new ArrayList<>();
+    private int currentNavId = R.id.nav_wallpaper;
+
+    //private SparseArray<Integer> fragIds = new SparseArray<>();
 
     /**
      * Insert the fragment by replacing any existing fragment.
-     *
-     * TODO: work on back stack, should only ever be one deep?
      */
-    private void setFragment(Fragment fragment) {
-        //String fragName = fragment.getClass().getName();
+    private void setFragment(Fragment fragment, int resId) {
+        navStack.add(currentNavId);
+        currentNavId = resId;
+        navStack.remove((Integer) resId);
+
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-        //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(fragName).commit();
+        //String fragName = fragment.getClass().getName();
+        //fragmentManager.popBackStackImmediate(fragName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        int fragId;
+        if (resId == R.id.nav_wallpaper) {
+            navStack.clear();
+            // is it safe to assume that the frag id is the stack index?
+            //fragmentManager.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            //while(fragmentManager.getBackStackEntryCount() > 0) { fragmentManager.popBackStackImmediate(); }
+            fragId = fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        } else {
+            fragId = fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit(); //.addToBackStack(fragName).commit();
+        }
+        // looks like the fragId is just the stack index, so there is no worry about a mem leak
+        //fragIds.put(fragId, resId);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (navStack.isEmpty()) {
+            super.onBackPressed();
+            //finish();  // TODO: Do we need this? I think it is handle automatically.
+            return;
+        }
 
-    //@Override
-    //public boolean onCreateOptionsMenu(Menu menu) {
-    //    MenuInflater inflater = getMenuInflater();
-    //    inflater.inflate(R.menu.activity_main_actions, menu);
-    //    return super.onCreateOptionsMenu(menu);
-    //}
+        currentNavId = navStack.remove(navStack.size() - 1);
 
+        MenuItem menuItem = nvDrawer.getMenu().findItem(currentNavId);
+        selectDrawerItem(menuItem);
+    }
+
+    /**
+     * Get the resource id for the current fragment.
+     *
+     * NOTE: Google is insane.
+     *
+     * @return      resource id
+     */
+    private int getCurrentFragmentId() {
+        int id;
+        if (currentNavId < 0) {
+            id = R.id.nav_wallpaper;
+        } else {
+            id = currentNavId;
+        }
+        return id;
+    }
+
+    /*
+    private int getPreviousFragmentId() {
+        FragmentManager fragmentManager = getFragmentManager();
+        //Log.d("log", "count: " + fragmentManager.getBackStackEntryCount());
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            int top = fragmentManager.getBackStackEntryCount() - 1;
+            FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(top);
+            //Log.d("log", "id: " + entry.getId());
+            return fragIds.get(entry.getId());
+        } else {
+            return R.id.nav_wallpaper;
+        }
+    }
+    */
+
+    /**
+     * Create options menu.
+     *
+     * @param menu      Menu instance
+     * @return          success ?
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+
+        //Log.d("log", "fragId: " + getCurrentFragmentId());
+        switch (getCurrentFragmentId()) {
+            case R.id.nav_clock:
+                inflater.inflate(R.menu.options_clock, menu);
+                break;
+            case R.id.nav_settings:
+                inflater.inflate(R.menu.options_settings, menu);
+                break;
+            case R.id.nav_wallpaper:
+            default:
+                inflater.inflate(R.menu.options_browser, menu);
+                break;
+        }
+        //if (nagDismiss) {
+        //    // TODO: Instead of this, just have the icon open a dialog to write a review instead.
+        //    inflater.inflate(R.menu.options_clock, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        MenuItem register = menu.findItem(R.id.action_upgrade);
+        if(isOwned()) {
+            register.setTitle(R.string.action_review);
+        }
+        return super.onPrepareOptionsMenu(menu); //true;
+    }
+
+    /**
+     * Actions to perform for action menu options.
+     *
+     * @param item      instance of MenuItem
+     * @return          success ?
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+        switch (item.getItemId()) {
+            case android.R.id.home:  // this ID represents the Home or Up button.
+                //NavUtils.navigateUpFromSameTask(this);
+                if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+                    mDrawer.closeDrawer(GravityCompat.START);
+                } else {
+                    mDrawer.openDrawer(GravityCompat.START);
+                }
+                return true;
+            case R.id.action_upgrade:
+                if (isOwned()) {
+                    btnRateAppOnClick();
+                } else {
+                    showNagDialog();
+                }
+                return true;
+            case R.id.action_clock:
+                showClock();
+                return true;
+            case R.id.action_settings:
+                showSettings();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     // TODO: Show setting of current wallpaper if a T+C=W Wallpaper is active
     public void showSettings() {
+        selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_settings));
         //Intent intent = new Intent(BrowserFragment.this, ClockSettingsActivity.class);
         //startActivity(intent);
     }
 
     public void showClock() {
+        selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_clock));
         //Intent intent = new Intent(BrowserFragment.this, ClockActivity.class);
         //startActivity(intent);
-
         //ClockView clock = new ClockView(getBaseContext());
         //setContentView(clock);
-    }
-
-    public void showAbout() {
-        //Intent intent = new Intent(BrowserFragment.this, AcknowledgeActivity.class);
-        //startActivity(intent);
     }
 
     public void showWebsite() {
@@ -270,19 +386,23 @@ public class MainActivity extends AppCompatActivity {
     //    super.onActivityResult(requestCode, resultCode, data);
     //}
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1001) {
-            billingService.buyResult(requestCode, resultCode, data);
+            boolean success = billingService.buyResult(requestCode, resultCode, data);
+            if (success) {
+                nagDismiss = true;
+                return;
+            }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
      * Buy product.
      */
     private void buyProduct(String sku) {
-        String devPayload = billingService.buyProduct(sku, this);
+        billingService.buyProduct(sku, this);
     }
 
     private String getPrice(String sku) {
@@ -293,18 +413,19 @@ public class MainActivity extends AppCompatActivity {
     private Runnable updateRunner = new Runnable() {
         public void run() {
             if (billingService.isOwned(PRODUCT_ID)) {
-                cancelNagDialog();
+                cancelNag(true);
             }
             //refreshUI();
         }
     };
 
     private void showNagDialog() {
-        //DialogFragment dialog = new NagDialogFragment();
-        nagDialogFragment.show(getFragmentManager(), "What's this for?");
+        cancelNag(false);
+        nagDialogFragment.show(getFragmentManager(), "nag");
     }
 
-    private void cancelNagDialog() {
+    private void cancelNag(boolean permanent) {
+        nagDismiss = permanent;
         nagHandler.removeCallbacks(nagRunner);
     }
 
@@ -332,14 +453,13 @@ public class MainActivity extends AppCompatActivity {
                     })
                     .setNegativeButton(R.string.dialog_nag_no, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // User cancelled the dialog
+                            cancelNag(true);
                         }
                     });
             // Create the AlertDialog object and return it
             return builder.create();
         }
     };
-
 
     /*
     @Override
@@ -389,6 +509,39 @@ public class MainActivity extends AppCompatActivity {
     public void alert(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    /**
+     * On click event for rate this app button.
+     */
+    public void btnRateAppOnClick() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        // try Google play
+        intent.setData(Uri.parse("market://details?id=[Id]"));
+        if (! tryActivity(intent)) {
+            // google play app seems not installed, let's try to open a webbrowser
+            intent.setData(Uri.parse("https://play.google.com/store/apps/details?[Id]"));
+            if (! tryActivity(intent)) {
+                // if this also fails, we have run out of options, inform the user.
+                Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private boolean tryActivity(Intent aIntent) {
+        try
+        {
+            startActivity(aIntent);
+            return true;
+        }
+        catch (ActivityNotFoundException e)
+        {
+            return false;
+        }
+    }
+
+    private boolean isOwned() {
+        return billingService.isOwned(PRODUCT_ID);
     }
 
 }

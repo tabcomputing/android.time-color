@@ -13,22 +13,8 @@
             <option value="$PROJECT_DIR$/library.clock" />
             <option value="$PROJECT_DIR$/library.color" />
             <option value="$PROJECT_DIR$/library.paper" />
+            <option value="$PROJECT_DIR$/pictopaper" />
             <option value="$PROJECT_DIR$/tcwallpaper" />
-            <option value="$PROJECT_DIR$/wallpaper.bigtime" />
-            <option value="$PROJECT_DIR$/wallpaper.binary" />
-            <option value="$PROJECT_DIR$/wallpaper.caterpillar" />
-            <option value="$PROJECT_DIR$/wallpaper.echo" />
-            <option value="$PROJECT_DIR$/wallpaper.gradient" />
-            <option value="$PROJECT_DIR$/wallpaper.horizons" />
-            <option value="$PROJECT_DIR$/wallpaper.lotus" />
-            <option value="$PROJECT_DIR$/wallpaper.mondrian" />
-            <option value="$PROJECT_DIR$/wallpaper.orb" />
-            <option value="$PROJECT_DIR$/wallpaper.pieslice" />
-            <option value="$PROJECT_DIR$/wallpaper.plaid" />
-            <option value="$PROJECT_DIR$/wallpaper.radial" />
-            <option value="$PROJECT_DIR$/wallpaper.solid" />
-            <option value="$PROJECT_DIR$/wallpaper.squares" />
-            <option value="$PROJECT_DIR$/wallpaper.stripes" />
             <option value="$PROJECT_DIR$/wear" />
             <option value="$PROJECT_DIR$/widget" />
           </set>

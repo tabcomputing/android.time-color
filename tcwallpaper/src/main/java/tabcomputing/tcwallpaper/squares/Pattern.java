@@ -1,15 +1,14 @@
 package tabcomputing.tcwallpaper.squares;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Path;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.BasePattern;
 
 /**
  * Draw series of spiraling square within other spiraling squares.
  */
-public class Pattern extends AbstractPattern {
+public class Pattern extends BasePattern {
 
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
@@ -33,7 +32,7 @@ public class Pattern extends AbstractPattern {
 
         double[] r = timeRatios();
 
-        Paint paint = new Paint();
+        paint.reset();
         paint.setAntiAlias(true);
         //paint.setShadowLayer(20.0f, 0f, 0f, Color.BLACK);
 
@@ -45,10 +44,6 @@ public class Pattern extends AbstractPattern {
         float radius;
 
         int s = r.length;
-
-        if (!settings.displaySeconds()) {
-            s = s - 1;
-        }
 
         canvas.drawColor(c[s - 1]);
 

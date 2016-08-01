@@ -6,22 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/library.clock/library.clock.iml" filepath="$PROJECT_DIR$/library.clock/library.clock.iml" />
       <module fileurl="file://$PROJECT_DIR$/library.color/library.color.iml" filepath="$PROJECT_DIR$/library.color/library.color.iml" />
       <module fileurl="file://$PROJECT_DIR$/library.paper/library.paper.iml" filepath="$PROJECT_DIR$/library.paper/library.paper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pictopaper/pictopaper.iml" filepath="$PROJECT_DIR$/pictopaper/pictopaper.iml" />
       <module fileurl="file://$PROJECT_DIR$/tcwallpaper/tcwallpaper.iml" filepath="$PROJECT_DIR$/tcwallpaper/tcwallpaper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.bigtime/wallpaper.bigtime.iml" filepath="$PROJECT_DIR$/wallpaper.bigtime/wallpaper.bigtime.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.binary/wallpaper.binary.iml" filepath="$PROJECT_DIR$/wallpaper.binary/wallpaper.binary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.caterpillar/wallpaper.caterpillar.iml" filepath="$PROJECT_DIR$/wallpaper.caterpillar/wallpaper.caterpillar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.echo/wallpaper.echo.iml" filepath="$PROJECT_DIR$/wallpaper.echo/wallpaper.echo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.gradient/wallpaper.gradient.iml" filepath="$PROJECT_DIR$/wallpaper.gradient/wallpaper.gradient.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.horizons/wallpaper.horizons.iml" filepath="$PROJECT_DIR$/wallpaper.horizons/wallpaper.horizons.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.lotus/wallpaper.lotus.iml" filepath="$PROJECT_DIR$/wallpaper.lotus/wallpaper.lotus.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.mondrian/wallpaper.mondrian.iml" filepath="$PROJECT_DIR$/wallpaper.mondrian/wallpaper.mondrian.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.orb/wallpaper.orb.iml" filepath="$PROJECT_DIR$/wallpaper.orb/wallpaper.orb.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.pieslice/wallpaper.pieslice.iml" filepath="$PROJECT_DIR$/wallpaper.pieslice/wallpaper.pieslice.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.plaid/wallpaper.plaid.iml" filepath="$PROJECT_DIR$/wallpaper.plaid/wallpaper.plaid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.radial/wallpaper.radial.iml" filepath="$PROJECT_DIR$/wallpaper.radial/wallpaper.radial.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.solid/wallpaper.solid.iml" filepath="$PROJECT_DIR$/wallpaper.solid/wallpaper.solid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.squares/wallpaper.squares.iml" filepath="$PROJECT_DIR$/wallpaper.squares/wallpaper.squares.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wallpaper.stripes/wallpaper.stripes.iml" filepath="$PROJECT_DIR$/wallpaper.stripes/wallpaper.stripes.iml" />
       <module fileurl="file://$PROJECT_DIR$/wear/wear.iml" filepath="$PROJECT_DIR$/wear/wear.iml" />
       <module fileurl="file://$PROJECT_DIR$/widget/widget.iml" filepath="$PROJECT_DIR$/widget/widget.iml" />
     </modules>

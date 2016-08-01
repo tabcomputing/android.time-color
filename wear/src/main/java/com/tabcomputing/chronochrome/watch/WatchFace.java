@@ -676,7 +676,7 @@ public class WatchFace extends CanvasWatchFaceService {
          * @return string of time
          */
         private String timeStamp() {
-            return timeSystem.timeStamp(settings.displaySeconds());
+            return timeSystem.timeStamp(!settings.displaySeconds());
         }
 
         /**

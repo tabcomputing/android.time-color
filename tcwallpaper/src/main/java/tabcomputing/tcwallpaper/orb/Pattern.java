@@ -5,14 +5,12 @@ import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
-
-import java.util.Arrays;
+import tabcomputing.tcwallpaper.BasePattern;
 
 /**
  * Draw a glowing orb.
  */
-public class Pattern extends AbstractPattern {
+public class Pattern extends BasePattern {
 
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
@@ -35,39 +33,27 @@ public class Pattern extends AbstractPattern {
         } else {
             drawCenter(canvas);
         }
+
+        if (settings.useGlare()) {
+            drawSunGlare(canvas);
+        }
     }
 
+    /**
+     * Draw orb in the center of the screen.
+     *
+     * @param canvas        drawing canvas
+     */
     public void drawCenter(Canvas canvas) {
         float cx = centerX(canvas);
         float cy = centerY(canvas);
 
-        float rm = min(cx, cy);
-        float gw = rm * 2.0f;
-
-        switch (settings.orbSize()) {
-            case 0:
-                gw = rm * 1.1f;
-                rm = rm * 0.01f;
-                break;
-            case 1:
-                rm = rm * 0.25f;
-                gw = rm * 2.0f;
-                break;
-            case 2:
-                rm = rm * 0.5f;
-                gw = rm * 2.0f;
-                break;
-            case 3:
-                rm = rm * 0.75f;
-                gw = rm * 2.0f;
-                break;
-        }
+        float[] d = ordDim();
+        float m = min(cx, cy);
+        float rm = m * d[0];
+        float gw = m * d[1];
 
         int[] colors = timeColors();
-
-        if (! settings.displaySeconds()) {
-            colors = Arrays.copyOf(colors, colors.length - 1);
-        }
 
         // the hour color is on the outside in normal mode
         if (settings.isSwapped()) {
@@ -87,47 +73,35 @@ public class Pattern extends AbstractPattern {
         canvas.drawCircle(cx, cy, rm, paint);
     }
 
+    /**
+     * Draw orb in an orbit around an invisible clock face, as it were.
+     *
+     * @param canvas        drawing canvas
+     */
     public void drawOrbit(Canvas canvas) {
         float cx = centerX(canvas);
         float cy = centerY(canvas);
 
-        float rm = min(cx, cy);
-
-        switch (settings.orbSize()) {
-            case 0:
-                rm = rm * 0.25f;
-                break;
-            case 1:
-                rm = rm * 0.5f;
-                break;
-            case 2:
-                rm = rm * 0.75f;
-                break;
-        }
-
-        float gw = rm * 2.0f;
+        float[] d = ordDim();
+        float m = min(cx, cy);
+        float rm = m * d[0];
+        float gw = m * d[1];
 
         //float w = faceRadius(canvas);
         float r0 = spotRadius(canvas);
         //float r1 = w - r0;
 
-        double[] r = timeSystem.handRatios();
+        double[] r = handRatios();
 
         float hx = (float) (cx + r0 * sin(r[0] + rot()));
         float hy = (float) (cy - r0 * cos(r[0] + rot()));
 
         int[] colors = timeColors();
 
-        if (! settings.displaySeconds()) {
-            colors = Arrays.copyOf(colors, colors.length - 1);
-        }
-
         // the hour color is on the inside in normal mode
         if (settings.isSwapped()) {
             reverseArray(colors);
         }
-
-        //Paint paint;
 
         // draw the circular gradient
         RadialGradient shader = new RadialGradient(hx, hy, gw, colors, null, Shader.TileMode.CLAMP);
@@ -140,6 +114,35 @@ public class Pattern extends AbstractPattern {
         paint.setColor(colors[0]);
         paint.setAntiAlias(true);
         canvas.drawCircle(hx, hy, rm, paint);
+    }
+
+    /**
+     * Size of orb option. It would be nice if this could be a sliding scale, but
+     * also Android preference doesn't have such a field built-in.
+     *
+     * @return      factors for circle radius and gradient radius.
+     */
+    private float[] ordDim() {
+        float[] d = new float[2];
+        switch (settings.orbSize()) {
+            case 0:
+                d[0] = 0.01f;
+                d[1] = 1.10f;
+                break;
+            case 1:
+                d[0] = 0.25f;
+                d[1] = 0.50f;
+                break;
+            case 2:
+                d[0] = 0.5f;
+                d[1] = 1.0f;
+                break;
+            case 3:
+                d[0] = 0.75f;
+                d[1] = 1.50f;
+                break;
+        }
+        return d;
     }
 
 }

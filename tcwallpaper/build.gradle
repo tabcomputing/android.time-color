@@ -15,8 +15,8 @@ android {
         applicationId 'tabcomputing.tcwallpaper'
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.0.5"
+        versionCode 7
+        versionName "1.0.7"
         signingConfig signingConfigs.config
     }
     buildTypes {
@@ -32,15 +32,17 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    // local libraries
     compile project(':library.clock')
     compile project(':library.color')
-    // testing
-    testCompile 'junit:junit:4.12'
-    // think this is b/c API 21 is needed w/o it
+    compile project(':library.paper')
+    // android libraries (think appcompat is b/c API 21 is needed w/o it)
     compile 'com.android.support:appcompat-v7:23.4.0'
-    //
     compile 'com.android.support:design:23.4.0'
-    //compile 'com.nispok:snackbar:2.6.1'
     compile 'com.android.support:support-v4:23.4.0'
     //compile 'com.android.support:preference-v7:23.0.1'
+    // third party libraries
+    //compile 'com.nispok:snackbar:2.6.1'
+    // testing library
+    testCompile 'junit:junit:4.12'
 }

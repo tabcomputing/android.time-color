@@ -20,17 +20,17 @@ public class HeximalTime extends AbstractTime {
         return TIME_SEGMENTS;
     }
 
-    @Override
-    public int minutesOnClock() {
-        return 36 * 3;
-    }
+    //@Override
+    //public int minutesOnClock() {
+    //    return 36 * 3;
+    //}
 
     public int timeBase() {
         return 6;
     }
 
     @Override
-    public String timeStamp(boolean withSeconds) {
+    public String timeStamp(boolean sansSeconds) {
         int[] t;
         ArrayList<String> s = new ArrayList<String>();
 
@@ -38,7 +38,7 @@ public class HeximalTime extends AbstractTime {
 
         s.add(base(t[0], "00"));
         s.add(base(t[1], "00"));
-        if (withSeconds) {
+        if (!sansSeconds) {
             s.add(base(t[2], "00"));
         }
 
@@ -46,7 +46,7 @@ public class HeximalTime extends AbstractTime {
     }
 
     @Override
-    public String timeStamp(int range) {
+    public String timeStampFormatted(int range) {
         int[] t = time();
         ArrayList<String> s = new ArrayList<String>();
 
@@ -74,12 +74,24 @@ public class HeximalTime extends AbstractTime {
     }
 
     @Override
-    public String timeStampSample(boolean withSeconds) {
+    public String timeStampSample(boolean sansSeconds) {
         if (isBaseConverted()) {
-            return (withSeconds ? "44 44 44" : "44 44");
+            return (sansSeconds ? "44 44" : "44 44 44");
         } else {
-            return (withSeconds ? "44 44 44" : "44 44");
+            return (sansSeconds ? "44 44" : "44 44 44");
         }
+    }
+
+    /**
+     * Heximal time segments are always padded by zero.
+     *
+     * @param segment       time segment as a string
+     * @param index         which segment of time is it
+     * @return
+     */
+    @Override
+    protected String fmtSegment(String segment, int index) {
+        return "00".substring(segment.length()) + segment;
     }
 
 }

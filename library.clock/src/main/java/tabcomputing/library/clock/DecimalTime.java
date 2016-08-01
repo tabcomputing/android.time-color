@@ -9,17 +9,17 @@ public class DecimalTime extends AbstractTime {
     }
 
     @Override
-    public String timeStamp(boolean withSeconds) {
+    public String timeStamp(boolean sansSeconds) {
         double r = ratioTime();
-        if (withSeconds) {
-            return String.format("%.4f", r * 10);
-        } else {
+        if (sansSeconds) {
             return String.format("%.2f", r * 10);
+        } else {
+            return String.format("%.4f", r * 10);
         }
     }
 
     @Override
-    public String timeStamp(int range) {
+    public String timeStampFormatted(int range) {
         double r = ratioTime();
         switch (range) {
             case TIMESTAMP_NO_HOUR:
@@ -36,8 +36,8 @@ public class DecimalTime extends AbstractTime {
     }
 
     @Override
-    public String timeStampSample(boolean withSeconds) {
-        return (withSeconds ? "4.4444" : "4.444");
+    public String timeStampSample(boolean sansSeconds) {
+        return (sansSeconds ? "4.444" : "4.4444");
     }
 
 }

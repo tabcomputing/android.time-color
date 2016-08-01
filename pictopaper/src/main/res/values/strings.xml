@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Pictopaper</string>
+    <string name="app_label">Pictopaper</string>
+    <string name="app_description">Pictopaper is a highly customizable wallpaper based on picture fonts.</string>
+
+    <string name="dialog_nag_message">
+        If you like Time + Color = Wallpaper, please consider upgrading. Your support allows us to continue
+        our work and costs less than a pack of bubble gum.\n\nUpgrading unlocks a few additional pattern
+        options. It will also rid you of those pesky nag messages!\n\nWould you like to upgrade?
+    </string>
+    <string name="dialog_nag_yes">Yes</string>
+    <string name="dialog_nag_no">No</string>
+
+    <string name="bug_phrase_0">Have you ever seen a starving programmer?\nIt ain\'t pretty.</string>
+    <string name="bug_phrase_1">It doesn\'t cost much to get rid of this annoying message.</string>
+    <string name="bug_phrase_2">Generosity is the root of all happiness.\n\nBut getting paid helps.\n</string>
+    <string name="bug_phrase_3">Buy us a coffee and we\'ll rid you of these nag messages.</string>
+    <string name="bug_phrase_4">You can get rid of this annoying message.</string>
+    <string name="bug_phrase_5">Upgrading unlocks additional pattern settings.</string>
+
+    <string name="category_general_title">GENERAL</string>
+    <string name="category_mode_title">PATTERN</string>
+    <string name="category_time_title">TIME</string>
+    <string name="category_color_title">COLOR</string>
+    <string name="category_clock_title">CLOCK</string>
+
+    <!-- Lower color saturation at midday and midnight. -->
+    <!-- Lower brightness at midnight and increase at midday. -->
+    <string name="colorDaylight_title">Daylight tinting?</string>
+    <string name="colorDaylight_summary">Dynamically adjust brightness and saturation based on the time of day.</string>
+
+    <string name="colorGamut_title">Color gamut</string>
+    <string name="colorGamut_summary">Choose the type of color wheel.</string>
+    <string-array name="colorGamut_entries">
+        <item>RCW</item>
+        <item>RGB</item>
+        <item>B&amp;W</item>
+    </string-array>
+    <string-array name="colorGamut_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="colorGamut_default">0</string>
+
+    <string name="size_title">Size</string>
+    <string name="size_summary">Choose a pattern size.</string>
+    <string-array name="size_entries">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="size_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string name="size_default">1</string>
+
+    <string name="pattern_title">Pattern &#x2764;</string>
+    <string name="pattern_summary">Customize the pattern.</string>
+    <string name="pattern_message">Character are converted to space symbols. Use #1 to substitute hour, #2 for minute, and so on."</string>
+
+    <string name="fade_title">Fade?</string>
+    <string name="fade_summary">Add cross-fading effect.</string>
+
+    <string name="shadow_title">Shadow?</string>
+    <string name="shadow_summary">Outline the pattern pictograms with shadows.</string>
+
+</resources>

@@ -1,7 +1,6 @@
 package tabcomputing.tcwallpaper.mondrian;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
-import tabcomputing.tcwallpaper.AbstractWallpaper;
+import tabcomputing.library.paper.AbstractWallpaper;
 
 public class Wallpaper extends AbstractWallpaper {
 
@@ -14,7 +13,7 @@ public class Wallpaper extends AbstractWallpaper {
     }
 
     @Override
-    protected AbstractPattern getPattern() {
+    protected Pattern getPattern() {
         return pattern;
     }
 
@@ -23,9 +22,9 @@ public class Wallpaper extends AbstractWallpaper {
         return settings;
     }
 
-    @Override
-    protected void onPreferenceChange(String key) {
-        pattern.preferenceChanged(key);
-    }
+    //@Override
+    //protected void onPreferenceChange(String key) {
+    //    pattern.preferenceChanged(key);
+    //}
 
 }

@@ -1,25 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="tabcomputing.wallpaper.radial">
     <application>
-        <service
-            android:name=".Wallpaper"
-            android:label="@string/radial_label"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="true"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:label="@string/radial_label"
-                android:thumbnail="@drawable/radial_thumbnail"
-                android:resource="@xml/radial_wallpaper">
-            </meta-data>
-        </service>
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="true"
-            android:label="@string/radial_label" >
-        </activity>
     </application>
 </manifest>

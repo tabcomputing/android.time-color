@@ -115,30 +115,35 @@ public class BrowseAdapter extends BaseAdapter {
     public final String ITEM_TAG_PURCHASED = "✓";
     public final String ITEM_TAG_FREE = "";
 
-
+    // TODO: Ultimately I think 24 patterns would be the right amount
     public void setupItems() {
-        addItem("solid", "Solid", R.drawable.thumbnail_solid);    // always free
+        addItem("solid", "Solid", R.drawable.thumbnail_solid);
         addItem("gradient", "Gradient", R.drawable.thumbnail_gradient);
         addItem("orb", "Orb", R.drawable.thumbnail_orb);
 
-        addItem("stripes", "Stripes", R.drawable.thumbnail_stripes);
+        addItem("splits", "Split",  R.drawable.thumbnail_splits);
         addItem("binary", "Binary", R.drawable.thumbnail_binary);
-        addItem("plaid", "Plaid", R.drawable.thumbnail_plaid);
+        addItem("plaid",  "Plaid",  R.drawable.thumbnail_plaid);
 
         addItem("caterpillar", "Caterpillar", R.drawable.thumbnail_caterpillar);
-        addItem("echo", "Echo", R.drawable.thumbnail_echo);
         addItem("horizons", "Horizons", R.drawable.thumbnail_horizons);
-
         addItem("lotus", "Lotus", R.drawable.thumbnail_lotus);
+
         addItem("radial", "Radial", R.drawable.thumbnail_radial);
-        addItem("relic", "Relic", R.drawable.thumbnail_relic);
+        addItem("echo", "Echo", R.drawable.thumbnail_echo);
+        addItem("ring", "Ring", R.drawable.thumbnail_ring);
 
-        addItem("mondrian", "Mondrian", R.drawable.thumbnail_mondrian);
-        addItem("pieslice", "Pie Slice", R.drawable.thumbnail_pieslice);
+        addItem("circles", "Circles", R.drawable.thumbnail_circles);
         addItem("squares", "Squares", R.drawable.thumbnail_squares);
+        addItem("pieslice", "Pie Slice", R.drawable.thumbnail_pieslice);
 
-        // bonus patterns
-        //addItem("bigtime", "Big Time", R.drawable.thumbnail_bigtime);
+        addItem("jack", "Jack", R.drawable.thumbnail_jack);
+        addItem("mondrian", "Mondrian", R.drawable.thumbnail_mondrian);
+        addItem("qbert", "QBert", R.drawable.thumbnail_qbert);
+
+        addItem("checkers", "Checkers", R.drawable.thumbnail_checkers);
+        addItem("space", "Space", R.drawable.thumbnail_space);
+        addItem("bigtime", "Big Time", R.drawable.thumbnail_bigtime);
     }
 
     HashMap<String, Item> itemIndex = new HashMap<>();

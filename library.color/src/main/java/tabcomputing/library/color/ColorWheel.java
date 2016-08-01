@@ -20,7 +20,7 @@ public class ColorWheel {
 
     private double offset = 0;
 
-    private double daylightFactor = 0.0;
+    private double daylightFactor = 0;
 
     private int colorGamut = 0;
 
@@ -32,6 +32,19 @@ public class ColorWheel {
     public void setDaylightFactor(double factor) {
         daylightFactor = factor;
     }
+
+    public void setDaylightFactor(boolean factor) {
+        if (factor) {
+            daylightFactor = 0.7;  // TODO: make a constant
+        } else {
+            daylightFactor = 0;     // off
+        }
+    }
+
+    public double getDaylightFactor() {
+        return daylightFactor;
+    }
+
 
     public void setColorGamut(int gamut) {
         colorGamut = gamut;
@@ -373,6 +386,10 @@ public class ColorWheel {
         double a = absSin2(ratio);
         return a * 0.4 + 0.6;
         //return a * (1.0 - daylightFactor) + daylightFactor;
+    }
+
+    public int complementaryColor(int color) {
+        return Color.rgb(255 - Color.red(color), 255 - Color.green(color), 255 - Color.blue(color));
     }
 
     /**

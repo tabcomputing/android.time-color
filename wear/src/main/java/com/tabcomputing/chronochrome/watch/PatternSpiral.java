@@ -34,13 +34,9 @@ public class PatternSpiral extends AbstractPattern {
 
         int hc = hoursOnClock();
 
-        double[] hr = timeSystem.handRatios();
+        double[] hr = handRatios();
 
         int s = hr.length;
-
-        if (!settings.displaySeconds()) {
-            s = s - 1;
-        }
 
         int[] hcolors = clockColors();
 

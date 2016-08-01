@@ -3,11 +3,11 @@ package tabcomputing.tcwallpaper.bigtime;
 import android.graphics.Typeface;
 
 import tabcomputing.tcwallpaper.CommonSettings;
-import tabcomputing.tcwallpaper.FontScale;
+import tabcomputing.library.paper.FontScale;
 
 public class Settings extends CommonSettings {
 
-    static final String KEY_TYPEFACE = "abstraction";
+    static final String KEY_TYPEFACE = "typeface";
 
     public Settings() {
         propertyInteger(KEY_COLOR_GAMUT, 0);
@@ -15,7 +15,7 @@ public class Settings extends CommonSettings {
         propertyBoolean(KEY_COLOR_DUPLEX, false);
 
         propertyInteger(KEY_TIME_SYSTEM, 0);
-        //propertyBoolean(KEY_TIME_ROTATE, false);
+        //propertyBoolean(KEY_CLOCK_ROTATE, false);
         propertyBoolean(KEY_TIME_SECONDS, false);
 
         propertyInteger(KEY_TYPEFACE, 0);

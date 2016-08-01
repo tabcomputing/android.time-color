@@ -31,6 +31,8 @@ public class ClockFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        settings.setAssets(getActivity().getApplicationContext().getAssets());
+
         // register listener on changed preference
         //prefs = getSharedPrefs();
         //prefs.registerOnSharedPreferenceChangeListener(this);

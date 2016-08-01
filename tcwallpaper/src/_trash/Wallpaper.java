@@ -20,9 +20,9 @@ import android.view.SurfaceHolder;
 import java.util.Calendar;
 
 import tabcomputing.library.clock.ColorWheel;
-import tabcomputing.library.clock.StandardTime;
+import tabcomputing.library.clock.MeridiemTime;
 import tabcomputing.library.clock.TimeSystem;
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.library.wallpaper.AbstractPattern;
 import tabcomputing.wallpaper.ClockSettings;
 
 public class Wallpaper extends WallpaperService {
@@ -62,7 +62,7 @@ public class Wallpaper extends WallpaperService {
 
         private Canvas canvas = null;
 
-        private TimeSystem timeSystem = new StandardTime();
+        private TimeSystem timeSystem = new MeridiemTime();
 
         private ColorWheel colorWheel = new ColorWheel();
 

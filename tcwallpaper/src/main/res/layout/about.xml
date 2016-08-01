@@ -10,6 +10,7 @@
         android:layout_centerInParent="true"
         android:linksClickable="true"
         android:textColor="#222"
-        android:padding="5dp">
+        android:fontFamily="sans-serif-thin"
+        android:padding="10dp">
     </TextView>
 </FrameLayout>

@@ -1,6 +1,6 @@
 package tabcomputing.tcwallpaper.bigtime;
 
-import tabcomputing.tcwallpaper.AbstractSettingsActivity;
+import tabcomputing.library.paper.AbstractSettingsActivity;
 import tabcomputing.tcwallpaper.R;
 
 public class SettingsActivity extends AbstractSettingsActivity {

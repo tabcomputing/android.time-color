@@ -1,1 +1,1 @@
-include ':wear', ':widget', ':library.clock', ':tcwallpaper', ':library.color'
+include ':wear', ':widget', ':library.clock', ':tcwallpaper', ':library.color', ':pictopaper', ':library.paper'

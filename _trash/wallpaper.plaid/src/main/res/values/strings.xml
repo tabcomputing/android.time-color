@@ -1,7 +1,2 @@
 <resources>
-    <string name="plaid_label">T+C=W Plaid</string>
-    <string name="plaid_description">Time + Color = Wallpaper presents Plaid.</string>
-
-    <string name="interlace_title">Interlace?</string>
-    <string name="interlace_summary">Interlace time segments to create pattern?</string>
 </resources>

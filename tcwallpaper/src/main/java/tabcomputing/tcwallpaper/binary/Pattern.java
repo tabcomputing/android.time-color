@@ -4,19 +4,26 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.BasePattern;
 
-public class Pattern extends AbstractPattern {
+public class Pattern extends BasePattern {
 
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
     }
 
+    private Settings settings;
+
+    public void setSettings(Settings settings) {
+        super.setSettings(settings);
+        this.settings = settings;
+    }
+
     @Override
     public void draw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(minuteColor());
+        paint.reset();
+        paint.setColor(minuteColor());  // FIXME
         paint.setAntiAlias(true);
         //paint.setStrokeWidth(10.0f);
         //paint.setStrokeCap(Paint.Cap.ROUND);
@@ -26,18 +33,13 @@ public class Pattern extends AbstractPattern {
         float wx = canvas.getWidth();
         float wy = canvas.getHeight();
 
-        int[] t = timeSystem.time();
-        int[] s = timeSystem.timeSegments();
-
-        int e = t.length;
-        if (! settings.displaySeconds()) {
-            e = e - 1;
-        }
-
-        float x;
-
+        int[] t = time();
+        int[] s = timeSegments();
         int[] colors = timeColors();
 
+        int e = t.length;
+
+        float x;
         float w = wx / e;
 
         canvas.drawColor(Color.WHITE);

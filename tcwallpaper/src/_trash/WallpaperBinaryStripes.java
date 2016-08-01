@@ -16,9 +16,9 @@ import android.text.TextPaint;
 import android.view.SurfaceHolder;
 
 import tabcomputing.library.clock.ColorWheel;
-import tabcomputing.library.clock.StandardTime;
+import tabcomputing.library.clock.MeridiemTime;
 import tabcomputing.library.clock.TimeSystem;
-import tabcomputing.library.paper.AbstractPattern;
+import tabcomputing.library.wallpaper.AbstractPattern;
 import tabcomputing.wallpaper.ClockSettings;
 
 import java.util.Calendar;
@@ -48,7 +48,7 @@ public class WallpaperBinaryStripes extends WallpaperService {
 
         private Canvas canvas = null;
 
-        private TimeSystem timeSystem = new StandardTime();
+        private TimeSystem timeSystem = new MeridiemTime();
 
         private ColorWheel colorWheel = new ColorWheel();
 

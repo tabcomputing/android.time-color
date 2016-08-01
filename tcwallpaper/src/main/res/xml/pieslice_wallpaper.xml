@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:thumbnail="@drawable/thumbnail_pieslice"
-    android:label="@string/label"
-    android:description="@string/description"
+    android:label="@string/pieslice_label"
+    android:description="@string/pieslice_description"
     android:settingsActivity="tabcomputing.tcwallpaper.pieslice.SettingsActivity">
 </wallpaper>

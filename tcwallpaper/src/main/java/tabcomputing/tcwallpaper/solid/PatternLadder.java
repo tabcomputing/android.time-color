@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.BasePattern;
 
 /**
  * DEPRECATED: Not sure this is worth having.
@@ -13,13 +13,19 @@ import tabcomputing.tcwallpaper.AbstractPattern;
  * where the left is the hour from bottom to top and the right is the minute
  * in the same fashion.
  */
-public class PatternLadder extends AbstractPattern {
+public class PatternLadder extends BasePattern {
 
-    //public PatternLadder(Settings settings, TimeSystem timeSystem, ColorWheel colorWheel) {
-    //    this.settings   = settings;
-    //    this.timeSystem = timeSystem;
-    //    this.colorWheel = colorWheel;
-    //}
+    public PatternLadder(Wallpaper wallpaper) {
+        setContext(wallpaper);
+        setSettings(wallpaper.getSettings());
+    }
+
+    private Settings settings;
+
+    protected void setSettings(Settings settings) {
+        super.setSettings(settings);
+        this.settings = settings;
+    }
 
     @Override
     public void draw(Canvas canvas) {
@@ -30,10 +36,10 @@ public class PatternLadder extends AbstractPattern {
         float cx = canvas.getWidth();
         float cy = canvas.getHeight();
 
-        //int[] s = timeSystem.timeSegments();
+        //int[] s = timeSegments();
 
-        double[] r = timeSystem.handRatios();
-        //int h = timeSystem.hoursOnClock();
+        double[] r = handRatios();
+        //int h = hoursOnClock();
 
         float y0 = (float) (cy * (1.0 - r[0]));
         float y1 = (float) (cy * (1.0 - r[1]));

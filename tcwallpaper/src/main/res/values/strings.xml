@@ -18,12 +18,13 @@
 
     <string name="bug_phrase_0">Have you ever seen a starving programmer?\nIt ain\'t pretty.</string>
     <string name="bug_phrase_1">It doesn\'t cost much to get rid of this annoying message.</string>
-    <string name="bug_phrase_2">Generosity is the root of all happiness.</string>
+    <string name="bug_phrase_2">Generosity is the root of all happiness.\n\nBut getting paid helps.\n</string>
     <string name="bug_phrase_3">Buy us a coffee and we\'ll rid you of these nag messages.</string>
     <string name="bug_phrase_4">You can get rid of this annoying message.</string>
-    <string name="bug_phrase_5">Please show your support.</string>
+    <string name="bug_phrase_5">Upgrading unlocks additional pattern settings.</string>
 
-
+    <string name="action_upgrade">Upgrade</string>
+    <string name="action_review">Review</string>
     <string name="action_clock">Clock</string>
     <string name="action_settings">Settings</string>
     <string name="action_homepage">Homepage</string>
@@ -43,12 +44,12 @@
     <string name="category_clock_title">CLOCK</string>
 
     <string name="dialog_nag_message">
-        If you like Time + Color = Wallpaper, please show your support by upgrading. Not only will allow us to continue
-        to support this program and our other offerings, it will also rid you of these pesky nag notices!\n\n
-        Would you like to upgrade?
+        If you like Time + Color = Wallpaper, please consider upgrading. Your support allows us to continue
+        our work and costs less than a pack of bubble gum.\n\nUpgrading unlocks a few additional pattern
+        options. It will also rid you of those pesky nag messages!\n\nWould you like to upgrade?
     </string>
-    <string name="dialog_nag_yes">Sure</string>
-    <string name="dialog_nag_no">Nope</string>
+    <string name="dialog_nag_yes">Yes</string>
+    <string name="dialog_nag_no">No</string>
 
 
     <!-- COMMON SETTINGS -->
@@ -61,8 +62,8 @@
 
     <!-- Lower color saturation at midday and midnight. -->
     <!-- Lower brightness at midnight and increase at midday. -->
-    <string name="colorDaylight_title">Dynamic colors?</string>
-    <string name="colorDaylight_summary">Adjust brightness and saturation based on the time of day.</string>
+    <string name="colorDaylight_title">Daylight tinting?</string>
+    <string name="colorDaylight_summary">Dynamically adjust brightness and saturation based on the time of day.</string>
 
     <string name="colorGamut_title">Color gamut</string>
     <string name="colorGamut_summary">Choose the type of color wheel.</string>
@@ -81,8 +82,6 @@
     <string name="colorDuplex_title">AM/PM Color mode?</string>
     <string name="colorDuplex_summary">Circumvent color-wheel twice per day.</string>
 
-    <string name="timeRotate_title">Rotate clock?</string>
-    <string name="timeRotate_summary">Place midnight on the bottom.</string>
 
     <string name="timeSeconds_title">Include seconds?</string>
     <string name="timeSeconds_summary">Track time by the second.</string>
@@ -90,7 +89,8 @@
     <string name="timeSystem_title">Time system</string>
     <string name="timeSystem_summary">Pick an alternate system of time division.</string>
     <string-array name="timeSystem_entries">
-        <item>Traditional (24:60:60)</item>
+        <item>24-hour (24:60:60)</item>
+        <item>12-hour (12:60:60 AM/PM)</item>
         <item>Decimal (10:100:100)</item>
         <item>Duodecimal (12:12:12)</item>
         <item>Hexadecimal (16:16:16)</item>
@@ -102,13 +102,64 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
     </string-array>
     <string name="timeSystem_default">0</string>
 
-    <string name="baseConversion_title">Number base conversion?</string>
-    <string name="baseConversion_summary">Show time in system\'s intrinsic number base?</string>
+    <string name="baseConvert_title">Base conversion?</string>
+    <string name="baseConvert_summary">Show time in system\'s native number base?</string>
+
+    <string name="sunGlare_title">Sun glare? &#x2764;</string>
+    <string name="sunGlare_summary">Add sun glare effect.</string>
+
+    <string name="orientation_title">Orientation</string>
+    <string name="orientation_summary">Select and orientation.</string>
+    <string-array name="orientation_entries">
+        <item>Horizontal</item>
+        <item>Vertical</item>
+        <item>Rotating</item>
+    </string-array>
+    <string-array name="orientation_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="orientation_default">0</string>
+
+    <string name="size_title">Size</string>
+    <string name="size_summary">Choose a pattern size.</string>
+    <string-array name="size_entries">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="size_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string name="size_default">1</string>
+
+    <string name="pattern_title">Pattern &#x2764;</string>
+    <string name="pattern_summary">Customize the pattern.</string>
+    <string name="pattern_message">Character are converted to space symbols. Use #1 to substitute hour, #2 for minute, and so on."</string>
+
+    <string name="fade_title">Fade?</string>
+    <string name="fade_summary">Add cross-fading effect.</string>
+
+    <string name="outline_title">Outline?</string>
+    <string name="outline_summary">Outline the pattern.</string>
 
 
+    <!-- Clock Specific -->
+
+    <string name="clockRotate_title">Rotate clock?</string>
+    <string name="clockRotate_summary">Place midnight at the top.</string>
+
+
+    <!-- PATTERNS -->
 
     <!-- Big Time -->
     <string name="bigtime_label">T+C=W Big Time</string>
@@ -145,6 +196,17 @@
     <string name="caterpillar_label">T+C=W Caterpillar</string>
     <string name="caterpillar_description">Time + Color = Wallpaper presents a fun multi-color caterpillar wallpaper great for kids.</string>
 
+    <string name="meanFace_title">Mr. Mean face? &#x2764;</string>
+    <string name="meanFace_summary">Unleash the Kraken!</string>
+
+    <!-- Circles -->
+    <string name="circles_label">T+C=W Circles</string>
+    <string name="circles_description">Time + Color = Wallpaper presents Zen Circles.</string>
+
+    <!-- Checkers -->
+    <string name="checkers_label">T+C=W Checkers</string>
+    <string name="checkers_description">Time + Color = Wallpaper presents Checkers.</string>
+
     <!-- Echo -->
     <string name="echo_label">T+C=W Echo</string>
     <string name="echo_description">Time + Color = Wallpaper presents Echo.</string>
@@ -156,26 +218,16 @@
     <string name="gradient_orbit_title">Orbit?</string>
     <string name="gradient_orbit_summary">Place radiant in orbit around invisible clock.</string>
 
-    <string name="gradient_orientation_title">Orientation</string>
-    <string name="gradient_orientation_summary">Pick system of enumerating the clock face.</string>
-
-    <string-array name="gradient_orientation_entries">
-        <item>Vertical</item>
-        <item>Horizontal</item>
-        <item>Rotating</item>
-    </string-array>
-
-    <string-array name="gradient_orientation_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
-    <string name="gradient_orientation_default">0</string>
-
     <!-- Horizons -->
     <string name="horizons_label">T+C=W Horizons</string>
     <string name="horizons_description">Time + Color = Wallpaper presents rainbow horizons.</string>
+
+    <string name="sun_title">Sun? &#x2764;</string>
+    <string name="sun_summary">Add a rising and setting sun to the background?</string>
+
+    <!-- Jack -->
+    <string name="jack_label">T+C=W Jack</string>
+    <string name="jack_description">Time + Color = Wallpaper presents Union Jack.</string>
 
     <!-- Lotus -->
     <string name="lotus_label">T+C=W Lotus</string>
@@ -216,9 +268,13 @@
 
     <string name="orb_size_default">1</string>
 
+    <!-- Pictogram -->
+    <string name="pictogram_label">T+C=W Pictogram</string>
+    <string name="pictogram_description">Time + Color = Wallpaper presents Pictogram.</string>
+
     <!-- Pie Slice -->
-    <string name="label">T+C=W Pie Slice</string>
-    <string name="description">Time + Color = Wallpaper presents Pie Slice.</string>
+    <string name="pieslice_label">T+C=W Pie Slice</string>
+    <string name="pieslice_description">Time + Color = Wallpaper presents Pie Slice.</string>
 
     <!-- Plaid -->
     <string name="plaid_label">T+C=W Plaid</string>
@@ -226,6 +282,10 @@
 
     <string name="interlace_title">Interlace?</string>
     <string name="interlace_summary">Interlace time segments to create pattern?</string>
+
+    <!-- QBert -->
+    <string name="qbert_label">T+C=W QBert</string>
+    <string name="qbert_description">Time + Color = Wallpaper presents QBert.</string>
 
     <!-- Radial -->
     <string name="radial_label">T+C=W Radial</string>
@@ -250,39 +310,34 @@
 
     <string name="relic_style_default">0</string>
 
+    <!-- Ring -->
+    <string name="ring_label">T+C=W Ring</string>
+    <string name="ring_description">Time + Color = Wallpaper presents Ring.</string>
+
+    <string name="smooth_title">Smooth?</string>
+    <string name="smooth_summary">Smooth continuous colors, otherwise discrete.</string>
+
+    <!-- Space -->
+    <string name="space_label">T+C=W Space</string>
+    <string name="space_description">Time + Color = Wallpaper presents Space.</string>
+
     <!-- Solid -->
     <string name="solid_label">T+C=W Solid</string>
     <string name="solid_description">Time + Color = Wallpaper presents Solid. The cleanest, yet useful, wallpaper in the two universes.</string>
+
+    <!-- Splits -->
+    <string name="splits_label">T+C=W Splits</string>
+    <string name="splits_description">Fly your colors. Time+Color=Wallpaper presents Splits, a colorful wallpaper splitting your screen with the colors of time.</string>
 
     <!-- Squares -->
     <string name="squares_label">T+C=W Scooby Squares</string>
     <string name="squares_description">Time + Color = Wallpaper presents Scooby Squares.</string>
 
-    <!-- Stripes -->
-    <string name="stripes_label">T+C=W Stripes</string>
-    <string name="stripes_description">Fly your colors. Time+Color=Wallpaper presents Stripes, a colorful wallpaper striping your screen with the colors of time.</string>
-
-    <string name="orientation_title">Orientation</string>
-    <string name="orientation_summary">Select and orientation.</string>
-
-    <string-array name="orientation_entries">
-        <item>Horizontal</item>
-        <item>Vertical</item>
-        <item>Rotating</item>
-    </string-array>
-
-    <string-array name="orientation_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
-    <string name="orientation_default">0</string>
 
 
 
 
-    <!-- Flare -->
+    <!-- Flare DEPRECATED -->
 
     <string name="flare_title">Pattern flare</string>
     <string name="flare_summary">Add a bit of flare to your pattern.</string>
@@ -300,24 +355,6 @@
     </string-array>
 
     <string name="flare_default">0</string>
-
-
-    <!-- CLOCK SETTINGS -->
-
-    <string name="colorWheel_title">Color wheel?</string>
-    <string name="colorWheel_summary">Show chronometric color wheel.</string>
-
-    <string name="clockNumbers_title">Enumerate clock face?</string>
-    <string name="clockNumbers_summary">Display hours on clock face.</string>
-
-    <string name="displaytime_title">Digital clock?</string>
-    <string name="displaytime_summary">Display a digital clock face.</string>
-
-    <string name="displayclockhands_title">Analog clock?</string>
-    <string name="displayclockhands_summary">Show old-school clock hands.</string>
-
-    <string name="clockDashes_title">Clock ticks?</string>
-    <string name="clockDashes_summary">Show tick marks for minutes/seconds?</string>
 
     <!-- Typeface -->
 
@@ -359,9 +396,13 @@
 
     <string name="clockType_default">0</string>
 
+
+    <string name="clockAMPM_title">AM/PM Style?</string>
+    <string name="clockAMPM_summary">Display clock in traditional AM/PM style.</string>
+
     <!--  Clock Numbers -->
 
-    <string name="numberSystem_title">Number system</string>
+    <string name="numberSystem_title">Enumeration</string>
     <string name="numberSystem_summary">Pick system of enumerating the clock face.</string>
 
     <string-array name="numberSystem_entries">
@@ -384,8 +425,8 @@
     <string name="clockBackground_summary">Select a background color.</string>
 
     <string-array name="clockBackground_entries">
-        <item>White</item>
         <item>Black</item>
+        <item>White</item>
         <item>Time\'s</item>
     </string-array>
 
@@ -402,13 +443,13 @@
     <string name="pattern_plaid_title">Plaid Preferences</string>
     -->
 
-    <!-- ACKNOWLEDGEMENTS -->
+    <!-- ABOUT -->
 
     <string name="textCredits">
-        \n
-        Time + Color = Wallpaper combines time and color to create beautiful and useful wallpapers.
-        In part T+C=W was created as an experiment in synesthesia, asking the question: Can we
-        become so accustomed to associating the time of day with a color, that it becomes second nature.\n
+        <![CDATA[Time + Color = Wallpaper combines time and color to create beautiful and useful wallpapers.
+        In part, Time + Color = Wallpaper was created as an experiment in synesthesia ― Can we
+        become so accustomed to associating time with color that it becomes second nature?
+        Might we one day ask, \"What color is it?\"\n
         \n
         Time + Color = Wallpaper\n
         Copyright 2016 by Tab Computing\n
@@ -416,20 +457,7 @@
         \n
         "Confection Cubes" Truetype Font\n
         Copyright 2010 by Eric Michael\n
-        www.eric-michael.com\n
-        \n
+        www.eric-michael.com\n\n]]>
     </string>
-
-    <!-- Error messages for billing service -->
-    <string name="RESULT_USER_CANCELED">User cancelled purchase transaction.</string>
-    <string name="RESULT_BILLING_UNAVAILABLE">Google Play service is currently unavailable.</string>
-    <string name="RESULT_ITEM_UNAVAILABLE">Product does not exist.</string>
-    <string name="RESULT_ITEM_ALREADY_OWNED">Product is already owned.</string>
-    <string name="RESULT_ITEM_NOT_OWNED">Product is not consumable because it is not owned.</string>
-    <string name="RESULT_DEVELOPER_ERROR">Invalid arguments, please report this issue.</string>
-    <string name="RESULT_ERROR">Unspecified error, please report this issue.</string>
-    <string name="VERIFY_INVALID_PRODUCT_ID">Purchase transaction returned invalid product id.</string>
-    <string name="VERIFY_INVALID_CODE">Purchase transaction returned invalid verification code.</string>
-    <string name="VERIFY_DATA_PARSE_FAILURE">Failed to parse purchase data.</string>
 
 </resources>

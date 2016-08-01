@@ -1,20 +1,19 @@
 package tabcomputing.tcwallpaper.bigtime;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
-import tabcomputing.tcwallpaper.AbstractWallpaper;
+import tabcomputing.library.paper.AbstractWallpaper;
 
 public class Wallpaper extends AbstractWallpaper {
 
     private Settings settings;
-    private AbstractPattern pattern;
+    private PatternBigtime pattern;
 
     public Wallpaper() {
         settings = new Settings();
-        pattern  = new Pattern(this);
+        pattern  = new PatternBigtime(this);
     }
 
     @Override
-    protected AbstractPattern getPattern() {
+    protected PatternBigtime getPattern() {
         return pattern;
     }
 
@@ -23,9 +22,9 @@ public class Wallpaper extends AbstractWallpaper {
         return settings;
     }
 
-    @Override
-    protected void onPreferenceChange(String key) {
-        pattern.preferenceChanged(key);
-    }
+    //@Override
+    //protected void onPreferenceChange(String key) {
+    //    pattern.preferenceChanged(key);
+    //}
 
 }

@@ -1,15 +1,26 @@
 package tabcomputing.tcwallpaper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.TextPaint;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import tabcomputing.library.clock.TimeSystem;
 import tabcomputing.library.color.ColorWheel;
@@ -22,7 +33,7 @@ public class ClockView extends SurfaceView {
     public ClockView(Context context) {
         super(context, null);
 
-        setupClock();
+        //setupClock();
     }
 
     private boolean mAttached;
@@ -34,8 +45,9 @@ public class ClockView extends SurfaceView {
     //private Settings settings;
     private static ClockSettings settings = ClockSettings.getInstance();
 
-    // shared paint instance
+    // shared paint instances
     private Paint paint = new Paint();
+    private TextPaint textPaint = new TextPaint();
 
     //
     //private Typeface font = Typeface.DEFAULT;
@@ -153,6 +165,9 @@ public class ClockView extends SurfaceView {
      * @param canvas
      */
     private void drawClock(Canvas canvas) {
+        timeSystem = settings.getTimeSystem();
+        colorWheel = settings.getColorWheel();
+
         boolean changed = mChanged;
         if (changed) {
             mChanged = false;
@@ -164,11 +179,11 @@ public class ClockView extends SurfaceView {
 
         switch(settings.getClockType()) {
             case 1:
-                drawBackground();
-                drawTime(canvas, bounds);
+                drawBackgroundForDigital(bounds);
+                drawDigitalClock(canvas, bounds);
                 break;
             default:
-                drawBackground();
+                //drawBackgroundForAnalog();
                 drawColorWheel(canvas, bounds);
                 drawNumbers(canvas, bounds);
                 drawTicks(canvas, bounds);
@@ -181,37 +196,59 @@ public class ClockView extends SurfaceView {
      *
      */
     public void setupClock() {
-        settings.setAssets(getContext().getAssets());
+        //settings.setAssets(getContext().getAssets());
 
         //font = settings.getTypeface();
         timeSystem = settings.getTimeSystem();
         colorWheel = settings.getColorWheel();
     }
 
-    /**
-     * TODO: Time background looks add for digital, how to fix?
-     */
-    private void drawBackground() {
+
+    private void drawBackgroundForDigital(Rect bounds) {
+        float cy = centerY(bounds);
+        float cx = centerX(bounds);
+
+        switch (settings.getBackground()) {
+            case 0:
+                drawBackgroundWhite();
+                return;
+            case 1:
+                drawBackgroundBlack();
+                return;
+        }
+
         int[] colors = timeSystem.timeColors(colorWheel);
 
-        switch(settings.getBackground()) {
-            case 2:
-                // TODO: draw minute circle if analog
-                canvas.drawColor(colors[0]);
-                break;
-            case 1:
-                canvas.drawColor(Color.BLACK);
-                break;
-            default:
-                canvas.drawColor(Color.WHITE);
-                break;
+        if (! settings.displaySeconds()) {
+            colors = Arrays.copyOf(colors, colors.length - 1);
         }
+
+        int[] linearColors = new int[colors.length + 2];
+        for (int i = 0; i < colors.length; i++) {
+            linearColors[i + 1] = colors[i];
+        }
+        linearColors[0] = Color.BLACK;
+        linearColors[linearColors.length - 1] = Color.BLACK;
+
+        Shader shader = new LinearGradient(0, cy, bounds.right, cy, linearColors, null, Shader.TileMode.REPEAT);
+
+        paint.reset();
+        paint.setShader(shader);
+        canvas.drawRect(new RectF(0, 0, bounds.right, bounds.bottom), paint);
+    }
+
+    private void drawBackgroundWhite() {
+        canvas.drawColor(Color.WHITE);
+    }
+
+    private void drawBackgroundBlack() {
+        canvas.drawColor(Color.BLACK);
     }
 
     /**
      * Draw time in the center of the clock face area.
      */
-    private void drawTime(Canvas canvas, Rect bounds) {
+    private void drawDigitalClock(Canvas canvas, Rect bounds) {
         Rect d;
 
         Typeface font = settings.getTypeface();
@@ -219,63 +256,55 @@ public class ClockView extends SurfaceView {
         //String stamp = timeStamp();
         String[] time = timeSystem.timeRebased();
 
+        if (! settings.displaySeconds()) {
+            time = Arrays.copyOf(time, time.length - 1);
+        }
+
         int[] colors = timeSystem.timeColors(colorWheel);
 
         float cx = centerX(bounds);
         float cy = centerY(bounds);
 
-        float off = bounds.width() / (time.length + 2);
+        float circleWidth = bounds.width() / (time.length + 1);
 
-        Paint circlePaint = new Paint();
-        circlePaint.setAntiAlias(true);
-
-        Paint digitalPaint = new TextPaint();
-        digitalPaint.setAntiAlias(true);
-        digitalPaint.setColor(Color.WHITE);
-        digitalPaint.setTextSize(120.0f);
-        digitalPaint.setStrokeWidth(3.0f);
-        digitalPaint.setStyle(Paint.Style.FILL);
-        digitalPaint.setTypeface(font);
-        digitalPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.reset();
+        textPaint.setAntiAlias(true);
+        textPaint.setColor(Color.WHITE);
+        textPaint.setTextSize(120.0f);
+        textPaint.setStrokeWidth(3.0f);
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setTypeface(font);
+        textPaint.setTextAlign(Paint.Align.CENTER);
         //digitalPaint.setShadowLayer(3.0f, -3.0f, -3.0f, Color.BLACK);
 
         //setTextSizeForWidth(digitalPaint, x * 0.8f, sampleTime());
-        setTextSizeForWidth(digitalPaint, off * 0.75f, "X4", 0.9f);
+        setTextSizeForWidth(textPaint, circleWidth * 0.75f, "X4", 0.9f);
 
-        d = textDimensions("44", digitalPaint);
+        d = textDimensions("44", textPaint);
 
-        //canvas.drawText(stamp, x, y + (d.height() / 2f), digitalPaint);
+        //canvas.drawText(stamp, x, y + (d.height() / 2f), textPaint);
+
+        paint.reset();
+        paint.setAntiAlias(true);
 
         float y = cy + (d.height() / 2f);
-        float x = off * 1.5f;
+        float x = circleWidth;
 
         for(int i=0; i < time.length; i++) {
-            circlePaint.setColor(colors[i]);
-            canvas.drawCircle(x, cy, off/2.0f, circlePaint);
-            canvas.drawText(time[i], x, y, digitalPaint);
-            x = x + off;
+            paint.setColor(colors[i]);
+            canvas.drawCircle(x, cy, circleWidth/2.0f, paint);
+            canvas.drawText(time[i], x, y, textPaint);
+            x = x + circleWidth;
         }
+    }
 
-            /*
-            // every thing after the hour
-            String rest = fmtRest();
-
-            float radius1 = canvas.getWidth() / hoursOnClock();
-            float radius  = (canvas.getWidth() / 2 - radius1) * 0.9f;
-
-            setTextSizeForWidth(digitalPaint, x / 3f, "XX XX");
-
-            d = textDimensions(hour, digitalPaint);
-
-            if (settings.hasColorWheel()) {
-                // place the minutes just below the hour circle
-                canvas.drawText(rest, x, y + d.height() + (radius + radius1) * 1.05f, digitalPaint);
-            } else {
-                // shift the minutes just below the hour
-                canvas.drawText(rest, x, y + d.height() * 2.5f, digitalPaint);
-            }
-            */
-
+    private void drawColorWheel(Canvas canvas, Rect bounds) {
+        drawColorClockFace(bounds);
+        //if (timeSystem.isDaySplit() && !settings.isDuplexed()) {
+        //    drawColorWheelSplit(canvas, bounds);
+        //} else {
+        //    drawColorWheelFull(canvas, bounds);
+        //}
     }
 
     /**
@@ -285,7 +314,7 @@ public class ClockView extends SurfaceView {
      * equation for a circle (c = 2R sin(a/2)).
      *
      */
-    private void drawColorWheel(Canvas canvas, Rect bounds) {
+    private void drawColorWheelFull(Canvas canvas, Rect bounds) {
         float cx = centerX(bounds);
         float cy = centerY(bounds);
 
@@ -294,9 +323,9 @@ public class ClockView extends SurfaceView {
         //int mc = timeSystem.minutesOnClock();
 
         int half = hd / 2;
-        int qtr  = hd / 4;
+        int qtr = hd / 4;
 
-        float w  = faceRadius(bounds);
+        float w = faceRadius(bounds);
 
         // TODO: spare option?
         //float r0 = sparse ? spotRadius(1.5f * hc) : spotRadius();
@@ -310,10 +339,10 @@ public class ClockView extends SurfaceView {
         int i;
         int[] colors;
 
-        colors = clockColors();
+        colors = clockColors(settings.isDuplexed() && !timeSystem.isDaySplit());
         //colors = hourColors();
 
-        paint = new Paint();
+        paint.reset();
         paint.setAntiAlias(settings.getBackground() != 2);
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(10.0f);
@@ -336,6 +365,7 @@ public class ClockView extends SurfaceView {
             //x = (float) (cx + r0 * sin(r + rot() - 0.041666667));
             //y = (float) (cy - r0 * cos(r + rot() - 0.041666667));
         }
+    }
 
 /*
             if (isDaySplit() && !isDuplexed()) {
@@ -395,6 +425,384 @@ public class ClockView extends SurfaceView {
                 drawSemiCircles(c, x, y, r1, a);
             }
             */
+
+
+
+    private boolean isColorDuplexed() {
+        return (timeSystem.isDaySplit() && !settings.isDuplexed());
+    }
+
+    /**
+     *
+     * @param bounds
+     */
+    private void drawColorClockFace(Rect bounds) {
+        //Bitmap bkg = getAnalogBackground(bounds);
+        Bitmap cw0 = (isColorDuplexed() ? getColorWheelDuplex(bounds) : getColorWheel(bounds));
+        Bitmap cw1 = getCircleWheel(bounds);
+
+        Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //setLayerType(LAYER_TYPE_HARDWARE, q);
+        canvas.drawBitmap(cw0, 0, 0, q);
+        //q.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        canvas.drawBitmap(cw1, 0, 0, q);
+        //q.setXfermode(null);
+    }
+
+    /**
+     * Draw a rainbow wheel within the given bounds.
+     *
+     * @param bounds        boundary size
+     * @return              bitmap
+     */
+    private Bitmap getColorWheel(Rect bounds) {
+        Bitmap bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        float cx = centerX(bounds);
+        float cy = centerY(bounds);
+
+        RectF rectF;
+        if (cx < cy) {
+            rectF = new RectF(0, cy - cx, cx * 2, cy + cx);
+        } else {
+            rectF = new RectF(cx - cy, 0, cx + cy, cy * 2);
+        }
+
+        int[] colors = clockColors(settings.isDuplexed()); // && !timeSystem.isDaySplit());
+
+        int[] colors2 = Arrays.copyOf(colors, colors.length + 1);
+        colors2[colors.length] = colors2[0];
+
+        SweepGradient shader = new SweepGradient(cx, cy, colors2, null);
+
+        paint.reset();
+        paint.setStrokeWidth(1);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setShader(shader);
+
+        if (settings.rotateTime()) {
+            canvas.rotate(-90, cx, cy);
+        } else {
+            canvas.rotate(90, cx, cy);
+        }
+
+        canvas.drawArc(rectF, 0, 360, true, paint);
+
+        return bitmap;
+    }
+
+    /**
+     * TODO: We can get the position of the gradient switch over just right
+     *       if we calculate the positions of each color and at the switch over
+     *       adjust the positions of the two adjacent colors (at q?) by the fractional
+     *       ratio of the time.
+     */
+    private Bitmap getColorWheelDuplex(Rect bounds) {
+        int hd = hoursInDay();
+        int hc = hoursOnClock();
+        int half = hd / 2;
+        int qtr  = hd / 4;
+        //int h = (int) ((timeSystem.timeRatios()[0] * hd));
+        int h = (int) ((timeSystem.timeRatios()[0] * hd) + 0.5);
+        int q = half + mod(h + qtr, hc);
+        //int i = mod(hx - (hc / 2), hc);  // TODO: replace this color index with black or white?
+        int s;
+        if (h < hc - qtr || h >= hc + qtr) {
+            s = half;
+        } else {
+            s = 0;
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        float cx = centerX(bounds);
+        float cy = centerY(bounds);
+
+        RectF rectF;
+        if (cx < cy) {
+            rectF = new RectF(0, cy - cx, cx * 2, cy + cx);
+        } else {
+            rectF = new RectF(cx - cy, 0, cx + cy, cy * 2);
+        }
+
+        int[] colors = colorWheel.colors(hd); //settings.isDuplexed() && !timeSystem.isDaySplit());
+
+        int[] duplexColors = new int[hc];
+
+        for (int i = 0; i < q; i++) {
+            int j = mod(i + s, hd);
+            int k = mod(i, hc);
+            duplexColors[k] = colors[j];
+        }
+
+        int z = mod(h - qtr, hc);
+        duplexColors[z] = Color.GRAY;
+
+        duplexColors = Arrays.copyOf(duplexColors, duplexColors.length + 1);
+        duplexColors[duplexColors.length - 1] = duplexColors[0];
+
+        SweepGradient shader = new SweepGradient(cx, cy, duplexColors, null);
+
+        // TODO: paint.reset();
+        Paint paint = new Paint();
+        paint.setStrokeWidth(1);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setShader(shader);
+
+        //canvas.rotate(-90, cx, cy);
+        if (settings.rotateTime()) {
+            canvas.rotate(-90, cx, cy);
+        } else {
+            canvas.rotate(90, cx, cy);
+        }
+
+        canvas.drawArc(rectF, 0, 360, true, paint);
+
+        return bitmap;
+    }
+
+    public int[] insert(int[] a, int i, int c) {
+        int[] newArr = new int[a.length + 1];
+        for (int j = 0; j < i; j++) {
+            newArr[j] = a[j];
+        }
+        newArr[i] = c;
+        for (int j = i; j < a.length; j++) {
+            newArr[j + 1] = a[j];
+        }
+        return newArr;
+    }
+
+    protected int hoursOnClock() {
+        return timeSystem.hoursOnClock();
+    }
+
+    /**
+     * Draw hour circles on a canvas. These will be masked on top of the rainbow wheel.
+     *
+     * TODO: Draw background.
+     */
+    private Bitmap getCircleWheel(Rect bounds) {
+        Bitmap bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        //RectF rectF = new RectF(bounds.left, bounds.top, bounds.right, bounds.bottom);
+
+        float cx = centerX(bounds);
+        float cy = centerY(bounds);
+
+        int hc = hoursOnClock();
+
+        //int half = hd / 2;
+        //int qtr = hd / 4;
+
+        float w = faceRadius(bounds);
+
+        // TODO: spare option?
+        //float r0 = sparse ? spotRadius(1.5f * hc) : spotRadius();
+        float r0 = spotRadius(bounds);
+        float r1 = w - r0;
+        //float r2 = r0 + (r1 * 1.15f);
+
+        float x, y;
+        double r;
+
+        //int[] colors;
+        //colors = clockColors(settings.isDuplexed() && !timeSystem.isDaySplit());
+        //colors = hourColors();
+
+        drawAnalogBackground(canvas, bounds);
+
+        paint.reset();
+        paint.setColor(0xFFFFFF);
+        paint.setAlpha(0);
+        paint.setAntiAlias(true);
+        paint.setColor(Color.TRANSPARENT);
+        //paint.setStrokeWidth(1);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+        //paint.setAntiAlias(settings.getBackground() != 2);
+        //paint.setStrokeWidth(1.0f);
+        //paint.clearShadowLayer();
+
+        //int[] colors = timeColors();
+        //canvas.drawColor(colors[0]);
+
+        // draw hours
+        for (int i = 0; i < hc; i++) {
+            r = ((double) i) / hc;
+            x = (float) (cx + r0 * sin(r + rot()));
+            y = (float) (cy - r0 * cos(r + rot()));
+            //x = (float) (cx + r0 * sin(r + rot() - 0.041666667));
+            //y = (float) (cy - r0 * cos(r + rot() - 0.041666667));
+            canvas.drawCircle(x, y, r1, paint);
+        }
+
+        return bitmap;
+    }
+
+    protected Bitmap getAnalogBackground(Rect bounds) {
+        Bitmap bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        int[] colors = timeColors();
+
+        switch(settings.getBackground()) {
+            case 2:
+                // TODO: draw minute circle if analog
+                canvas.drawColor(colors[0]);
+                break;
+            case 1:
+                canvas.drawColor(Color.BLACK);
+                break;
+            default:
+                canvas.drawColor(Color.WHITE);
+                break;
+        }
+
+        return bitmap;
+    }
+
+    /**
+     * Draw background color and clock face color.
+     *
+     * @param canvas    drawing canvas
+     * @param bounds    drawing boundaries
+     */
+    protected void drawAnalogBackground(Canvas canvas, Rect bounds) {
+        int[] colors = timeColors();
+
+        if (settings.isSwapped()) {
+            int temp = colors[0];
+            colors[0] = colors[1];
+            colors[1] = temp;
+        }
+
+        switch(settings.getBackground()) {
+            case 2:
+                float cx = centerX(bounds);
+                float cy = centerY(bounds);
+                float r  = spotRadius(bounds);
+
+                paint.reset();
+                paint.setColor(colors[0]);
+
+                canvas.drawColor(colors[1]);
+                canvas.drawCircle(cx, cy, r, paint);
+
+                break;
+            case 1:
+                canvas.drawColor(Color.WHITE);
+                break;
+            default:
+                canvas.drawColor(Color.BLACK);
+        }
+    }
+
+    /**
+     * Produces an array of colors, one for each time segment. Each color is produced from the
+     * ratio of a segment and all the segments that follow. Hence the colors have smooth
+     * continuity, unlike those from discreteColors().
+     *
+     * @return array of colors
+     */
+    protected int[] timeColors() {
+        double[] ratios = timeSystem.timeRatios();
+
+        if (settings.isDuplexed()) {
+            ratios[0] = reduce(ratios[0] * 2);
+        }
+
+        return colorWheel.colors(ratios);
+    }
+
+    /**
+     * Clock hour colors.
+     *
+     * @return array of color integers
+     */
+    protected int[] clockColors() {
+        int[] colors;
+
+        //int[] colors = timeSystem.clockColors(colorWheel);
+        int hc = timeSystem.hoursOnClock();
+
+        if (settings.isDuplexed()) {
+            if (timeSystem.isDaySplit()) {
+                colors = colorWheel.colors(hc);
+            } else {
+                colors = colorWheel.colors(hc / 2);
+                colors = concat(colors, colors);  // TODO: rotate 90 degrees?
+            }
+        } else {
+            if (timeSystem.isDaySplit()) {
+                colors = clockColorsPartial();
+            } else {
+                colors = colorWheel.colors(hc);
+            }
+        }
+
+        return colors;
+    }
+
+    protected int hoursInDay() {
+        return timeSystem.hoursInDay();
+    }
+
+    protected int[] clockColorsPartial() {
+        int hour = timeSystem.time()[0];
+
+        int hd = hoursInDay();
+        int hc = hoursOnClock();
+
+        int[] colors = colorWheel.colors(hd);
+
+        int[] ci = getColorIndexes(hour, hd, hc);
+
+        int[] nc = new int[ci.length];
+        for(int i=0; i < ci.length; i++) {
+            nc[i] = colors[ci[i]];
+        }
+        return nc;
+    }
+
+    protected int[] getColorIndexes(int hour, int hours, int length) {
+        int i, add;
+
+        if (mod(hours, length) != 0) {
+            throw new ArithmeticException("number of hours must be multiple of length");
+        }
+
+        int[] result = new int[length];
+
+        add = hour + hours - (length / 2) - (mod(length,2)) + 1;
+
+        for (i = 0; i < length; i++) {
+            result[mod(add + i, length)] = mod(add + i, hours);
+        }
+
+        return result;
+    }
+
+
+
+    /**
+     * TODO: better name for this method
+     *
+     * @param ratio     ratio to reduce
+     * @return          ratio reduced to 0 to 1
+     */
+    protected double reduce(double ratio) {
+        if (ratio < 0) {
+            int n = (int) ratio;
+            return (1.0 - (ratio - n));
+        } else {
+            int n = (int) ratio;
+            return (ratio - n);
+        }
     }
 
     /**
@@ -410,13 +818,13 @@ public class ClockView extends SurfaceView {
         float radius = spotRadius(bounds);
         float textWidth = faceRadius(bounds) - radius;
 
-        int hc = timeSystem.hoursOnClock();
+        int hc = hoursOnClock();
 
         float cx = centerX(bounds);
         float cy = centerY(bounds);
 
         // TODO: should we reuse a shared paint instance to reduce memory footprint?
-        paint = new Paint();
+        paint.reset();
         paint.setAntiAlias(true);
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(10.0f);
@@ -435,7 +843,7 @@ public class ClockView extends SurfaceView {
 
             float th = textHeight("X4", paint) / 2f;
 
-            String[] nums = timeSystem.clockNumbers(settings.getNumberSystem());
+            String[] nums = clockNumbers();
 
             for (i = 0; i < hc; i++) {
                 r = ((double) i) / hc;
@@ -444,6 +852,14 @@ public class ClockView extends SurfaceView {
                 canvas.drawText(nums[i], x, y + th, paint);
             }
         //}
+    }
+
+    private String[] clockNumbers() {
+        String[] nums = timeSystem.clockNumbers(settings.getNumberSystem(), hoursOnClock());
+
+        //nums = Arrays.copyOf(nums, hoursOnClock());
+
+        return nums;
     }
 
     /**
@@ -466,19 +882,19 @@ public class ClockView extends SurfaceView {
 
         int mc = timeSystem.minutesOnClock();
 
-        Paint tickPaint = new Paint();
-        tickPaint.setAntiAlias(true);
-        tickPaint.setColor(Color.WHITE);
-        tickPaint.setStrokeWidth(10.0f);
-        tickPaint.setStrokeCap(Paint.Cap.ROUND);
-        tickPaint.setStyle(Paint.Style.FILL);
-        tickPaint.setShadowLayer(3.0f, 1.0f, 1.0f, Color.LTGRAY);
+        paint.reset();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(10.0f);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setShadowLayer(3.0f, 1.0f, 1.0f, Color.LTGRAY);
 
         for (int i = 0; i < mc; i++) {
             r = ((double) i) / mc;
             c = colorWheel.color(r);  // TODO: dynamic?
 
-            tickPaint.setColor(c);
+            paint.setColor(c);
 
             x0 = (float) (cx + radius * sin(r + rot()));
             y0 = (float) (cy - radius * cos(r + rot()));
@@ -486,7 +902,7 @@ public class ClockView extends SurfaceView {
             x1 = (float) (cx + (radius + length) * sin(r + rot()));
             y1 = (float) (cy - (radius + length) * cos(r + rot()));
 
-            canvas.drawLine(x0, y0, x1, y1, tickPaint);
+            canvas.drawLine(x0, y0, x1, y1, paint);
         }
     }
 
@@ -508,17 +924,12 @@ public class ClockView extends SurfaceView {
         float r0 = spotRadius(bounds);
         float r1 = w - r0;
 
-        double[] r = timeSystem.handRatios();
-
+        double[] r = handRatios();
         int s = r.length;
-
-        if (!settings.displaySeconds()) {
-            s = s - 1;
-        }
 
         l = ((r0 - r1) * 0.90f);
 
-        paint = new Paint();
+        paint.reset();
         paint.setAntiAlias(true);
         paint.setStrokeWidth(20.0f);
         paint.setColor(Color.LTGRAY);
@@ -542,12 +953,35 @@ public class ClockView extends SurfaceView {
     }
 
     /**
+     * Return the current time as a series of ratios, one for each hand of the clock for
+     * the active time system. This is different from timeRatios() in that standard time
+     * splits the hours into day and night.
+     *
+     * @return series of time ratios
+     */
+    protected double[] handRatios(boolean all) {
+        double[] ratios = timeSystem.handRatios();
+        if (!all && !settings.displaySeconds()) {
+            ratios = Arrays.copyOf(ratios, ratios.length - 1);
+        }
+
+        //if (timeSystem.isDaySplit()) {
+        //    ratios[0] = reduce(ratios[0] * 2);
+        //}
+
+        return ratios;
+    }
+    protected double[] handRatios() {
+        return handRatios(false);
+    }
+
+    /**
      * Get a string representation of the time.
      *
      * @return string of time
      */
     private String timeStamp() {
-        return timeSystem.timeStamp(settings.displaySeconds());
+        return timeSystem.timeStamp(!settings.displaySeconds());
     }
 
     /**
@@ -569,14 +1003,26 @@ public class ClockView extends SurfaceView {
      *
      * @return      array of color integers
      */
-    private int[] clockColors() {
-        int[] colors = timeSystem.clockColors(colorWheel);
+    private int[] clockColors(boolean duplex) {
+        int[] colors;
 
-        //if (isDynamic()) {
-        //    colors = dynamic(colors);
-        //}
+        if (duplex) {
+            colors = colorWheel.colors(timeSystem.hoursOnClock() / 2);
+            colors = concat(colors, colors);
+        } else {
+            colors = colorWheel.colors(timeSystem.hoursOnClock());
+        }
 
         return colors;
+    }
+
+    private int[] concat(int[] a, int[] b) {
+        int aLen = a.length;
+        int bLen = b.length;
+        int[] c = new int[aLen+bLen];
+        System.arraycopy(a, 0, c, 0, aLen);
+        System.arraycopy(b, 0, c, aLen, bLen);
+        return c;
     }
 
     /**
@@ -585,6 +1031,9 @@ public class ClockView extends SurfaceView {
      * @return      horizontal origin
      */
     private float centerX(Rect bounds) {
+        return bounds.width() / 2;
+    }
+    private float centerX(RectF bounds) {
         return bounds.width() / 2;
     }
 
@@ -597,11 +1046,17 @@ public class ClockView extends SurfaceView {
     private float centerY(Rect bounds) {
         return bounds.height() / 2 * 0.85f;
     }
+    private float centerY(RectF bounds) {
+        return bounds.height() / 2 * 0.85f;
+    }
 
     /**
      * @return  maximum radius of the clock face
      */
     private float faceRadius(Rect bounds) {
+        return centerX(bounds) * 0.85f;
+    }
+    private float faceRadius(RectF bounds) {
         return centerX(bounds) * 0.85f;
     }
 
@@ -610,7 +1065,10 @@ public class ClockView extends SurfaceView {
      * @return
      */
     private float spotRadius(Rect bounds) {
-        return spotRadius(bounds, timeSystem.hoursOnClock());
+        return spotRadius(bounds, hoursOnClock());
+    }
+    private float spotRadius(RectF bounds) {
+        return spotRadius(bounds, hoursOnClock());
     }
 
     /**
@@ -619,6 +1077,10 @@ public class ClockView extends SurfaceView {
      * @return      radius of central circle
      */
     private float spotRadius(Rect bounds, float h) {
+        float w = faceRadius(bounds);
+        return (float) (w / (1.0f + (2.0f * Math.sin(Math.PI / (2.0f * h)))));
+    }
+    private float spotRadius(RectF bounds, float h) {
         float w = faceRadius(bounds);
         return (float) (w / (1.0f + (2.0f * Math.sin(Math.PI / (2.0f * h)))));
     }
@@ -716,10 +1178,281 @@ public class ClockView extends SurfaceView {
      */
     private double rot() {
         if (settings.rotateTime()) {
-            return 0.5; //Math.PI;
+            return 0; //Math.PI;
         } else {
-            return 0;
+            return 0.5;
         }
+    }
+
+    /**
+     * Reverse an int array.
+     *
+     * @param a     array
+     */
+    protected void reverseArray(int[] a) {
+        for (int i = 0; i < a.length; i++) {
+            int temp = a[i];
+            a[i] = a[a.length - i - 1];
+            a[a.length - 1] = temp;
+        }
+    }
+
+    /**
+     * Real modulus.
+     *
+     * @param n     numerator
+     * @param d     denominator
+     * @return      modulo
+     */
+    protected int mod(int n, int d) {
+        if (n < 0) {
+            return (d + (n % d));
+        } else {
+            return (n % d);
+        }
+    }
+
+
+
+
+    /**
+     * @deprecated
+     *
+     * @param canvas
+     * @param bounds
+     */
+    private void drawColorWheelSplit2(Canvas canvas, Rect bounds) {
+        float cx = centerX(bounds);
+        float cy = centerY(bounds);
+
+        int hd = timeSystem.hoursInDay();
+        int hc = timeSystem.hoursOnClock();
+        //int mc = timeSystem.minutesOnClock();
+
+        int half = hd / 2;
+        int qtr  = hd / 4;
+
+        float w  = faceRadius(bounds);
+
+        // TODO: spare option?
+        //float r0 = sparse ? spotRadius(1.5f * hc) : spotRadius();
+        float r0 = spotRadius(bounds);
+        float r1 = w - r0;
+        //float r2 = r0 + (r1 * 1.15f);
+
+        float x, y;
+        double r;
+
+        int i;
+        int[] colors;
+
+        //colors = clockColors();
+        //colors = hourColors();
+        colors = colorWheel.colors(timeSystem.hoursInDay());
+
+        paint = new Paint();
+        paint.setAntiAlias(settings.getBackground() != 2);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(10.0f);
+        paint.setStyle(Paint.Style.FILL);
+        paint.clearShadowLayer();
+
+        /*
+        for (i = 0; i < hc; i++) {
+            r = ((double) i) / hc;
+
+            //c = ratioToColor(colorCorrect(r));
+            paint.setColor(colors[i]);
+
+            x = (float) (cx + r0 * sin(r + rot()));
+            y = (float) (cy - r0 * cos(r + rot()));
+
+            //circlePaint.setShadowLayer(3.0f, 0f, 0f, c);
+            canvas.drawCircle(x, y, r1, paint);
+
+            //x = (float) (cx + r0 * sin(r + rot() - 0.041666667));
+            //y = (float) (cy - r0 * cos(r + rot() - 0.041666667));
+        }
+        */
+
+
+        // draw hours
+        for (i = 0; i < hc; i++) {
+            r = ((double) i) / hc;
+
+            //c = ratioToColor(colorCorrect(r));
+            paint.setColor(colors[i + half]);
+
+            x = (float) (cx + r0 * sin(r + rot()));
+            y = (float) (cy - r0 * cos(r + rot()));
+
+            //circlePaint.setShadowLayer(3.0f, 0f, 0f, c);
+            canvas.drawCircle(x, y, r1 / 2, paint);
+
+            //x = (float) (cx + r0 * sin(r + rot() - 0.041666667));
+            //y = (float) (cy - r0 * cos(r + rot() - 0.041666667)); //Math.sqrt(radius*radius + x*x);
+        }
+
+        int[] hourColors = colorWheel.colors(timeSystem.hoursInDay());
+
+        int h = (int) (timeSystem.timeRatios()[0] * hd);
+        i = mod(h - (hc / 2), hc);
+
+        int q = half + mod(h + qtr, hc);
+
+        // TODO: need to get the color from the full specturm of hour colors
+        //int[] c = {hourColors[mod(i + half, hd)], colors[i]};
+        //int[] c = {colors[i], colors[mod(i - 1, hc)]};
+        int[] c = {colors[i], hourColors[q]};
+
+        if (h < hc - qtr || h >= hc + qtr) {
+            reverseArray(c);
+        }
+
+        r = (double) i / hc;
+
+        //r = ((double) h) / hc;
+
+        x = (float) (cx + r0 * sin(r + rot()));
+        y = (float) (cy - r0 * cos(r + rot()));
+
+        //float x1 = (float) (cx + (r0 - r0) * sin(r + rot()));
+        //float y1 = (float) (cy - (r0 - r0) * cos(r + rot()));
+
+        //float x2 = (float) (cx + (r0 + r0) * sin(r + rot()));
+        //float y2 = (float) (cy - (r0 + r0) * cos(r + rot()));
+
+        //int a = (int) (180 / Math.PI * Math.atan2(y2 - y1, x2 - x1));
+
+        float a = (float) r * 360 - 90;
+
+        drawSemiCircles(c, x, y, r1, a);
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param canvas
+     * @param bounds
+     */
+    private void drawColorWheelSplit(Canvas canvas, Rect bounds) {
+        float cx = centerX(bounds);
+        float cy = centerY(bounds);
+
+        int hd = timeSystem.hoursInDay();
+        int hc = timeSystem.hoursOnClock();
+
+        int half = hd / 2;
+        int qtr = hd / 4;
+
+        float w = faceRadius(bounds);
+
+        // TODO: spare option?
+        //float r0 = sparse ? spotRadius(1.5f * hc) : spotRadius();
+        float r0 = spotRadius(bounds);
+        float r1 = w - r0;
+        //float r2 = r0 + (r1 * 1.15f);
+
+        float x, y;
+        double r;
+
+        int i, j, s;
+        int[] colors;
+
+        colors = colorWheel.colors(hd); //clockColors();
+
+        int h = (int) (timeSystem.timeRatios()[0] * hd);
+
+        if (h < hc - qtr || h >= hc + qtr) {
+            s = half;
+        } else {
+            s = 0;
+        }
+
+        int q = half + mod(h + qtr, hc);
+
+        Paint circlePaint = new Paint();
+        circlePaint.setAntiAlias(false);
+        circlePaint.setColor(Color.WHITE);
+        circlePaint.setStrokeWidth(10.0f);
+        circlePaint.setStyle(Paint.Style.FILL);
+        circlePaint.clearShadowLayer();
+
+        //log("Q: " + q);
+
+        for (i = 0; i < q; i++) {
+            j = mod(i + s, hd);
+
+            r = ((double) j) / hc;
+
+            x = (float) (cx + r0 * sin(r + rot()));
+            y = (float) (cy - r0 * cos(r + rot()));
+
+            circlePaint.setColor(colors[j]);
+
+            //circlePaint.setShadowLayer(3.0f, 0f, 0f, c);
+            canvas.drawCircle(x, y, r1, circlePaint);
+        }
+
+        // draw semi-circles
+
+        int hx = (int) ((timeSystem.timeRatios()[0] * hd) + 0.5);
+
+        i = mod(hx - (hc / 2), hc);
+        //int q = half + mod(h + qtr, hc);
+        int[] c = {colors[i], colors[q]};
+
+        //if (h < hc - qtr || h >= hc + qtr) {
+        //    reverseArray(c);
+        //}
+
+        r = (double) i / hc;
+        //r = ((double) h) / hc;
+
+        x = (float) (cx + r0 * sin(r + rot()));
+        y = (float) (cy - r0 * cos(r + rot()));
+
+        float a = (float) r * 360 - 90;
+
+        drawSemiCircles(c, x, y, r1, a);
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param c     colors
+     * @param x     center x
+     * @param y     center y
+     * @param r     radius
+     * @param a     start angle
+     */
+    private void drawSemiCircles(int[] c, float x, float y, float r, float a) {
+        float cx = centerX(bounds);
+        float cy = centerY(bounds);
+
+        int hd = timeSystem.hoursInDay();
+        int hc = timeSystem.hoursOnClock();
+
+        int i;
+
+        int h = (int) (timeSystem.timeRatios()[0] * hd);
+
+        i = mod(h - (hc / 2), hc);
+
+        final RectF oval = new RectF();
+        oval.set(x - r, y - r, x + r, y + r);
+
+        Paint circlePaint = new Paint();
+        circlePaint.setAntiAlias(false);
+        circlePaint.setStrokeWidth(10.0f);
+        circlePaint.setStyle(Paint.Style.FILL);
+        circlePaint.clearShadowLayer();
+
+        circlePaint.setColor(c[0]);
+        canvas.drawArc(oval, a, 180, true, circlePaint);
+
+        circlePaint.setColor(c[1]);
+        canvas.drawArc(oval, a, -180, true, circlePaint);
     }
 
 }

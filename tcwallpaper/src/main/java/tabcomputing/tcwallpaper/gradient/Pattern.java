@@ -2,13 +2,11 @@ package tabcomputing.tcwallpaper.gradient;
 
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
-import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.util.Log;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.BasePattern;
 
 import java.util.Arrays;
 
@@ -29,11 +27,17 @@ import java.util.Arrays;
  *   The orbital gradient only accounts for the first two time segments
  *   (e.g. hours and minutes); the rest are omitted.
  */
-public class Pattern extends AbstractPattern {
+public class Pattern extends BasePattern {
 
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
+    }
+
+    private Settings settings;
+    protected void setSettings(Settings settings) {
+        super.setSettings(settings);
+        this.settings = settings;
     }
 
     @Override
@@ -48,21 +52,21 @@ public class Pattern extends AbstractPattern {
             default:
                 drawHorizontal(canvas);
         }
+
+        if (settings.useGlare()) {
+            drawSunGlare(canvas);
+        }
     }
 
     public void drawHorizontal(Canvas canvas) {
         int[] colors = timeColors();
-
-        if (! settings.displaySeconds()) {
-            colors = Arrays.copyOf(colors, colors.length - 1);
-        }
 
         if (settings.isSwapped()) {
             reverseArray(colors);
         }
 
         LinearGradient shader = new LinearGradient(0, 0, 0, canvas.getHeight(), colors, null, Shader.TileMode.CLAMP);
-        Paint paint = new Paint();
+        paint.reset(); // paint = new Paint();
         paint.setShader(shader);
         canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
     }
@@ -70,16 +74,16 @@ public class Pattern extends AbstractPattern {
     public void drawVertical(Canvas canvas) {
         int[] colors = timeColors();
 
-        if (! settings.displaySeconds()) {
-            colors = Arrays.copyOf(colors, colors.length - 1);
-        }
+        //if (! settings.displaySeconds()) {
+        //    colors = Arrays.copyOf(colors, colors.length - 1);
+        //}
 
         if (settings.isSwapped()) {
             reverseArray(colors);
         }
 
         LinearGradient shader = new LinearGradient(0, 0, canvas.getWidth(), 0, colors, null, Shader.TileMode.CLAMP);
-        Paint paint = new Paint();
+        paint.reset();
         paint.setShader(shader);
         canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
     }
@@ -92,8 +96,7 @@ public class Pattern extends AbstractPattern {
         float r0 = spotRadius(canvas);
         //float r1 = w - r0;
 
-        double[] r = timeSystem.handRatios();
-
+        double[] r = handRatios();
         int[] colors = timeColors();
 
         colors = Arrays.copyOf(colors, 2);  // just the first two colors
@@ -101,10 +104,6 @@ public class Pattern extends AbstractPattern {
         if (settings.isSwapped()) {
             reverseArray(colors);
         }
-
-        //if (!settings.displaySeconds()) {
-        //    colors = Arrays.copyOf(colors, colors.length - 1);
-        //}
 
         // -- hour --
         //int hc = ratioToColor(r[0]);
@@ -127,10 +126,11 @@ public class Pattern extends AbstractPattern {
         //float my = (float) (cy - r0 * cos(mr + rot()));
 
         LinearGradient shader = new LinearGradient(rx, ry, fx, fy, hc, mc, Shader.TileMode.CLAMP);
-        Paint paint = new Paint();
+        paint.reset();
         paint.setShader(shader);
         canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
     }
+
 
 
     /**
@@ -144,9 +144,9 @@ public class Pattern extends AbstractPattern {
 
         int[] colors = timeColors();
 
-        if (! settings.displaySeconds()) {
-            colors = Arrays.copyOf(colors, colors.length - 1);
-        }
+        //if (! settings.displaySeconds()) {
+        //    colors = Arrays.copyOf(colors, colors.length - 1);
+        //}
 
         // the hour color is on the outside in normal mode
         if (settings.isSwapped()) {
@@ -173,16 +173,16 @@ public class Pattern extends AbstractPattern {
         float r0 = spotRadius(canvas);
         //float r1 = w - r0;
 
-        double[] r = timeSystem.handRatios();
+        double[] r = handRatios();
 
         float hx = (float) (cx + r0 * sin(r[0] + rot()));
         float hy = (float) (cy - r0 * cos(r[0] + rot()));
 
         int[] colors = timeColors();
 
-        if (! settings.displaySeconds()) {
-            colors = Arrays.copyOf(colors, colors.length - 1);
-        }
+        //if (! settings.displaySeconds()) {
+        //    colors = Arrays.copyOf(colors, colors.length - 1);
+        //}
 
         // the hour color is on the inside in normal mode
         if (settings.isSwapped()) {

@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -25,6 +24,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.HashSet;
+
+import tabcomputing.library.paper.BillOfSale;
+import tabcomputing.library.paper.BillingService;
 
 /**
  * @deprecated
@@ -188,7 +190,7 @@ public class BrowserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_browser);
+        setContentView(R.layout.browser);
 
         //ActionBar actionBar = getSupportActionBar();
         //if (actionBar != null) {
@@ -280,7 +282,7 @@ public class BrowserActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_main_actions, menu);
+        inflater.inflate(R.menu.options_browser, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -306,8 +308,8 @@ public class BrowserActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_settings) {
             showSettings(); // TODO: show settings of current wallpaper, not clock
-        } else if (id == R.id.action_clock) {
-            showClock();
+        //} else if (id == R.id.action_clock) {
+        //    showClock();
         //} else if (id == R.id.action_acknowledge) {
         //    showCopyrights();
         //} else if (id == R.id.action_homepage) {
@@ -635,13 +637,7 @@ public class BrowserActivity extends AppCompatActivity {
      * Buy product.
      */
     private void buyProduct(String sku) {
-        String devPayload = billingService.buyProduct(sku, this);
-
-        if (devPayload == null) {
-            alert("Transaction canceled.");
-        } else {
-            transactions.put(devPayload, sku);
-        }
+        billingService.buyProduct(sku, this);
     }
 
     // store current transactions for sale verification

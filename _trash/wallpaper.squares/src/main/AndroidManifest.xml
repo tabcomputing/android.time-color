@@ -1,25 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="tabcomputing.wallpaper.squares">
     <application>
-        <service
-            android:name=".Wallpaper"
-            android:label="@string/squares_label"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="true"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:label="@string/squares_label"
-                android:thumbnail="@drawable/squares_thumbnail"
-                android:resource="@xml/squares_wallpaper">
-            </meta-data>
-        </service>
-        <activity
-            android:name=".SettingsActivity"
-            android:exported="true"
-            android:label="@string/squares_label" >
-        </activity>
     </application>
 </manifest>

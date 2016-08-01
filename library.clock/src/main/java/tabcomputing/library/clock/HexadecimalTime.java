@@ -4,22 +4,17 @@ import java.util.ArrayList;
 
 public class HexadecimalTime extends AbstractTime {
 
-    final int[] TIME_SEGMENTS = {16, 16, 16};
+    final int[] TIME_SEGMENTS = {16, 16, 16, 16};
 
     public int[] timeSegments() {
         return TIME_SEGMENTS;
-    }
-
-    @Override
-    public int minutesOnClock() {
-        return 64; //256;
     }
 
     public int timeBase() {
         return 16;
     }
 
-    public String timeStamp(boolean withSeconds) {
+    public String timeStamp(boolean sansSeconds) {
         int[] t;
         ArrayList<String> s = new ArrayList<String>();
 
@@ -28,7 +23,7 @@ public class HexadecimalTime extends AbstractTime {
         s.add(base(t[0]));
         s.add(base(t[1]));
         s.add(base(t[2]));
-        if (withSeconds) {
+        if (!sansSeconds) {
             s.add(base(t[3]));
         }
 
@@ -36,7 +31,7 @@ public class HexadecimalTime extends AbstractTime {
     }
 
     @Override
-    public String timeStamp(int range) {
+    public String timeStampFormatted(int range) {
         int[] t = time();
         ArrayList<String> s = new ArrayList<String>();
 
@@ -69,11 +64,11 @@ public class HexadecimalTime extends AbstractTime {
     }
 
     @Override
-    public String timeStampSample(boolean withSeconds) {
+    public String timeStampSample(boolean sansSeconds) {
         if (isBaseConverted()) {
-            return (withSeconds ? "A 4 A 4" : "A 4 A");
+            return (sansSeconds ? "A 4 A" : "A 4 A 4");
         } else {
-            return (withSeconds ? "44 44 44 44" : "44 44 44");
+            return (sansSeconds ? "44 44 44" : "44 44 44 44");
         }
     }
 

@@ -1,8 +1,6 @@
 package tabcomputing.tcwallpaper.echo;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
-import tabcomputing.tcwallpaper.AbstractWallpaper;
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.AbstractWallpaper;
 
 public class Wallpaper extends AbstractWallpaper {
 
@@ -15,18 +13,18 @@ public class Wallpaper extends AbstractWallpaper {
     }
 
     @Override
-    protected AbstractPattern getPattern() {
+    protected Pattern getPattern() {
         return pattern;
     }
 
     @Override
-    protected CommonSettings getSettings() {
+    protected Settings getSettings() {
         return settings;
     }
 
-    @Override
-    protected void onPreferenceChange(String key) {
-        pattern.preferenceChanged(key);
-    }
+    //@Override
+    //protected void onPreferenceChange(String key) {
+    //    pattern.preferenceChanged(key);
+    //}
 
 }

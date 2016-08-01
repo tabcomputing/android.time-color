@@ -11,16 +11,11 @@ public class DuodecimalTime extends AbstractTime {
     }
 
     @Override
-    public int minutesOnClock() {
-        return 12 * 4;
-    }
-
-    @Override
     public int timeBase() {
         return 12;
     }
 
-    public String timeStamp(boolean withSeconds) {
+    public String timeStamp(boolean sansSeconds) {
         int[] t;
         ArrayList<String> s = new ArrayList<String>();
 
@@ -29,7 +24,7 @@ public class DuodecimalTime extends AbstractTime {
         s.add(base(t[0]));
         s.add(base(t[1]));
         s.add(base(t[2]));
-        if (withSeconds) {
+        if (!sansSeconds) {
             s.add(base(t[3]));
         }
 
@@ -37,7 +32,7 @@ public class DuodecimalTime extends AbstractTime {
     }
 
     @Override
-    public String timeStamp(int range) {
+    public String timeStampFormatted(int range) {
         int[] t = time();
         ArrayList<String> s = new ArrayList<String>();
 
@@ -70,11 +65,11 @@ public class DuodecimalTime extends AbstractTime {
     }
 
     @Override
-    public String timeStampSample(boolean withSeconds) {
+    public String timeStampSample(boolean sansSeconds) {
         if (isBaseConverted()) {
-            return (withSeconds ? "A 4 A 4" : "A 4 A");
+            return (sansSeconds ? "A 4 A" : "A 4 A 4");
         } else {
-            return (withSeconds ? "44 44 44 44" : "44 44 44");
+            return (sansSeconds ? "44 44 44" : "44 44 44 44");
         }
     }
 

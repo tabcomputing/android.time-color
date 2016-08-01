@@ -4,18 +4,25 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-import tabcomputing.tcwallpaper.AbstractPattern;
+import tabcomputing.tcwallpaper.BasePattern;
 
 /**
  * This pattern simply cuts out a slice of the screen aligned with hands on a clock.
  *
  * TODO: Perhaps in a future version we can add an option to make it look like real pie ;-)
  */
-public class Pattern extends AbstractPattern {
+public class Pattern extends BasePattern {
 
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
+    }
+
+    private Settings settings;
+
+    public void setSettings(Settings settings) {
+        super.setSettings(settings);
+        this.settings = settings;
     }
 
     /**
@@ -30,19 +37,13 @@ public class Pattern extends AbstractPattern {
         float cx = centerX(canvas);
         float cy = centerY(canvas);
 
-        double[] hr = timeSystem.handRatios();
+        int[] colors = timeColors();
+        double[] hr = handRatios();
 
         int s = hr.length;
-
-        if (!settings.displaySeconds()) {
-            s = s - 1;
-        }
-
         int l = s - 1;
 
-        int[] colors = timeColors();
-
-        Paint paint = new Paint();
+        paint.reset();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(1.0f);
