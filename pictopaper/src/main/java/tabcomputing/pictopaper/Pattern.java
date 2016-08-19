@@ -322,9 +322,10 @@ public class Pattern extends AbstractPattern {
             //canvas.drawText(time[i], centerX, g*(i+1), paint);
 
             textPaint.setColor(colors[i]);
-            bmp = textAsBitmap(time[i], ox, oy, textPaint);
+            //bmp = textAsBitmap(time[i], ox, oy, textPaint);
+            bmp = textAsBitmap(time[i], 10f, textPaint);
             bmp = Bitmap.createScaledBitmap(bmp, (int) zx, (int) zy, true);
-            canvas.drawBitmap(bmp, 0, (g * i), textPaint);
+            canvas.drawBitmap(bmp, 0 + ox, (g * i) + oy, textPaint);
         }
 
         /*
