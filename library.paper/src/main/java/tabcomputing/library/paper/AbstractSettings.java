@@ -213,10 +213,24 @@ public abstract class AbstractSettings {
      * Rate of wallpaper refresh, by default one every second. Override if it needs
      * to be different.
      *
+     * TODO: Technically this should be adjusted to fit the time system.
+     *
      * @return      milliseconds
      */
     public int getFramerate() {
         return 1000;
+    }
+
+    // The only global setting defined here. It us used to determine if shared settings
+    // will be ignored in favor of custom ones.
+    public static final String KEY_CUSTOM_SETTINGS = "customSettings";
+
+    /**
+     *
+     * @return
+     */
+    public boolean sharedSettings() {
+        return !getBoolean("customSettings");
     }
 
 }

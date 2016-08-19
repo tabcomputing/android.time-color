@@ -46,7 +46,7 @@ public class BillingService implements ServiceConnection {
     private BillOfSale billOfSale;
 
     /* Products that have been purchased. */
-    ArrayList<PurchasedProduct> purchasedProducts;
+    ArrayList<PurchasedProduct> purchasedProducts = new ArrayList<>();
 
     /* Products that are available for purchase. */
     ArrayList<AvailableProduct> availableProducts;
@@ -63,7 +63,6 @@ public class BillingService implements ServiceConnection {
      * @param callback callback to run when products are finished loading
      */
     public BillingService(Context context, Runnable callback) {
-        //this.mContext   = context;
         this.appContext   = context.getApplicationContext();
         this.loadCallback = callback;
 
@@ -71,7 +70,7 @@ public class BillingService implements ServiceConnection {
 
         bindService();
 
-        billOfSale = new BillOfSale(context);
+        billOfSale = BillOfSale.getInstance(appContext);  // new BillOfsale(context);
         billOfSale.readBillOfSale();
     }
 
@@ -124,28 +123,6 @@ public class BillingService implements ServiceConnection {
         return false;
     }
 
-    // list of product skus
-    /*
-    final String[] skus = {
-            "freedom",
-            "binary",
-            "caterpillar",
-            "echo",
-            "gradient",
-            "horizons",
-            "lotus",
-            "mondrian",
-            "orb",
-            "pieslice",
-            "plaid",
-            "mondrian",
-            "radial",
-            "solid",
-            "squares",
-            "stripes"
-    };
-    */
-
     class AvailableProduct {
         String sku;
         String price;
@@ -171,7 +148,7 @@ public class BillingService implements ServiceConnection {
             skuDetails = mService.getSkuDetails(3, appContext.getPackageName(), "inapp", querySkus);
 
             int response = skuDetails.getInt("RESPONSE_CODE");
-            if (response == 0) {
+            if (response == RESPONSE_OK) {
                 ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
                 if (responseList != null) {
                     for (String thisResponse : responseList) {
@@ -181,13 +158,17 @@ public class BillingService implements ServiceConnection {
                             String price = object.getString("price");
                             products.add(new AvailableProduct(sku, price));
                         } catch (JSONException e) {
-                            Log.d("loadSkuDetails", e.toString());
+                            reportVerificationError(VERIFY_DATA_PARSE_FAILURE);
+                            e.printStackTrace();
                         }
                     }
                 }
+            } else {
+                reportResponseError(response);
             }
         } catch (RemoteException e) {
-            Log.d("loadSkuDetails", e.toString());
+            reportResponseError(RESPONSE_ERROR);
+            e.printStackTrace();
         }
         availableProducts = products;
     }
@@ -215,12 +196,13 @@ public class BillingService implements ServiceConnection {
             Bundle ownedItems = queryOwnedItems(continuationToken);
 
             if (ownedItems == null) {
+                reportResponseError(RESPONSE_ITEM_NOT_OWNED);
                 return;
             }
 
-            int response = ownedItems.getInt("RESPONSE_CODE");
+            int responseCode = ownedItems.getInt("RESPONSE_CODE");
 
-            if (response == 0) {
+            if (responseCode == RESPONSE_OK) {
                 ArrayList<String> skus = ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
                 ArrayList<String> data = ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
                 ArrayList<String> sigs = ownedItems.getStringArrayList("INAPP_DATA_SIGNATURE_LIST");
@@ -230,6 +212,9 @@ public class BillingService implements ServiceConnection {
                 for (int i = 0; i < data.size(); ++i) {
                     products.add(new PurchasedProduct(skus.get(i), data.get(i), sigs.get(i)));
                 }
+            } else {
+                reportResponseError(responseCode);
+                return;
             }
         }
 
@@ -247,11 +232,13 @@ public class BillingService implements ServiceConnection {
         if (token.equals(FAKE_TOKEN)) {
             token = null;
         }
+
         try {
             ownedItems = mService.getPurchases(3, appContext.getPackageName(), "inapp", token);
         } catch (RemoteException e) {
             return null;
         }
+
         return ownedItems;
     }
 
@@ -313,16 +300,6 @@ public class BillingService implements ServiceConnection {
     }
     */
 
-
-    /**
-     * Returns true if purchase data has finished loading.
-     *
-     * @return
-     */
-    //public boolean isReady() {
-    //    return ready;
-    //}
-
     /**
      * Initiate payment flow.
      *
@@ -333,19 +310,19 @@ public class BillingService implements ServiceConnection {
         Bundle buyIntentBundle;
         IntentSender intentSender;
 
-        String developerPayload = generateDeveloperPayload(sku);
-        //String dataSignature = "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ";
-
         if (mService == null) {
-            reportError(RESULT_BILLING_UNAVAILABLE);
+            reportResponseError(RESPONSE_BILLING_UNAVAILABLE);
             return;
         }
+
+        String developerPayload = generateDeveloperPayload(sku);
+        //String dataSignature = "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ";
 
         try {
             buyIntentBundle = mService.getBuyIntent(3, appContext.getPackageName(), sku, "inapp", developerPayload);
         } catch (RemoteException e) {
-            alert(e.toString());
-            //Log.d("buyProduct", e.toString());
+            reportResponseError(RESPONSE_ERROR);
+            e.printStackTrace();
             return;
         }
 
@@ -353,17 +330,22 @@ public class BillingService implements ServiceConnection {
 
         if (pendingIntent == null) {
             // FIXME: item might already be owned?
-            reportError(RESULT_ITEM_UNAVAILABLE);
+            reportResponseError(RESPONSE_ITEM_UNAVAILABLE);
             return;
         }
 
-        intentSender = pendingIntent.getIntentSender();
+        int responseCode = buyIntentBundle.getInt("RESPONSE_CODE");
+        if (responseCode != RESPONSE_OK) {
+            reportResponseError(responseCode);
+            return;
+        }
 
         try {
-            activity.startIntentSenderForResult(intentSender, BUY_REQUEST_CODE, new Intent(), 0, 0, 0);  // Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+            intentSender = pendingIntent.getIntentSender();
+            activity.startIntentSenderForResult(intentSender, BUY_REQUEST_CODE, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
         } catch (IntentSender.SendIntentException e) {
-            alert(e.toString());
-            //e.printStackTrace();
+            reportResponseError(RESPONSE_ERROR);
+            e.printStackTrace();
             return;
         }
 
@@ -373,27 +355,28 @@ public class BillingService implements ServiceConnection {
 
     public static final int BUY_REQUEST_CODE = 1001;
 
-    final int RESULT_OK = 0;                   // success
-    final int RESULT_USER_CANCELED = 1;        // user pressed back or canceled a dialog
-    final int RESULT_BILLING_UNAVAILABLE = 3;  // this billing API version is not supported for the type requested
-    final int RESULT_ITEM_UNAVAILABLE = 4;     // requested SKU is not available for purchase
-    final int RESULT_DEVELOPER_ERROR = 5;      // invalid arguments provided to the API
-    final int RESULT_ERROR = 6;                // Fatal error during the API action
-    final int RESULT_ITEM_ALREADY_OWNED = 7;   // Failure to purchase since item is already owned
-    final int RESULT_ITEM_NOT_OWNED = 8;       // Failure to consume since item is not owned
+    final int RESPONSE_OK = 0;                   // success
+    final int RESPONSE_USER_CANCELED = 1;        // user pressed back or canceled a dialog
+    final int RESPONSE_BILLING_UNAVAILABLE = 3;  // this billing API version is not supported for the type requested
+    final int RESPONSE_ITEM_UNAVAILABLE = 4;     // requested SKU is not available for purchase
+    final int RESPONSE_DEVELOPER_ERROR = 5;      // invalid arguments provided to the API
+    final int RESPONSE_ERROR = 6;                // Fatal error during an API action
+    final int RESPONSE_ITEM_ALREADY_OWNED = 7;   // Failure to purchase since item is already owned
+    final int RESPONSE_ITEM_NOT_OWNED = 8;       // Failure to consume since item is not owned
 
     final int VERIFY_INVALID_PRODUCT_ID = 9;
     final int VERIFY_INVALID_CODE = 10;
     final int VERIFY_DATA_PARSE_FAILURE = 11;
+    final int VERIFY_NO_PURCHASE_DATA = 12;
 
     /**
-     *
+     * TODO: Confused on what the resultCode is as opposed to the responseCode.
      */
     public boolean buyResult(int requestCode, int resultCode, Intent data) {
         if (requestCode != BUY_REQUEST_CODE) { return false; }
 
-        if (resultCode != RESULT_OK) {
-            //reportError(resultCode);
+        if (resultCode != Activity.RESULT_OK) {
+            reportResultError(resultCode);
             return false;
         }
 
@@ -403,9 +386,9 @@ public class BillingService implements ServiceConnection {
 
         boolean success = false;
 
-        if (responseCode == RESULT_OK) {
+        if (responseCode == RESPONSE_OK) {
             if (purchaseData == null) {
-                reportError(VERIFY_DATA_PARSE_FAILURE);
+                reportVerificationError(VERIFY_NO_PURCHASE_DATA);
                 return false;
             }
 
@@ -419,7 +402,7 @@ public class BillingService implements ServiceConnection {
                 if (transactions.containsKey(dp)) {
                     String id = transactions.get(dp);
                     if (!id.equals(sku)) {
-                        reportError(VERIFY_INVALID_PRODUCT_ID);
+                        reportVerificationError(VERIFY_INVALID_PRODUCT_ID);
                     }
                     savePurchase(sku);
                     transactions.remove(dp);
@@ -427,14 +410,14 @@ public class BillingService implements ServiceConnection {
                     //consumeProduct(token);
                     success = true;
                 } else {
-                    reportError(VERIFY_INVALID_CODE);
+                    reportVerificationError(VERIFY_INVALID_CODE);
                 }
             } catch (JSONException e) {
-                reportError(VERIFY_DATA_PARSE_FAILURE);
+                reportVerificationError(VERIFY_DATA_PARSE_FAILURE);
                 e.printStackTrace();
             }
         } else {
-            reportError(responseCode);
+            reportResponseError(responseCode);
         }
         return success;
     }
@@ -444,30 +427,46 @@ public class BillingService implements ServiceConnection {
      *
      * @param errorCode     error reference number
      */
-    private void reportError(int errorCode) {
+    private void reportResponseError(int errorCode) {
         int resId = -1;
 
         switch(errorCode) {
-            case RESULT_USER_CANCELED:
+            case RESPONSE_USER_CANCELED:
+                resId = R.string.RESPONSE_USER_CANCELED;
                 break;
-            case RESULT_BILLING_UNAVAILABLE:
-                resId = R.string.RESULT_BILLING_UNAVAILABLE;
+            case RESPONSE_BILLING_UNAVAILABLE:
+                resId = R.string.RESPONSE_BILLING_UNAVAILABLE;
                 break;
-            case RESULT_ITEM_UNAVAILABLE:
-                resId = R.string.RESULT_ITEM_UNAVAILABLE;
+            case RESPONSE_ITEM_UNAVAILABLE:
+                resId = R.string.RESPONSE_ITEM_UNAVAILABLE;
                 break;
-            case RESULT_ITEM_ALREADY_OWNED:
-                resId = R.string.RESULT_ITEM_ALREADY_OWNED;
+            case RESPONSE_ITEM_ALREADY_OWNED:
+                resId = R.string.RESPONSE_ITEM_ALREADY_OWNED;
                 break;
-            case RESULT_ITEM_NOT_OWNED:
-                resId = R.string.RESULT_ITEM_NOT_OWNED;
+            case RESPONSE_ITEM_NOT_OWNED:
+                resId = R.string.RESPONSE_ITEM_NOT_OWNED;
                 break;
-            case RESULT_DEVELOPER_ERROR:
-                resId = R.string.RESULT_DEVELOPER_ERROR;
+            case RESPONSE_DEVELOPER_ERROR:
+                resId = R.string.RESPONSE_DEVELOPER_ERROR;
                 break;
-            case RESULT_ERROR:
-                resId = R.string.RESULT_ERROR;
+            default:
+                resId = R.string.RESPONSE_ERROR;
                 break;
+        }
+
+        if (resId != -1) {
+            alert(appContext.getResources().getString(resId));
+        }
+    }
+
+    /**
+     * Lots of possible errors when handling purchase transactions.
+     *
+     * @param errorCode     error reference number
+     */
+    private void reportVerificationError(int errorCode) {
+        int resId = -1;
+        switch(errorCode) {
             case VERIFY_INVALID_PRODUCT_ID:
                 resId = R.string.VERIFY_INVALID_PRODUCT_ID;
                 break;
@@ -477,13 +476,34 @@ public class BillingService implements ServiceConnection {
             case VERIFY_DATA_PARSE_FAILURE:
                 resId = R.string.VERIFY_DATA_PARSE_FAILURE;
                 break;
+            case VERIFY_NO_PURCHASE_DATA:
+                resId = R.string.VERIFY_NO_PURCHASE_DATA;
+                break;
         }
-
         if (resId != -1) {
             alert(appContext.getResources().getString(resId));
         }
     }
 
+    /**
+     * Lots of possible errors when handling purchase transactions.
+     *
+     * @param errorCode     error reference number
+     */
+    private void reportResultError(int errorCode) {
+        int resId = -1;
+        switch(errorCode) {
+            case Activity.RESULT_CANCELED:
+                resId = R.string.RESULT_CANCELED;
+                break;
+            default:
+                resId = R.string.RESULT_ERROR;
+                break;
+        }
+        if (resId != -1) {
+            alert(appContext.getResources().getString(resId));
+        }
+    }
 
     /**
      * Flash message.

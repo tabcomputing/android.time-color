@@ -64,7 +64,7 @@ public abstract class AbstractWallpaper extends WallpaperService {
 
             this.handler = new Handler();
 
-            // TODO: So we need the SettingsMonitor anymore, since there is only one pattern now?
+            // TODO: Do we need the SettingsMonitor anymore, since there is only one pattern now?
             monitor = new SettingsMonitor(getBaseContext(), settings);
             monitor.add(pattern);
         }

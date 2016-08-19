@@ -2,30 +2,42 @@ package tabcomputing.library.paper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 public class SettingsMonitor implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    Context context;
+
     AbstractSettings settings;
 
     public SettingsMonitor(Context context, AbstractSettings settings) {
-        //this.context  = context;
+        this.context  = context.getApplicationContext();
         this.settings = settings;
-
-        Context appContext = context.getApplicationContext();
-        String prefName = settings.getPrefName();
 
         //Log.d("SettingsMonitor", " pref name: " + prefName);
         //Log.d("SettingsMonitor", " context: " + appContext.toString());
 
-        SharedPreferences prefs = appContext.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+        loadPreferences();
+    }
+
+    protected void loadPreferences() {
+        String prefName = settings.getPrefName();
+
+        SharedPreferences prefs = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         //prefs = settings.getPreferences(context);
         //prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         settings.readPreferences(prefs);
+
+        if (settings.sharedSettings()) {
+            prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            settings.readPreferences(prefs);
+        }
     }
 
     // Wallpaper context.
@@ -55,6 +67,14 @@ public class SettingsMonitor implements SharedPreferences.OnSharedPreferenceChan
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         settings.changePreference(sharedPreferences, key);
+
+        //Log.d("log", "onSharedPreferenceChanged: " + key);
+
+        if (key.equals(AbstractSettings.KEY_CUSTOM_SETTINGS)) {
+            loadPreferences();
+            reset(); // TODO: do we need to reset?
+            return;
+        }
 
         for (SettingsListener r : receivers) {
             r.preferenceChanged(key);

@@ -6,16 +6,20 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.support.v4.app.INotificationSideChannel;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.Log;
+import android.view.Window;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 import tabcomputing.library.clock.TimeSystem;
@@ -120,10 +124,10 @@ public abstract class AbstractPattern implements SettingsListener {
      * @return vertical origin
      */
     public float centerY(Canvas canvas) {
-        return canvas.getHeight() / 2 * 0.85f;
+        return canvas.getHeight() / 2 * 0.90f;
     }
     public float centerY(Rect bounds) {
-        return bounds.height() / 2 * 0.85f;
+        return bounds.height() / 2 * 0.90f;
     }
 
 
@@ -583,20 +587,28 @@ public abstract class AbstractPattern implements SettingsListener {
         return (hSize < wSize ? hSize : wSize);
     }
 
-    public Bitmap textAsBitmap(String text, float offsetX, float offsetY, Paint paint) {
+    public Bitmap textAsBitmap(String text, float padding, Paint paint, Bitmap.Config config) {
         paint.setTextAlign(Paint.Align.LEFT);
 
-        //Paint.FontMetrics fm = paint.getFontMetrics();
+        //float padding = 10f;
 
+        //Paint.FontMetrics fm = paint.getFontMetrics();
         float baseline = -paint.ascent(); // ascent() is negative
 
-        int width  = (int) (paint.measureText(text) + offsetX);
-        int height = (int) (baseline + paint.descent() + offsetY);
+        int width  = (int) (paint.measureText(text) + (2*padding));
+        int height = (int) (baseline + paint.descent() + (2*padding));
 
-        Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8);
+        Bitmap bmp = Bitmap.createBitmap(width, height, config);
         Canvas canvas = new Canvas(bmp);
-        canvas.drawText(text, offsetX, baseline + offsetY, paint);
+        canvas.drawText(text, padding, baseline + padding, paint);
         return bmp;
+    }
+
+    /**
+     * Default config to transparent background.
+     */
+    public Bitmap textAsBitmap(String text, float padding, Paint paint) {
+        return textAsBitmap(text, padding, paint, Bitmap.Config.ALPHA_8);
     }
 
     /**
@@ -632,6 +644,16 @@ public abstract class AbstractPattern implements SettingsListener {
         if (ratio < 0) {
             int n = (int) ratio;
             return (1.0 - (ratio - n));
+        } else {
+            int n = (int) ratio;
+            return (ratio - n);
+        }
+    }
+
+    protected float reduce(float ratio) {
+        if (ratio < 0) {
+            int n = (int) ratio;
+            return (1.0f - (ratio - n));
         } else {
             int n = (int) ratio;
             return (ratio - n);
@@ -700,7 +722,23 @@ public abstract class AbstractPattern implements SettingsListener {
     protected int[] rotate(int[] a, int n) {
         int[] x = new int[a.length];
         for(int i = 0; i < a.length; i++) {
-            x[i] = a[(i + n) % a.length];
+            x[i] = a[mod(i + n, a.length)];
+        }
+        return x;
+    }
+
+    protected float[] rotate(float[] a, int n) {
+        float[] x = new float[a.length];
+        for(int i = 0; i < a.length; i++) {
+            x[i] = a[mod(i + n, a.length)];
+        }
+        return x;
+    }
+
+    protected ArrayList<Point> rotate(ArrayList<Point> a, int n) {
+        ArrayList<Point> x = new ArrayList<>();
+        for(int i = 0; i < a.size(); i++) {
+            x.add(i, a.get((i + n) % a.size()));
         }
         return x;
     }
@@ -711,17 +749,20 @@ public abstract class AbstractPattern implements SettingsListener {
         return x;
     }
 
-    /**
-     * Reverse an int array.
-     *
-     * @param a     array
-     */
-    protected void reverseArray(int[] a) {
-        for (int i = 0; i < a.length; i++) {
-            int temp = a[i];
-            a[i] = a[a.length - i - 1];
-            a[a.length - 1] = temp;
+    //protected void reverseArray(int[] a) {
+    //    for (int i = 0; i < a.length; i++) {
+    //        int temp = a[i];
+    //        a[i] = a[a.length - i - 1];
+    //        a[a.length - 1] = temp;
+    //    }
+    //}
+
+    protected int[] reverse(int[] nums) {
+        int[] reversed = new int[nums.length];
+        for (int i=0; i < nums.length; i++) {
+            reversed[i] = nums[nums.length - 1 - i];
         }
+        return reversed;
     }
 
     /**
@@ -731,7 +772,7 @@ public abstract class AbstractPattern implements SettingsListener {
      * @param b     second int array
      * @return      new array
      */
-    public int[] concat(int[] a, int[] b) {
+    protected int[] concat(int[] a, int[] b) {
         int aLen = a.length;
         int bLen = b.length;
         int[] c= new int[aLen+bLen];
@@ -820,5 +861,57 @@ public abstract class AbstractPattern implements SettingsListener {
         scratchCanvas = new Canvas(scratchBitmap);
     }
     */
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    protected <T> ArrayList<T> reverse(ArrayList<T> list) {
+        int length = list.size();
+        ArrayList<T> result = new ArrayList<T>(length);
+
+        for (int i = length - 1; i >= 0; i--) {
+            result.add(list.get(i));
+        }
+
+        return result;
+    }
+
+    protected Rect getBounds(Canvas canvas) {
+        Rect bounds = new Rect();
+        canvas.getClipBounds(bounds);
+        return bounds;
+    }
+
+    /**
+     *
+     * @param data
+     * @param index
+     */
+    public void sortBoth(float[] data, int[] index)
+    {
+        int len = data.length;
+
+        float tf; int ti;
+
+        for (int i = 0; i < len; i++) {
+            for (int j = i + 1; j < len; j++) {
+                if(data[i] > data[j]) {
+                    tf = data[i];
+                    data[i] = data[j];
+                    data[j] = tf;
+
+                    ti = index[i];
+                    index[i] = index[j];
+                    index[j] = ti;
+                }
+            }
+        }
+    }
 
 }

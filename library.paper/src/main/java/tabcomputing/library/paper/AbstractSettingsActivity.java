@@ -5,10 +5,13 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import tabcomputing.library.paper.BillOfSale;
 
 public abstract class AbstractSettingsActivity extends PreferenceActivity {
+
+    //static final String[] EMPTY = {};
 
     static final String KEY_PREF_NAME = "prefName";
     static final String KEY_PREF_ID   = "resId";
@@ -26,7 +29,7 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
         Bundle args = new Bundle();
         args.putString(KEY_PREF_NAME, getPrefName());
         args.putInt(KEY_PREF_ID, getPrefResId());
-        args.putStringArray(KEY_UPGRADES, getUpgradeOptions());
+        args.putStringArray(KEY_UPGRADES, getUpgradeOptions());  // Yeah! This can be null.
         args.putBoolean(KEY_UPGRADED, bos.isOwned());
         settings.setArguments(args);
 
@@ -59,6 +62,8 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
             //Log.d("settings", "pref name: " + manager.getSharedPreferencesName());
 
             addPreferencesFromResource(resId);
+
+            // TODO: We could just get the billOfSale here instead of above, but since we still needs the upgradeFields it doesn't much matter.
 
             // enable/disable upgradable options
             if (upgradeFields != null) {
