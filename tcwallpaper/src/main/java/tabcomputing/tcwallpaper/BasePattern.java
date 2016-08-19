@@ -2,6 +2,8 @@ package tabcomputing.tcwallpaper;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -21,26 +23,49 @@ public class BasePattern extends AbstractPattern {
         this.settings = settings;
     }
 
+    @Override
+    public void draw(Canvas canvas) {
+        drawPattern(canvas);
+        drawCheatClock(canvas);
+    }
+
+    /**
+     * Override this in subclasses to draw wallpaper pattern.
+     *
+     * @param canvas    drawing canvas
+     */
+    public void drawPattern(Canvas canvas) { }
+
     /**
      *
      * @param key       key of preference that changed
      */
     public void preferenceChanged(String key) {
         //Log.d("log", "AbstractPattern.preferenceChanged: " + key);
-        if (key.equals(CommonSettings.KEY_TIME_SYSTEM)) {
-            timeSystem = settings.getTimeSystem();
-        } else if (key.equals(CommonSettings.KEY_TYPEFACE)) {
-            typeface = settings.getTypeface();
-        } else if (key.equals(CommonSettings.KEY_COLOR_GAMUT)) {
-            //colorWheel = settings.getColorWheel();
-            colorWheel.setColorGamut(settings.getColorGamut());
-        } else if (key.equals(CommonSettings.KEY_COLOR_DAYLIGHT)) {
-            //colorWheel = settings.getColorWheel();
-            colorWheel.setDaylightFactor(settings.isDaylight() ? 0.7 : 0.0);
+        switch(key) {
+            case CommonSettings.KEY_TIME_SYSTEM:
+            case CommonSettings.KEY_BASE_CONVERT:
+                timeSystem = settings.getTimeSystem();
+                break;
+            case CommonSettings.KEY_TYPEFACE:
+                typeface = settings.getTypeface();
+                break;
+            case CommonSettings.KEY_COLOR_GAMUT:
+                //colorWheel = settings.getColorWheel();
+                colorWheel.setColorGamut(settings.getColorGamut());
+                break;
+            case CommonSettings.KEY_COLOR_DAYLIGHT:
+                //colorWheel = settings.getColorWheel();
+                colorWheel.setDaylightFactor(settings.isDaylight() ? 0.7 : 0.0);
+                break;
         }
     }
 
     public void resetPreferences() {
+        settings.changeTimeSystem();
+        settings.changeColorWheel();
+        settings.changeTypeface();
+
         timeSystem = settings.getTimeSystem();
         colorWheel = settings.getColorWheel();
         typeface   = settings.getTypeface();
@@ -72,6 +97,10 @@ public class BasePattern extends AbstractPattern {
         return centerX(canvas) * 0.9f;
     }
 
+    protected float faceRadius(Rect bounds) {
+        return centerX(bounds) * 0.9f;
+    }
+
     /**
      * Inner radius of analog clock face.
      *
@@ -79,6 +108,9 @@ public class BasePattern extends AbstractPattern {
      */
     protected float spotRadius(Canvas canvas) {
         return spotRadius(canvas, hoursOnClock());
+    }
+    protected float spotRadius(Rect bounds) {
+        return spotRadius(bounds, hoursOnClock());
     }
 
     /**
@@ -89,6 +121,55 @@ public class BasePattern extends AbstractPattern {
         float w = faceRadius(canvas);
         return (float) (w / (1.0f + (2.0f * Math.sin(Math.PI / (2.0f * h)))));
     }
+    protected float spotRadius(Rect bounds, float h) {
+        float w = faceRadius(bounds);
+        return (float) (w / (1.0f + (2.0f * Math.sin(Math.PI / (2.0f * h)))));
+    }
+
+    protected float spotRadius(Rect bounds, float h, float aspect) {
+        float m = faceRadius(bounds);
+        double t = Math.PI / h;
+        return (float) (m / (2 * Math.sin(t / 2) + 1));
+    }
+
+    /**
+     *     m = half the minimum of the width or height of the screen
+     *     n = number of spokes
+     *     c = chord length, or radius of small circle
+     *     r = radius of large circle on which the small circle's center falls
+     *     t = angle subtending the chord
+     *
+     * We want the radius of small circle, not the diameter so we have to use 2n.
+     *
+     *     m = r + c
+     *     t = 2pi / 2n = pi / n
+     *     c = 2 * r sin(t/2)
+     *
+     *
+     * @param bounds    canvas boundaries
+     * @param n         number of spokes
+     * @param aspect    aspect ratio of chord to unit chord
+     * @return          three element solution
+     */
+    protected float[] wheelArch(Rect bounds, float n, float aspect) {
+        // maximum radius that will fit fully on screen
+        float m = min(bounds.width(), bounds.height()) / 2.05f;
+        // half the angle between each spoke
+        double t = Math.PI / n;
+        //
+        double r = (m / (aspect * 2 * Math.sin(t / 2) + 1));
+        double c = (m - r) / aspect;
+
+        float[] solution = new float[3];
+
+        solution[0] = m;
+        solution[1] = (float) r;
+        solution[2] = (float) c;
+
+        return solution;
+    }
+
+
 
     /**
      * Midnight at bottom is default position.
@@ -198,7 +279,7 @@ public class BasePattern extends AbstractPattern {
             int[] list = new int[size];
             for (int i = 0; i < size; i++) {
                 list[i] = rand.nextInt(7) + 2;
-                Log.d("log", "rand: " + list[i]);
+                //Log.d("log", "rand: " + list[i]);
             }
             glareList = list;
         }
@@ -207,6 +288,50 @@ public class BasePattern extends AbstractPattern {
 
     public void resetGlareList() {
         glareList = null;
+    }
+
+    /**
+     * TODO: Add numbers?
+     *
+     * TODO: Make this an option, but where exactly to put it.
+     *
+     * @param canvas    drawing canvas
+     */
+    protected void drawCheatClockCircles(Canvas canvas) {
+        int[] tc = reverse(timeColors());
+
+        float r = 30f;
+        float x = canvas.getWidth() - (r + 15f);
+        float y = canvas.getHeight() - (r + 8f);
+
+        paint.reset();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setShadowLayer(5f, 0f, 0f, Color.BLACK);
+
+        for(int i=0; i < tc.length; i++) {
+            paint.setColor(tc[i]);
+            canvas.drawCircle(x - (2 * (r + 6) * i), y, r, paint);
+        }
+    }
+
+    /**
+     *
+     * @param canvas    drawing canvas
+     */
+    protected void drawCheatClock(Canvas canvas) {
+        int[] tc = timeColors();
+
+        int h = getStatusBarHeight();
+
+        float d = canvas.getWidth() / tc.length;
+
+        paint.reset();
+        paint.setStyle(Paint.Style.FILL);
+
+        for(int i=0; i < tc.length; i++) {
+            paint.setColor(tc[i]);
+            canvas.drawRect(d * i, 0, d * (i + 1), h, paint);
+        }
     }
 
 }

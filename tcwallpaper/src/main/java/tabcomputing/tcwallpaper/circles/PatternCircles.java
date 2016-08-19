@@ -16,7 +16,7 @@ public class PatternCircles extends BasePattern {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         float h = canvas.getHeight();
         float w = canvas.getWidth();
         float m = min(w, h);

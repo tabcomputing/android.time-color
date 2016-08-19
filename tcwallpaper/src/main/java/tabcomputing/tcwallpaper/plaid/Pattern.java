@@ -21,7 +21,7 @@ public class Pattern extends BasePattern {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         if (settings.isInterlaced()) {
             drawInterlaced(canvas);
         } else {

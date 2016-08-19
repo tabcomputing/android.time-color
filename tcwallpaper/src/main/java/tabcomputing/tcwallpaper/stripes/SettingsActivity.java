@@ -1,4 +1,4 @@
-package tabcomputing.tcwallpaper.splits;
+package tabcomputing.tcwallpaper.stripes;
 
 import tabcomputing.library.paper.AbstractSettingsActivity;
 import tabcomputing.tcwallpaper.R;
@@ -7,7 +7,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
     @Override
     public int getPrefResId() {
-        return R.xml.splits_preferences;
+        return R.xml.stripes_preferences;
     }
 
 }

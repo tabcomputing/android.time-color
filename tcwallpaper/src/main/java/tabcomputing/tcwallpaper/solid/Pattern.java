@@ -23,7 +23,7 @@ public class Pattern extends BasePattern {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         int[] colors = timeColors();
 
         if (settings.isSwapped()) {

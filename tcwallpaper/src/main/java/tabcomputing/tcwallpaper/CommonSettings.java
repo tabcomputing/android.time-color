@@ -2,6 +2,7 @@ package tabcomputing.tcwallpaper;
 
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import tabcomputing.library.clock.DecimalTime;
 import tabcomputing.library.clock.DuodecimalTime;
@@ -18,27 +19,29 @@ import tabcomputing.library.paper.FontScale;
  * Common Pattern Settings
  */
 public class CommonSettings extends AbstractSettings {
+    public static final Boolean DEBUG = true;
 
     public static final String KEY_COLOR_GAMUT    = "colorGamut";
     public static final String KEY_COLOR_DAYLIGHT = "colorDaylight";
     public static final String KEY_COLOR_DUPLEX   = "colorDuplex";
+
     public static final String KEY_COLOR_SWAP     = "colorSwap";
 
     public static final String KEY_TIME_SYSTEM    = "timeSystem";
-    public static final String KEY_TIME_ROTATE    = "timeRotate";
     public static final String KEY_TIME_SECONDS   = "timeSeconds";
     public static final String KEY_BASE_CONVERT   = "baseConvert";
+    public static final String KEY_TIME_ROTATE    = "clockRotate";
 
     // not all patterns use these but they aren't atypical
     public static final String KEY_ORIENTATION    = "orientation";
     public static final String KEY_TYPEFACE       = "typeface";
 
     public static final int TIME_STANDARD = 0;
-    public static final int TIME_MERIDIEM = 1;
-    public static final int TIME_DECIMAL = 2;
-    public static final int TIME_DUODECIMAL = 3;
-    public static final int TIME_HEXADECIMAL = 4;
-    public static final int TIME_HEXIMAL = 5;
+    //public static final int TIME_MERIDIEM = 1;  // DEPRECATED
+    public static final int TIME_DECIMAL = 1;
+    public static final int TIME_DUODECIMAL = 2;
+    public static final int TIME_HEXADECIMAL = 3;
+    public static final int TIME_HEXIMAL = 4;
 
     private ColorWheel colorWheel = new ColorWheel();
     private TimeSystem timeSystem = new MeridiemTime();
@@ -63,7 +66,6 @@ public class CommonSettings extends AbstractSettings {
         timeSystem = newTimeSystem(integerSettings.get(KEY_TIME_SYSTEM));
     }
 
-    // FIXME: standard vs military ???
     protected TimeSystem newTimeSystem(int id) {
         TimeSystem timeSystem;
         switch (id) {
@@ -79,9 +81,9 @@ public class CommonSettings extends AbstractSettings {
             case TIME_DECIMAL:
                 timeSystem = new DecimalTime();
                 break;
-            case TIME_MERIDIEM:
-                timeSystem = new MeridiemTime();
-                break;
+            //case TIME_MERIDIEM:
+            //    timeSystem = new MeridiemTime();
+            //    break;
             case TIME_STANDARD:
             default:
                 timeSystem = new StandardTime();
@@ -286,6 +288,11 @@ public class CommonSettings extends AbstractSettings {
     public void updatePreference(SharedPreferences prefs, String key) {
         //Log.d("log", "updatePreference: " + key);
         switch (key) {
+            //case KEY_CUSTOM_SETTINGS:
+            //    // do it all
+            //    changeColorWheel();
+            //    changeTimeSystem();
+            //    break;
             case KEY_TIME_SYSTEM:
                 changeTimeSystem();
                 break;
@@ -300,6 +307,7 @@ public class CommonSettings extends AbstractSettings {
                 changeTypeface();
                 break;
         }
+        // TODO: should super call come first?
         super.updatePreference(prefs, key);
     }
 

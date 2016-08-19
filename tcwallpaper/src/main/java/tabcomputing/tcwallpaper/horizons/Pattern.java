@@ -40,7 +40,7 @@ public class Pattern extends BasePattern {
     private Paint shaderPaint = new Paint();
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         drawSky(canvas);
         if (settings.isSun()) {
             drawSun(canvas);
@@ -53,7 +53,7 @@ public class Pattern extends BasePattern {
 
         // TODO: reverse colors to swap minute for hour on hillside ?
         if (false) { //(! settings.isColorReversed()) {
-            reverseArray(colors);
+            colors = reverse(colors);
         }
 
         LinearGradient shader = new LinearGradient(0, 0, 0, canvas.getHeight(), colors, null, Shader.TileMode.CLAMP);

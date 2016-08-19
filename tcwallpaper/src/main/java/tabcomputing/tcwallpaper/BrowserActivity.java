@@ -28,9 +28,7 @@ import java.util.HashSet;
 import tabcomputing.library.paper.BillOfSale;
 import tabcomputing.library.paper.BillingService;
 
-/**
- * @deprecated
- */
+@Deprecated
 public class BrowserActivity extends AppCompatActivity {
 
     // TODO: Okay what are we going to do wit this?

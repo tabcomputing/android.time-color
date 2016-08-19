@@ -13,6 +13,7 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.text.DynamicLayout;
 import android.text.Layout;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 
 import tabcomputing.tcwallpaper.BasePattern;
@@ -47,7 +48,7 @@ public class Pattern extends BasePattern {
 
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         Rect bounds = new Rect();
         canvas.getClipBounds(bounds);
 
@@ -71,6 +72,7 @@ public class Pattern extends BasePattern {
      * @return          bitmap
      */
     private Bitmap getBitmap(Rect bounds) {
+        // TODO: use BitmapReuse
         Bitmap bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
@@ -89,8 +91,7 @@ public class Pattern extends BasePattern {
 
         clearTextPaint();
 
-        // TODO: DynamicLayout or StaticLayout? Also, can we cache this between draws?
-        DynamicLayout txt = new DynamicLayout(msg, textPaint, cut, Layout.Alignment.ALIGN_NORMAL, lsm, lsa, true);
+        StaticLayout txt = new StaticLayout(msg, textPaint, cut, Layout.Alignment.ALIGN_NORMAL, lsm, lsa, true);
 
         canvas.translate(centerX(canvas), -300.0f);
 

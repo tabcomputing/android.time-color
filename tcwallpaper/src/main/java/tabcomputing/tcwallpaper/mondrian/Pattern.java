@@ -23,7 +23,7 @@ public class Pattern extends BasePattern {
      * @param canvas    canvas instance
      */
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         float m; // = 0;
         float x1, y1, x2, y2;
 

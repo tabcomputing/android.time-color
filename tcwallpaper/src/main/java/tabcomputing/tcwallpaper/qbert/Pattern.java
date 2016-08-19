@@ -33,7 +33,7 @@ public class Pattern extends BasePattern {
      * @param canvas    canvas instance
      */
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         paint.reset();
         paint.setColor(Color.BLACK);
         paint.setAntiAlias(true);
@@ -101,9 +101,16 @@ public class Pattern extends BasePattern {
         if (settings.withSeconds()) {
             paint.setColor(colors[2]);
         } else {
-            // todo: which or option?
-            paint.setColor(Color.BLACK);
-            paint.setColor(Color.LTGRAY);
+            // TODO: should this be a separate option?
+            if (settings.isDaylight()) {
+                // shade goes from white to black from noon to midnight?
+                double tr = timeSystem.ratioTime();
+                int c = Color.rgb((int)(255 * tr), (int)(255 * tr), (int)(255 * tr));
+                paint.setColor(c); //Color.LTGRAY);
+            } else {
+                // TODO: prefer off-white tan
+                paint.setColor(Color.LTGRAY);
+            }
         }
 
         path.reset();

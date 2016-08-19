@@ -1,11 +1,11 @@
-package tabcomputing.tcwallpaper.splits;
+package tabcomputing.tcwallpaper.wave;
 
 import tabcomputing.library.paper.AbstractWallpaper;
 
 public class Wallpaper extends AbstractWallpaper {
 
     private Settings settings;
-    private Pattern  pattern;
+    private Pattern pattern;
 
     public Wallpaper() {
         settings = new Settings();

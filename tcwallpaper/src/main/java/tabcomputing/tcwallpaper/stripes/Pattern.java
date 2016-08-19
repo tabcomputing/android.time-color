@@ -1,9 +1,8 @@
-package tabcomputing.tcwallpaper.splits;
+package tabcomputing.tcwallpaper.stripes;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import tabcomputing.tcwallpaper.BasePattern;
 
@@ -26,7 +25,7 @@ public class Pattern extends BasePattern {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         canvas.drawColor(Color.BLACK);
 
         switch(settings.getOrientation()) {
@@ -129,7 +128,7 @@ public class Pattern extends BasePattern {
         }
 
         canvas.translate(-shift, 0);
-        canvas.rotate(-rotation);
+        canvas.rotate(-rotation, cx, cy);
     }
 
 }

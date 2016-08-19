@@ -10,13 +10,16 @@ public class Settings extends CommonSettings {
     static final String KEY_TYPEFACE = "typeface";
 
     public Settings() {
+        propertyBoolean(KEY_CUSTOM_SETTINGS, false);
+
         propertyInteger(KEY_COLOR_GAMUT, 0);
-        propertyBoolean(KEY_COLOR_DAYLIGHT, true);
+        propertyBoolean(KEY_COLOR_DAYLIGHT, false);
         propertyBoolean(KEY_COLOR_DUPLEX, false);
 
         propertyInteger(KEY_TIME_SYSTEM, 0);
         //propertyBoolean(KEY_CLOCK_ROTATE, false);
         propertyBoolean(KEY_TIME_SECONDS, false);
+        propertyBoolean(KEY_BASE_CONVERT, true);
 
         propertyInteger(KEY_TYPEFACE, 0);
     }
@@ -47,23 +50,30 @@ public class Settings extends CommonSettings {
         //AssetManager assets = context.getAssets();
         Typeface typeface;
         switch (id) {
+            case 7:
+                typeface = Typeface.createFromAsset(assets, "basic.ttf");
+                break;
+            case 6:
+                typeface = Typeface.createFromAsset(assets, "1012.ttf");
+                break;
             case 5:
                 typeface = Typeface.createFromAsset(assets, "toolego.ttf");
                 break;
             case 4:
-                typeface = Typeface.createFromAsset(assets, "disco.ttf");
+                typeface = Typeface.createFromAsset(assets, "diskopia2.ttf");
                 break;
             case 3:
-                typeface = Typeface.createFromAsset(assets, "origap.ttf");
+                typeface = Typeface.createFromAsset(assets, "disco.ttf");
                 break;
             case 2:
-                typeface = Typeface.createFromAsset(assets, "cubes.ttf");
+                typeface = Typeface.createFromAsset(assets, "origap.ttf");
                 break;
             case 1:
                 typeface = Typeface.createFromAsset(assets, "neospacial.ttf");
                 break;
             default:
-                typeface = Typeface.createFromAsset(assets, "digital.ttf");
+                typeface = Typeface.createFromAsset(assets, "cubes.ttf");
+                break;
         }
         return typeface;
     }
@@ -72,24 +82,29 @@ public class Settings extends CommonSettings {
     public FontScale typefaceScale() {
         FontScale fs = new FontScale();
         switch (getInteger(KEY_TYPEFACE)) {
+            case 7:
+                fs.set(0.05f, -0.2f, 1, 1.25f);
+                break;
+            case 6:
+                fs.set(0.025f, -0.1f, 1, 1.4f);
+                break;
             case 5:  // toolego
                 fs.set(0, 0, 1, 1.55f);
-                //fs.set(0, 0.2f, 1, 1.3f);
                 break;
-            case 4:  // disco
-                fs.set(0.05f, 0, 1, 1);
+            case 4:  // diskopia2
+                fs.set(0.03f, 0, 1, 1.3f);
                 break;
-            case 3:  // origap
-                fs.set(0, 0, 1, 1);
+            case 3:  // disco
+                fs.set(0.025f, -0.1f, 1, 1.25f);
                 break;
-            case 2:  // cubes
-                fs.set(0, 0.1f, 1, 0.9f);
+            case 2:  // origap
+                fs.set(0, -0.03f, 1, 1.2f);
                 break;
             case 1:  // neospacial
-                fs.set(0, 0, 1, 1);
+                fs.set(0, -0.03f, 1, 1);
                 break;
-            case 0: // digital
-                fs.set(0.025f, 0.025f, 1, 1.05f);
+            case 0:  // cubes
+                fs.set(0, -0.2f, 1, 1.3f);
                 break;
             default:
                 fs.set(0, 0, 1, 1);

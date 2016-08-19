@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
-/**
- * @deprecated
- */
+@Deprecated
 public class ClockSettingsActivity extends PreferenceActivity {
 
     @Override

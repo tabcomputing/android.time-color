@@ -4,8 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.SweepGradient;
+
+import java.util.Arrays;
 
 import tabcomputing.library.paper.BitmapReuse;
 import tabcomputing.tcwallpaper.BasePattern;
@@ -39,8 +43,11 @@ public class Pattern extends BasePattern {
 
     Paint circlePaint = new Paint();
 
+    private BitmapReuse scratchBitmap = new BitmapReuse();
+
+
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         Bitmap bmp;
 
         Rect bounds = new Rect();
@@ -50,7 +57,7 @@ public class Pattern extends BasePattern {
 
         canvas.drawColor(Color.WHITE);
 
-        if (settings.isSwapped()) {
+        if (settings.isReversed()) {
             for (int i = s - 1; i >= 0; i--) {
                 bmp = getRadialBitmap(bounds, i, s - i - 1);
                 canvas.drawBitmap(bmp, 0, 0, paint);
@@ -63,22 +70,160 @@ public class Pattern extends BasePattern {
         }
     }
 
-
-    public void drawA(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
-
-        int s = numberOfSegments();
-
-        if (settings.isSwapped()) {
-            for (int i = s - 1; i >= 0; i--) {
-                drawRadial(canvas, i, s - i - 1);
-            }
+    /**
+     *
+     * @param bounds        canvas bounds
+     * @param segment       time segment
+     * @param band          time band
+     * @return              color wheel bitmap
+     */
+    protected Bitmap getRadialBitmap(Rect bounds, int segment, int band) {
+        if (settings.isSmooth()) {
+            return getRadialSmoothBitmap(bounds, segment, band);
         } else {
-            for (int i = 0; i < s; i++) {
-                drawRadial(canvas, i, i);
-            }
+            return getRadialDiscreteBitmap(bounds, segment, band);
         }
     }
+
+    /**
+     *
+     * @param bounds        canvas bounds
+     * @param segment       time segment
+     * @param band          time band
+     * @return              color wheel bitmap
+     */
+    protected Bitmap getRadialDiscreteBitmap(Rect bounds, int segment, int band) {
+        Canvas canvas = scratchBitmap.getCleanCanvas(bounds);
+
+        float cx = centerX(bounds);
+        float cy = centerY(bounds);
+
+        // TODO: Get this to work for 12-hour clock too
+        //int[] segments = clockSegments();
+        //int[] colors = clockColors();
+
+        int[] segments = timeSegments();
+        int ticks = segments[segment];
+        int[] colors = colorWheel.colors(ticks);
+
+        // TODO: move clock rotation into the time system itself?
+        int offset = (settings.isRotated() ? 90 : 270);
+
+        float d;
+        if (band > 0) {
+            // radius fits within the screen
+            float max = min(cx, cy) * 0.9f;
+            // then radius is a power of 2, e.g. 1, 1/2, 1/4
+            d = (float) (max / (Math.pow(2, band - 1)));
+        } else {
+            // radius is the center to the corner, actually a little further b/c of Y offset
+            d = (float) cy + cy; //Math.sqrt(cx * cx + cy * cy);
+        }
+
+        RectF rect = new RectF(cx - d, cy - d, cx + d, cy + d);
+
+        float sweepAngle = 360.0f / ticks;
+        float timeAngle  = sweepAngle * time()[segment];
+        float startAngle = timeAngle - (sweepAngle / 2.0f) + offset;
+
+        circlePaint.reset();
+
+        for (int i = 0; i < ticks; i++) {
+            circlePaint.setColor(colors[i]);
+            canvas.drawArc(rect, startAngle, sweepAngle, true, circlePaint);
+            startAngle = startAngle + sweepAngle;
+        }
+
+        return scratchBitmap.getBitmap();
+    }
+
+    /**
+     *
+     * @param bounds        canvas bounds
+     * @param segment       time segment
+     * @param band          time band
+     * @return              color wheel bitmap
+     */
+    protected Bitmap getRadialSmoothBitmap(Rect bounds, int segment, int band) {
+        Canvas canvas = scratchBitmap.getCleanCanvas(bounds);
+
+        float cx = centerX(bounds);
+        float cy = centerY(bounds);
+
+        // TODO: Get this to work for 12-hour clock too
+        //int[] segments = clockSegments();
+        //int[] colors = clockColors();
+
+        int[] segments = timeSegments();
+        int ticks = segments[segment];
+
+        //int[] colors = colorWheel.colors(ticks);
+        int[] colors = clockColors();
+
+        colors = Arrays.copyOf(colors, colors.length + 1);
+        colors[colors.length - 1] = colors[0];
+
+        // TODO: move clock rotation into the time system itself?
+        int offset = (settings.isRotated() ? 90 : 270);
+
+        float d;
+        if (band > 0) {
+            // radius fits within the screen
+            float max = min(cx, cy) * 0.9f;
+            // then radius is a power of 2, e.g. 1, 1/2, 1/4
+            d = (float) (max / (Math.pow(2, band - 1)));
+        } else {
+            // radius is the center to the corner, actually a little further b/c of Y offset
+            d = (float) cy + cy; //Math.sqrt(cx * cx + cy * cy);
+        }
+
+        RectF rect = new RectF(cx - d, cy - d, cx + d, cy + d);
+
+        //float sweepAngle = 360.0f / ticks;
+        //float timeAngle  = sweepAngle * time()[segment];
+        //float startAngle = timeAngle - (sweepAngle / 2.0f) + offset;
+
+        double[] tr = timeRatios();
+        double angle = tr[band];
+
+        SweepGradient shader = new SweepGradient(cx, cy, colors, null);
+
+        circlePaint.reset();
+        circlePaint.setShader(shader);
+
+        float rotation = (float) reduce(angle + 0.25) * 360f;
+
+        canvas.rotate(-rotation, cx, cy);
+
+        //for (int i = 0; i < ticks; i++) {
+            //circlePaint.setColor(colors[i]);
+            canvas.drawArc(rect, 0, 360, true, circlePaint);
+            //startAngle = startAngle + sweepAngle;
+        //}
+
+        canvas.rotate(rotation, cx, cy);
+
+        return scratchBitmap.getBitmap();
+    }
+
+    /**
+     * Real center.
+     *
+     * @param canvas    drawing canvas
+     * @return          center height
+     */
+    @Override
+    public float centerY(Canvas canvas) {
+        if (settings.isCentered()) {
+            return canvas.getHeight() / 2;
+        } else {
+            return super.centerY(canvas);
+        }
+    }
+
+
+
+
 
     /**
      * TODO: to get better anti-aliasing, we should draw the circles as bitmaps and then draw them onto the background.
@@ -127,57 +272,6 @@ public class Pattern extends BasePattern {
         }
     }
 
-    private BitmapReuse scratchBitmap = new BitmapReuse();
-
-    protected Bitmap getRadialBitmap(Rect bounds, int segment, int band) {
-        scratchBitmap.reset();
-        Bitmap bitmap = scratchBitmap.getBitmap();
-        Canvas canvas = scratchBitmap.getCanvas();
-
-        float cx = bounds.width() / 2;
-        float cy = bounds.height() / 2;
-
-        // TODO: Get this to work for 12-hour clock too
-        //int[] segments = clockSegments();
-        //int[] colors = clockColors();
-
-        int[] segments = timeSegments();
-        int ticks = segments[segment];
-        int[] colors = colorWheel.colors(ticks);
-
-        // TODO: move clock rotation into the time system itself?
-        int offset = (settings.isRotated() ? 90 : 270);
-
-        float d;
-        if (band > 0) {
-            // radius fits within the screen
-            float max = min(cx, cy) * 0.9f;
-            // then radius is a power of 2, e.g. 1, 1/2, 1/4
-            d = (float) (max / (Math.pow(2, band - 1)));
-        } else {
-            // radius is the center to the corner
-            d = (float) Math.sqrt(cx * cx + cy * cy);
-        }
-
-        RectF rect = new RectF(cx - d, cy - d, cx + d, cy + d);
-
-        float sweepAngle = 360.0f / ticks;
-        float timeAngle  = sweepAngle * time()[segment];
-        float startAngle = timeAngle - (sweepAngle / 2.0f) + offset;
-
-        for (int i = 0; i < ticks; i++) {
-            circlePaint.setColor(colors[i]);
-            canvas.drawArc(rect, startAngle, sweepAngle, true, circlePaint);
-            startAngle = startAngle + sweepAngle;
-        }
-
-        return bitmap;
-    }
-
-    @Override
-    public float centerY(Canvas canvas) {
-        return canvas.getHeight() / 2;
-    }
 
 
 
@@ -236,7 +330,7 @@ public class Pattern extends BasePattern {
         }
 
         /*
-        i = (settings.isSwapped() ? 0 : 1);
+        i = (settings.isReversed() ? 0 : 1);
 
         sweepAngle = 360.0f / ts[i];
         //startAngle = sweepAngle * (float) t - (sweepAngle / 2.0f);
@@ -302,7 +396,7 @@ public class Pattern extends BasePattern {
         }
 
         /*
-        i = (settings.isSwapped() ? 1 : 0);
+        i = (settings.isReversed() ? 1 : 0);
 
         sweepAngle = 360.0f / ts[i];
         //startAngle = sweepAngle * (float) t - (sweepAngle / 2.0f);

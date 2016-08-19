@@ -35,7 +35,7 @@ public class Pattern extends BasePattern {
      * @param canvas    canvas instance
      */
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         int[] colors = timeColors();
 
         float w = canvas.getWidth();

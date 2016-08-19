@@ -2,13 +2,23 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <!--
     <PreferenceCategory
-        android:title="@string/category_mode_title"
-        android:key="category_mode_settings">
+        android:key="category_special_settings"
+        android:title="@string/category_special_title">
     </PreferenceCategory>
     -->
     <PreferenceCategory
+        android:key="category_general_settings"
+        android:title="@string/category_general_title">
+        <CheckBoxPreference
+            android:key="customSettings"
+            android:title="@string/customSettings_title"
+            android:summary="@string/customSettings_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_color_settings"
         android:title="@string/category_color_title"
-        android:key="category_color_settings">
+        android:dependency="customSettings">
         <ListPreference
             android:key="colorGamut"
             android:title="@string/colorGamut_title"
@@ -21,7 +31,7 @@
             android:key="colorDaylight"
             android:title="@string/colorDaylight_title"
             android:summary="@string/colorDaylight_summary"
-            android:defaultValue="true" />
+            android:defaultValue="false" />
         <!--
         <CheckBoxPreference
             android:key="colorDuplex"
@@ -31,8 +41,9 @@
         -->
     </PreferenceCategory>
     <PreferenceCategory
+        android:key="category_time_settings"
         android:title="@string/category_time_title"
-        android:key="category_time_settings">
+        android:dependency="customSettings">
         <ListPreference
             android:key="timeSystem"
             android:title="@string/timeSystem_title"

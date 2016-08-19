@@ -27,7 +27,7 @@ public class PatternCaterpillar extends BasePattern {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         float cx = centerX(canvas);
         float cy = centerY(canvas);
 

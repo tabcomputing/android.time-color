@@ -4,11 +4,13 @@
 
     <string name="title_activity_browser">Wallpaper Browser</string>
 
+    <!-- do we need there two anymore? -->
     <string name="enabled">enabled</string>
     <string name="disabled">disabled</string>
 
     <string name="coverTitle">Time+Color=Wallpaper</string>
     <string name="imageDescription">T+C=W Image</string>
+
     <string name="edit_settings">Settings</string>
     <string name="set_wallpaper">Wallpaper</string>
     <string name="view_key">Key</string>
@@ -37,16 +39,16 @@
     <string name="nav_website">Website</string>
     <string name="nav_upgrade">Upgrade!</string>
 
-    <string name="category_general_title">GENERAL</string>
-    <string name="category_mode_title">PATTERN</string>
-    <string name="category_time_title">TIME</string>
-    <string name="category_color_title">COLOR</string>
     <string name="category_clock_title">CLOCK</string>
+    <string name="category_special_title">SPECIAL</string>
+    <string name="category_general_title">GENERAL</string>
+    <string name="category_time_title">Time</string>
+    <string name="category_color_title">Color</string>
 
     <string name="dialog_nag_message">
-        If you like Time + Color = Wallpaper, please consider upgrading. Your support allows us to continue
-        our work and costs less than a pack of bubble gum.\n\nUpgrading unlocks a few additional pattern
-        options. It will also rid you of those pesky nag messages!\n\nWould you like to upgrade?
+        If you like Time+Color=Wallpaper please upgrade. Upgrading costs less than
+        a pack of bubble gum and in return unlocks a number of additional pattern
+        options. It will also rid you of our pesky nagging!\n\nWould you like to upgrade?
     </string>
     <string name="dialog_nag_yes">Yes</string>
     <string name="dialog_nag_no">No</string>
@@ -54,11 +56,17 @@
 
     <!-- COMMON SETTINGS -->
 
+    <string name="customSettings_title">Customize settings?</string>
+    <string name="customSettings_summary">Customize common settings for this pattern, instead of using shared settings.</string>
+
     <string name="usePatternSettings_title">Use current pattern settings?</string>
     <string name="usePatternSettings_summary">Adjust clock settings to match current pattern.</string>
 
-    <string name="colorSwap_title">Swap colors?</string>
-    <string name="colorSwap_summary">Swap the use of colors.\n(e.g. hour color with minute color)</string>
+    <string name="colorSwap_title">Invert?</string>
+    <string name="colorSwap_summary">Invert pattern, typically by swapping the hour minute colors.</string>
+
+    <string name="reverse_title">Reverse?</string>
+    <string name="reverse_summary">Reverse pattern by flipping colors/times around.</string>
 
     <!-- Lower color saturation at midday and midnight. -->
     <!-- Lower brightness at midnight and increase at midday. -->
@@ -90,7 +98,6 @@
     <string name="timeSystem_summary">Pick an alternate system of time division.</string>
     <string-array name="timeSystem_entries">
         <item>24-hour (24:60:60)</item>
-        <item>12-hour (12:60:60 AM/PM)</item>
         <item>Decimal (10:100:100)</item>
         <item>Duodecimal (12:12:12)</item>
         <item>Hexadecimal (16:16:16)</item>
@@ -102,15 +109,11 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
-        <item>5</item>
     </string-array>
     <string name="timeSystem_default">0</string>
 
     <string name="baseConvert_title">Base conversion?</string>
     <string name="baseConvert_summary">Show time in system\'s native number base?</string>
-
-    <string name="sunGlare_title">Sun glare? &#x2764;</string>
-    <string name="sunGlare_summary">Add sun glare effect.</string>
 
     <string name="orientation_title">Orientation</string>
     <string name="orientation_summary">Select and orientation.</string>
@@ -126,6 +129,7 @@
     </string-array>
     <string name="orientation_default">0</string>
 
+    <!-- Size -->
     <string name="size_title">Size</string>
     <string name="size_summary">Choose a pattern size.</string>
     <string-array name="size_entries">
@@ -142,21 +146,94 @@
     </string-array>
     <string name="size_default">1</string>
 
-    <string name="pattern_title">Pattern &#x2764;</string>
-    <string name="pattern_summary">Customize the pattern.</string>
-    <string name="pattern_message">Character are converted to space symbols. Use #1 to substitute hour, #2 for minute, and so on."</string>
+    <!-- Density -->
+    <string name="density_title">Density</string>
+    <string name="density_summary">Choose a pattern density.</string>
+    <string-array name="density_entries">
+        <item>Sparse</item>
+        <item>Loose</item>
+        <item>Moderate</item>
+        <item>Tight</item>
+        <item>Awash</item>
+    </string-array>
+    <string-array name="density_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string name="density_default">1</string>
 
+    <!-- Aspect Ratio -->
+    <string name="aspect_title">Aspect &#x2764;</string>
+    <string name="aspect_summary">Choose an aspect ratio to adjust size of pattern.</string>
+    <string-array name="aspect_entries">
+        <item>Uniform (1:1)</item>
+        <item>Double (2:1)</item>
+        <item>Triple (3:1)</item>
+        <item>Quadruple (4:1)</item>
+    </string-array>
+    <string-array name="aspect_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string name="aspect_default">0</string>
+
+    <!-- Shape -->
+    <string name="shape_title">Shape</string>
+    <string name="shape_summary">Choose a pattern shape.</string>
+    <string-array name="shape_entries">
+        <item>Circle</item>
+        <item>Square</item>
+    </string-array>
+    <string-array name="shape_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string name="shape_default">0</string>
+
+    <!-- Fade -->
     <string name="fade_title">Fade?</string>
     <string name="fade_summary">Add cross-fading effect.</string>
 
-    <string name="outline_title">Outline?</string>
+    <!-- Dark -->
+    <string name="dark_title">Dark?</string>
+    <string name="dark_summary">Use dark pattern instead of light pattern.</string>
+
+    <!-- Opaque -->
+    <string name="opaque_title">Opaque? &#x2764;</string>
+    <string name="opaque_summary">Remove translucency from pattern.</string>
+
+    <string name="sunGlare_title">Sun glare? &#x2764;</string>
+    <string name="sunGlare_summary">Add sun glare effect.</string>
+
+    <string name="pattern_title">Pattern &#x2764;</string>
+    <string name="pattern_summary">Customize the pattern.</string>
+    <string name="pattern_message">Letters and number are converted to spacey symbols. You can insert a spacey hour with \'#1\', a spacey minute with \'#2\', and so on."</string>
+
+    <string name="outline_title">Outline? &#x2764;</string>
     <string name="outline_summary">Outline the pattern.</string>
 
-
-    <!-- Clock Specific -->
-
-    <string name="clockRotate_title">Rotate clock?</string>
+    <string name="clockRotate_title">Rotate face?</string>
     <string name="clockRotate_summary">Place midnight at the top.</string>
+
+    <!-- Backdrop -->
+    <string name="backdrop_title">Backdrop</string>
+    <string name="backdrop_summary">Choose a background.</string>
+    <string-array name="backdrop_entries">
+        <item>Black</item>
+        <item>White</item>
+        <item>Spectrum</item>
+    </string-array>
+    <string-array name="backdrop_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="backdrop_default">0</string>
 
 
     <!-- PATTERNS -->
@@ -169,12 +246,14 @@
     <string name="bigtime_font_summary">Choose a big font.</string>
 
     <string-array name="bigtime_font_entries">
-        <item>Digital</item>
         <item>Cubes</item>
-        <item>Space</item>
-        <item>Guitarism</item>
-        <item>Futurelic</item>
+        <item>Neospacial</item>
+        <item>Origap</item>
+        <item>Disco</item>
+        <item>Diskopia</item>
+        <item>Toolego</item>
         <item>Monospaced</item>
+        <item>System Default</item>
     </string-array>
 
     <string-array name="bigtime_font_values">
@@ -184,6 +263,8 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
+        <item>6</item>
+        <item>7</item>
     </string-array>
 
     <string name="bigtime_font_default">0</string>
@@ -233,10 +314,12 @@
     <string name="lotus_label">T+C=W Lotus</string>
     <string name="lotus_description">Time + Color = Wallpaper presents Lotus.</string>
 
-    <!--
-    <string name="interlace_title">Interlace?</string>
-    <string name="interlace_summary">Interlace time segments to create pattern?</string>
-    -->
+    <string name="bindi_title">Bindi dot? &#x2764;</string>
+    <string name="bindi_summary">Place a \"bindi\" dot on pattern.</string>
+
+    <!-- Maze -->
+    <string name="maze_label">T+C=W Maze</string>
+    <string name="maze_description">Time + Color = Wallpaper presents Maze.</string>
 
     <!-- Mondrian -->
     <string name="mondrian_label">T+C=W Mondrian</string>
@@ -310,6 +393,13 @@
 
     <string name="relic_style_default">0</string>
 
+    <!-- Rainbow -->
+    <string name="rainbow_label">T+C=W Rainbow</string>
+    <string name="rainbow_description">Time + Color = Wallpaper presents Rainbow.</string>
+
+    <string name="tickless_title">Tickless? &#x2764;</string>
+    <string name="tickless_summary">Hide minute and second ticks.</string>
+
     <!-- Ring -->
     <string name="ring_label">T+C=W Ring</string>
     <string name="ring_description">Time + Color = Wallpaper presents Ring.</string>
@@ -325,15 +415,21 @@
     <string name="solid_label">T+C=W Solid</string>
     <string name="solid_description">Time + Color = Wallpaper presents Solid. The cleanest, yet useful, wallpaper in the two universes.</string>
 
-    <!-- Splits -->
-    <string name="splits_label">T+C=W Splits</string>
-    <string name="splits_description">Fly your colors. Time+Color=Wallpaper presents Splits, a colorful wallpaper splitting your screen with the colors of time.</string>
+    <!-- Stripes -->
+    <string name="stripes_label">T+C=W Stripes</string>
+    <string name="stripes_description">Fly your colors. Time+Color=Wallpaper presents Stripes, a colorful wallpaper splitting your screen with the colors of time.</string>
 
     <!-- Squares -->
     <string name="squares_label">T+C=W Scooby Squares</string>
     <string name="squares_description">Time + Color = Wallpaper presents Scooby Squares.</string>
 
+    <!-- Tiles -->
+    <string name="tile_label">T+C=W Tile</string>
+    <string name="tile_description">Time + Color = Wallpaper presents Tile.</string>
 
+    <!-- Wave -->
+    <string name="wave_label">T+C=W Wave</string>
+    <string name="wave_description">Time + Color = Wallpaper presents Wave.</string>
 
 
 

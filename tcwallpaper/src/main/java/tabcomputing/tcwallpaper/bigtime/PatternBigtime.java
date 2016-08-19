@@ -3,10 +3,16 @@ package tabcomputing.tcwallpaper.bigtime;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.Typeface;
 import android.text.TextPaint;
+import android.util.Log;
+
+import java.util.Arrays;
 
 import tabcomputing.library.paper.FontScale;
 import tabcomputing.tcwallpaper.BasePattern;
@@ -26,6 +32,9 @@ public class PatternBigtime extends BasePattern {
 
     private TextPaint textPaint = new TextPaint();
 
+    // font
+    //private Typeface font;
+
     /*
     public void prepSettings() {
         propertyInteger(KEY_COLOR_GAMUT, 0);
@@ -41,7 +50,7 @@ public class PatternBigtime extends BasePattern {
     */
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         Rect canvasBounds = canvas.getClipBounds();
 
         float width  = canvasBounds.width();
@@ -51,9 +60,15 @@ public class PatternBigtime extends BasePattern {
 
         int[] colors = timeColors();
 
-        // background as hour color
-        canvas.drawColor(colors[0]);
+        // -- draw background
+        //canvas.drawColor(colors[0]);
+        int[] rColors = rotate(colors, 1);
+        LinearGradient shader = new LinearGradient(0, 0, 0, canvas.getHeight(), rColors, null, Shader.TileMode.CLAMP);
+        paint.reset(); // paint = new Paint();
+        paint.setShader(shader);
+        canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
 
+        // --
         textPaint = digitalPaint();
 
         String[] time = timeSystem.timeRebased();
@@ -67,9 +82,9 @@ public class PatternBigtime extends BasePattern {
         textPaint.setTextSize(estSize);
         textPaint.setColor(colors[1]);
 
-        FontScale fs = settings.typefaceScale();
-
         Bitmap bmp;
+
+        FontScale fs = settings.typefaceScale();
 
         float zx = width * fs.scaleX;
         float zy = g * fs.scaleY;
@@ -78,10 +93,12 @@ public class PatternBigtime extends BasePattern {
         float oy = g * fs.offsetY;
 
         for(int i = colors.length-1; i >= 0; i--) {
+            textPaint.setColor(colors[i]);
             // TODO: Offset should probably go in textAsBitmap
-            bmp = textAsBitmap(time[i], ox, oy, textPaint);
+            //bmp = textAsBitmap(time[i], ox, oy, textPaint);
+            bmp = textAsBitmap(time[i], 10f, textPaint);
             bmp = Bitmap.createScaledBitmap(bmp, (int) zx, (int) zy, true);
-            canvas.drawBitmap(bmp, 0, (g * i), textPaint);
+            canvas.drawBitmap(bmp, 0 + ox, (g * i) + oy, textPaint);
 
             // this is the distance from the baseline to the center
             //float base = ((paint.descent() + paint.ascent()) / 2);
@@ -236,7 +253,7 @@ public class PatternBigtime extends BasePattern {
         textPaint.setTextSize(120.0f);
         textPaint.setStrokeWidth(3.0f);
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setShadowLayer(3.0f, 0.0f, 0.0f, Color.BLACK);
+        //textPaint.setShadowLayer(3.0f, 0.0f, 0.0f, Color.BLACK);
         textPaint.setTypeface(settings.getTypeface());
         textPaint.setTextAlign(Paint.Align.CENTER);
         return textPaint;
@@ -250,5 +267,12 @@ public class PatternBigtime extends BasePattern {
     private String timeStamp() {
         return timeSystem.timeStamp();
     }
+
+    //private Typeface getFont() {
+    //    if (font == null) {
+    //        font = Typeface.createFromAsset(context.getAssets(), "space.ttf");
+    //    }
+    //    return font;
+    //}
 
 }

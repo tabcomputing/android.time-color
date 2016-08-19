@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="category_special_settings"
+        android:title="@string/category_special_title">
+        <CheckBoxPreference
+            android:key="smooth"
+            android:title="@string/smooth_title"
+            android:summary="@string/smooth_summary"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="size"
+            android:title="@string/size_title"
+            android:summary="@string/size_summary"
+            android:entries="@array/size_entries"
+            android:entryValues="@array/size_values"
+            android:dialogTitle="@string/size_title"
+            android:defaultValue="@string/size_default" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_general_settings"
+        android:title="@string/category_general_title">
+        <CheckBoxPreference
+            android:key="customSettings"
+            android:title="@string/customSettings_title"
+            android:summary="@string/customSettings_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_color_settings"
+        android:title="@string/category_color_title"
+        android:dependency="customSettings">
+        <ListPreference
+            android:key="colorGamut"
+            android:title="@string/colorGamut_title"
+            android:summary="@string/colorGamut_summary"
+            android:entries="@array/colorGamut_entries"
+            android:entryValues="@array/colorGamut_values"
+            android:dialogTitle="@string/colorGamut_title"
+            android:defaultValue="@string/colorGamut_default" />
+        <CheckBoxPreference
+            android:key="colorDaylight"
+            android:title="@string/colorDaylight_title"
+            android:summary="@string/colorDaylight_summary"
+            android:defaultValue="false" />
+        <!--
+        <CheckBoxPreference
+            android:key="colorDuplex"
+            android:title="@string/colorDuplex_title"
+            android:summary="@string/colorDuplex_summary"
+            android:defaultValue="false" />
+        -->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_time_settings"
+        android:title="@string/category_time_title"
+        android:dependency="customSettings">
+        <ListPreference
+            android:key="timeSystem"
+            android:title="@string/timeSystem_title"
+            android:summary="@string/timeSystem_summary"
+            android:entries="@array/timeSystem_entries"
+            android:entryValues="@array/timeSystem_values"
+            android:dialogTitle="@string/timeSystem_title"
+            android:defaultValue="@string/timeSystem_default" />
+        <CheckBoxPreference
+            android:key="timeSeconds"
+            android:title="@string/timeSeconds_title"
+            android:summary="@string/timeSeconds_summary"
+            android:defaultValue="false" />
+        <!-- We could implement this, by putting midnight in the middle. -->
+        <!-- More interesting though might be putting dawn and dusk at the edges. -->
+        <!--
+        <CheckBoxPreference
+            android:key="clockRotate"
+            android:title="@string/clockRotate_title"
+            android:summary="@string/clockRotate_summary"
+            android:defaultValue="false" />
+        -->
+    </PreferenceCategory>
+</PreferenceScreen>

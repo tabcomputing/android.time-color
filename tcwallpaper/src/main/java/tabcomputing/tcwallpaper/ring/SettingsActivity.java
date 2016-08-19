@@ -1,6 +1,7 @@
 package tabcomputing.tcwallpaper.ring;
 
 import tabcomputing.library.paper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.CommonSettings;
 import tabcomputing.tcwallpaper.R;
 
 public class SettingsActivity extends AbstractSettingsActivity {
@@ -9,6 +10,9 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
     //@Override
     //public String[] getUpgradeOptions() {
+    //    if (CommonSettings.DEBUG) {
+    //        return null;
+    //    }
     //    return UPGRADES;
     //}
 

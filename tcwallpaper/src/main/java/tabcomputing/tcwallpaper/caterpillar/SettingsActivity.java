@@ -1,25 +1,24 @@
 package tabcomputing.tcwallpaper.caterpillar;
 
 import tabcomputing.library.paper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.CommonSettings;
 import tabcomputing.tcwallpaper.R;
 
 public class SettingsActivity extends AbstractSettingsActivity {
 
-    //@Override
-    //public String getPrefName() {
-    //    return "caterpillar";
-    //}
+    private final String[] UPGRADES = {Settings.KEY_MEAN};
+
+    @Override
+    public String[] getUpgradeOptions() {
+        if (CommonSettings.DEBUG) {
+            return null;
+        }
+        return UPGRADES;
+    }
 
     @Override
     public int getPrefResId() {
         return R.xml.caterpillar_preferences;
     }
-
-    private final String[] UPGRADES = {Settings.KEY_MEAN};
-
-    //@Override
-    //public String[] getUpgradeOptions() {
-    //    return UPGRADES;
-    //}
 
 }

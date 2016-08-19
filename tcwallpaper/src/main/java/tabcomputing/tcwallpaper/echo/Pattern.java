@@ -1,7 +1,14 @@
 package tabcomputing.tcwallpaper.echo;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.SweepGradient;
+import android.util.Log;
+
+import java.util.Arrays;
+import java.util.concurrent.BlockingDeque;
 
 import tabcomputing.tcwallpaper.BasePattern;
 
@@ -22,7 +29,7 @@ public class Pattern extends BasePattern {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         float cx = centerX(canvas);
         float cy = centerY(canvas);
 
@@ -62,6 +69,8 @@ public class Pattern extends BasePattern {
         //paint.setColor(color(t[idx] / segs));
         paint.setColor(tc[idx]);
         canvas.drawCircle(cx, cy, d, paint);
+
+        //drawGradientHands(canvas, d);
     }
 
     /**

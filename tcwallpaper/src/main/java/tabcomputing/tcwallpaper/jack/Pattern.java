@@ -22,11 +22,10 @@ public class Pattern extends BasePattern {
         this.settings = settings;
     }
 
-    private Path path = new Path();
     private RectF rect = new RectF();
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
 
         int[] colors = timeColors();
 

@@ -41,7 +41,7 @@ public class Pattern extends BasePattern {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         switch (settings.getOrientation()) {
             case 2:
                 drawOrbiting(canvas);
@@ -62,7 +62,7 @@ public class Pattern extends BasePattern {
         int[] colors = timeColors();
 
         if (settings.isSwapped()) {
-            reverseArray(colors);
+            colors = reverse(colors);
         }
 
         LinearGradient shader = new LinearGradient(0, 0, 0, canvas.getHeight(), colors, null, Shader.TileMode.CLAMP);
@@ -79,7 +79,7 @@ public class Pattern extends BasePattern {
         //}
 
         if (settings.isSwapped()) {
-            reverseArray(colors);
+            colors = reverse(colors);
         }
 
         LinearGradient shader = new LinearGradient(0, 0, canvas.getWidth(), 0, colors, null, Shader.TileMode.CLAMP);
@@ -102,7 +102,7 @@ public class Pattern extends BasePattern {
         colors = Arrays.copyOf(colors, 2);  // just the first two colors
 
         if (settings.isSwapped()) {
-            reverseArray(colors);
+            colors = reverse(colors);
         }
 
         // -- hour --
@@ -150,7 +150,7 @@ public class Pattern extends BasePattern {
 
         // the hour color is on the outside in normal mode
         if (settings.isSwapped()) {
-            reverseArray(colors);
+            colors = reverse(colors);
         }
 
         // draw the circular gradient
@@ -186,7 +186,7 @@ public class Pattern extends BasePattern {
 
         // the hour color is on the inside in normal mode
         if (settings.isSwapped()) {
-            reverseArray(colors);
+            colors = reverse(colors);
         }
 
         //Paint paint;

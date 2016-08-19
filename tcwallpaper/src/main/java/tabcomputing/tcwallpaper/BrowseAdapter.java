@@ -2,8 +2,6 @@ package tabcomputing.tcwallpaper;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +119,7 @@ public class BrowseAdapter extends BaseAdapter {
         addItem("gradient", "Gradient", R.drawable.thumbnail_gradient);
         addItem("orb", "Orb", R.drawable.thumbnail_orb);
 
-        addItem("splits", "Split",  R.drawable.thumbnail_splits);
+        addItem("stripes", "Stripes",  R.drawable.thumbnail_stripes);
         addItem("binary", "Binary", R.drawable.thumbnail_binary);
         addItem("plaid",  "Plaid",  R.drawable.thumbnail_plaid);
 
@@ -143,7 +141,12 @@ public class BrowseAdapter extends BaseAdapter {
 
         addItem("checkers", "Checkers", R.drawable.thumbnail_checkers);
         addItem("space", "Space", R.drawable.thumbnail_space);
-        addItem("bigtime", "Big Time", R.drawable.thumbnail_bigtime);
+        addItem("tile", "Tile", R.drawable.thumbnail_tile);
+
+        addItem("wave", "Wave", R.drawable.thumbnail_wave);
+
+        addItem("maze", "Maze", R.drawable.thumbnail_maze);
+        //addItem("bigtime", "Big Time", R.drawable.thumbnail_bigtime);
     }
 
     HashMap<String, Item> itemIndex = new HashMap<>();
@@ -205,47 +208,6 @@ public class BrowseAdapter extends BaseAdapter {
             }
         }
     }
-    */
-
-    /*
-    // references to our images
-    private Integer[] mThumbIds = {
-            R.drawable.thumbnail_solid,
-            R.drawable.thumbnail_binary,
-            R.drawable.thumbnail_caterpillar,
-            R.drawable.thumbnail_echo,
-            R.drawable.thumbnail_gradient,
-            R.drawable.thumbnail_horizons,
-            R.drawable.thumbnail_lotus,
-            R.drawable.thumbnail_mondrian,
-            R.drawable.thumbnail_pieslice,
-            R.drawable.thumbnail_plaid,
-            R.drawable.thumbnail_radial,
-            R.drawable.thumbnail_orb,
-            R.drawable.thumbnail_squares,
-            R.drawable.thumbnail_caterpillar,
-            R.drawable.thumbnail_caterpillar
-    };
-    */
-
-    /*
-    private String[] wallpaperApps = {
-            "tabcomputing.wallpaper.solid",
-            "tabcomputing.wallpaper.gradient",
-            "tabcomputing.wallpaper.orb",
-            "tabcomputing.wallpaper.stripes",
-            "tabcomputing.wallpaper.binary",
-            "tabcomputing.wallpaper.pieslice",
-            "tabcomputing.wallpaper.caterpillar",
-            "tabcomputing.wallpaper.echo",
-            "tabcomputing.wallpaper.horizons",
-            "tabcomputing.wallpaper.lotus",
-            "tabcomputing.wallpaper.mondrian",
-            "tabcomputing.wallpaper.plaid",
-            "tabcomputing.wallpaper.radial",
-            "tabcomputing.wallpaper.squares",
-            "tabcomputing.wallpaper.bigtime",
-    };
     */
 
     /**

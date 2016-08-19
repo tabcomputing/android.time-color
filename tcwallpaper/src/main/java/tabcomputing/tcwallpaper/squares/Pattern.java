@@ -1,9 +1,11 @@
 package tabcomputing.tcwallpaper.squares;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Path;
 
 import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.tcwallpaper.ring.*;
 
 /**
  * Draw series of spiraling square within other spiraling squares.
@@ -15,8 +17,15 @@ public class Pattern extends BasePattern {
         setSettings(wallpaper.getSettings());
     }
 
+    protected Settings settings;
+
+    protected void setSettings(Settings settings) {
+        super.setSettings(settings);
+        this.settings = settings;
+    }
+
     @Override
-    public void draw(Canvas canvas) {
+    public void drawPattern(Canvas canvas) {
         float h = canvas.getHeight();
         float w = canvas.getWidth();
 
@@ -73,6 +82,59 @@ public class Pattern extends BasePattern {
 
             radius = radius * 0.55f;
         }
+    }
+
+    // TODO: RENAME TO "concentric" add add option for circles!!!!!!!!!
+
+    protected void drawCircles(Canvas canvas) {
+        float cx = centerX(canvas);
+        float cy = centerY(canvas);
+
+        //int[] ts = timeSegments();
+        //int hd = hoursInDay();
+
+        //float w = faceRadius(canvas);
+        //float r0 = spotRadius(canvas, hd);
+        //float r1 = (w - r0) * 0.975f;
+
+        int[] colors = timeColors();
+
+        //canvas.drawColor(colors[0]);
+
+        paint.reset();
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.STROKE);
+        //paint.setStrokeWidth(r1 * 2);
+
+        float m = min(cx, cy);
+
+        float s = 6 - settings.getSize();
+
+        float radius = (m / (2 * s));
+        float step = (radius * 2);
+
+        paint.setStrokeWidth(step);
+
+        int x = colors.length * 8;
+
+        for (int k = 0; k < x; k++) {
+            paint.setColor(colors[mod(k, colors.length)]);
+            //paint.setAlpha(150);
+
+            //canvas.drawCircle(cx, cy, q, paint);
+
+            //float q2 = q - (u / 2);
+            //drawTicks(canvas, ts[k], q - (u / 2));
+
+            canvas.drawCircle(cx, cy, radius, paint);
+
+            radius = radius + step;
+        }
+
+        //paint.setStyle(Paint.Style.FILL);
+        //paint.setStrokeWidth(1);
+        //drawShape(canvas, u / (2 * d), paint);
+        //canvas.drawCircle(cx, cy, u / (2 * d), paint);
     }
 
 }

@@ -145,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    private final static String PRODUCT_ID = "freedom";
+    // TODO: get this from resources
+    private final static String PRODUCT_ID = "upgrade";
 
     /**
      * Create a new fragment and specify the fragment to show based on nav item clicked.
