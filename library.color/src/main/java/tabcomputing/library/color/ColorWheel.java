@@ -7,8 +7,7 @@ import java.util.Calendar;
 
 public class ColorWheel {
 
-    public ColorWheel() {
-    }
+    public ColorWheel() { }
 
     //public static final int FLAG_BRIGHTNESS  = 0x01;
     //public static final int FLAG_SATURATION  = 0x02;
@@ -294,6 +293,9 @@ public class ColorWheel {
         return Color.HSVToColor(hsv);
     }
 
+    // adjust the rgb color wheel so blue is at 0.
+    private static final double OFFSET = 0.666666;
+
     /**
      * Given a color ratio and a time ratio, produce the corresponding color.
      *
@@ -305,7 +307,7 @@ public class ColorWheel {
         //    ratio = rotate(ratio, 0.25);
         //}
 
-        ratio = rotate(ratio, 0.66666);
+        ratio = rotate(ratio, OFFSET);
 
         double[] hsv = new double[3];
         hsv[0] = 360 * ratio; //colorCorrect(ratio);
