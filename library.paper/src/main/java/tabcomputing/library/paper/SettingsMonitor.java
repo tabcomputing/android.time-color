@@ -72,7 +72,7 @@ public class SettingsMonitor implements SharedPreferences.OnSharedPreferenceChan
 
         if (key.equals(AbstractSettings.KEY_CUSTOM_SETTINGS)) {
             loadPreferences();
-            reset(); // TODO: do we need to reset?
+            //reset(); // TODO: do we need to reset?
             return;
         }
 

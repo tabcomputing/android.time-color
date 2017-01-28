@@ -11,6 +11,10 @@ public abstract class AbstractSettings {
 
     public AbstractSettings() {}
 
+    // The only global setting defined here. It us used to determine if shared settings
+    // will be ignored in favor of custom ones.
+    public static final String KEY_CUSTOM_SETTINGS = "customSettings";
+
     public static final int TYPE_BOOLEAN = 0;
     public static final int TYPE_INTEGER = 1;
     public static final int TYPE_STRING  = 2;
@@ -220,10 +224,6 @@ public abstract class AbstractSettings {
     public int getFramerate() {
         return 1000;
     }
-
-    // The only global setting defined here. It us used to determine if shared settings
-    // will be ignored in favor of custom ones.
-    public static final String KEY_CUSTOM_SETTINGS = "customSettings";
 
     /**
      *

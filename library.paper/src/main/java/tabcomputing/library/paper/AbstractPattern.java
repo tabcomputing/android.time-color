@@ -207,15 +207,18 @@ public abstract class AbstractPattern implements SettingsListener {
      *
      * @return          array of time converted to intrinsic base
      */
-    protected String[] timeRebased(boolean sansSeconds) {
-        return timeSystem.timeRebased(sansSeconds);
+    protected String[] timeRebased(int upto, boolean ampm) {
+        return timeSystem.timeRebased(upto, ampm);
         //if (!all && !settings.displaySeconds()) {
         //    t = Arrays.copyOf(t, t.length - 1);
         //}
         //return t;
     }
+    protected String[] timeRebased(boolean ampm) {
+        return timeRebased(-1, ampm);
+    }
     protected String[] timeRebased() {
-        return timeRebased(sansSeconds());
+        return timeRebased(-1, false);
     }
 
     /**
