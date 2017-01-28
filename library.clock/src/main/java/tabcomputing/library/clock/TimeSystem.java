@@ -74,8 +74,8 @@ public interface TimeSystem {
      * Get the current time as an array of base converted integers, one for each segment.
      */
     String[] timeRebased();
-    String[] timeRebased(int upto);
-    String[] timeRebased(boolean sansSeconds);
+    String[] timeRebased(boolean ampm);
+    String[] timeRebased(int upto, boolean ampm);
 
     /**
      * Intrinsic number base.

@@ -62,7 +62,7 @@ public class MeridiemTime extends AbstractTime {
      * @return      time array
      */
     @Override
-    public String[] timeRebased(int upto) {
+    public String[] timeRebased(int upto, boolean ampm) {
         if (upto < 0) { upto = end() + upto; }
 
         int[] t = time(upto);

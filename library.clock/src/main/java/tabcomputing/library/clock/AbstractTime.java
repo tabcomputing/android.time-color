@@ -285,12 +285,16 @@ public abstract class AbstractTime implements TimeSystem {
         return size() - 1;
     }
 
+    static final int WITHOUT_SECONDS = -1;
+
     /**
      * Returns time as an array or base-converted and formatted segments.
      *
+     *     timeRebased(AbstractTime.WITHOUT_SECONDS);
+     *
      * @return      time array
      */
-    public String[] timeRebased(int upto) {
+    public String[] timeRebased(int upto, boolean ampm) {
         if (upto < 0){ upto = end() + upto; }
         int size = upto + 1;
 
@@ -299,21 +303,29 @@ public abstract class AbstractTime implements TimeSystem {
         String[] baseTime = new String[size];
 
         for(int i=0; i < size; i++) {
-            baseTime[i] = fmtSegment(base(t[i]), i);
+            if (ampm && i == 0 && t[i] > (hoursInDay() / 2)) {
+                baseTime[i] = fmtSegment(base(t[i] - (hoursInDay() / 2)), i);
+            } else {
+                baseTime[i] = fmtSegment(base(t[i]), i);
+            }
         }
 
         return baseTime;
     }
 
-    public String[] timeRebased(boolean withoutSeconds) {
-        if (withoutSeconds) {
-            return timeRebased(-1);
-        }
-        return timeRebased(end());
+    //public String[] timeRebased(boolean withoutSeconds, boolean ampm) {
+    //    if (withoutSeconds) {
+    //        return timeRebased(-1, ampm);
+    //    }
+    //    return timeRebased(end(), ampm);
+    //}
+
+    public String[] timeRebased(boolean ampm) {
+        return timeRebased(end(), ampm);
     }
 
     public String[] timeRebased() {
-        return timeRebased(end());
+        return timeRebased(end(), false);
     }
 
     public String timeStamp() {
