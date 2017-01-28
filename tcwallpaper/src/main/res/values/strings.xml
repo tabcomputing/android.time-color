@@ -2,6 +2,15 @@
     <string name="app_name">"Time + Color = Wallpaper"</string>
     <string name="app_description">Time + Color = Wallpaper</string>
 
+    <string name="publicKey">
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhYt78mTecdGIo2yy/384
+        46QR9ASKufTdM9mmTmcjsL3aNUBoo2pJSd5f1A2r+HWHMKYJZmFhMMT2qh/ga6de
+        bjXWu6zGfypCpxyKv3xEvuB0gwPi7w61pYmdDqt5l8x6/j/Qm6Q8h3xY5peYmGeE
+        qdCi6vqFVbnRPeiigTE4K//VQ/TUEvWodcDI/0ScRutsTfuvcyPhB3H2PnxCQArj
+        I8aydUsyvTFlt2Qec7q+RJqjPVTR2sR9nINKlIk6lRk9TwOl3NxkN4zZVWB4lQSA
+        SWiIZ+B7b4e8UywqUAGlNbm2qYlLMKAycs1uTNPnMVHqZSy2nN3VFLP709KOTIhrQQIDAQAB
+    </string>
+
     <string name="title_activity_browser">Wallpaper Browser</string>
 
     <!-- do we need there two anymore? -->
@@ -21,14 +30,19 @@
     <string name="bug_phrase_0">Have you ever seen a starving programmer?\nIt ain\'t pretty.</string>
     <string name="bug_phrase_1">It doesn\'t cost much to get rid of this annoying message.</string>
     <string name="bug_phrase_2">Generosity is the root of all happiness.\n\nBut getting paid helps.\n</string>
-    <string name="bug_phrase_3">Buy us a coffee and we\'ll rid you of these nag messages.</string>
-    <string name="bug_phrase_4">You can get rid of this annoying message.</string>
-    <string name="bug_phrase_5">Upgrading unlocks additional pattern settings.</string>
+    <string name="bug_phrase_3">Buy us a coffee and we\'ll rid you of this annoying message.\n\nSee how that works?</string>
+    <string name="bug_phrase_4">Yes, you can get rid of this annoying message.</string>
+    <string name="bug_phrase_5">Upgrading unlocks the &#x2764;, specifically the &#x2764;\'d pattern settings.</string>
+    <string name="bug_phrase_6">Give and you shall receive.\n\nOr more precisely, give $s and you shall receive &#x2764;s.</string>
+    <string name="bug_phrase_7">Bubble gum is colorful, sure, but you only get to chew it once.</string>
+    <string name="bug_phrase_8">The Haskell type signature for an upgrade is:\n\n$ -> &#x2764;\n\nGood knowledge.</string>
+    <string name="bug_phrase_9">Once upon a time, there lived an Upgrader. And they lived happily ever after. The End.</string>
 
     <string name="action_upgrade">Upgrade</string>
     <string name="action_review">Review</string>
     <string name="action_clock">Clock</string>
     <string name="action_settings">Settings</string>
+    <string name="action_wallpaper">Wallpaper</string>
     <string name="action_homepage">Homepage</string>
     <string name="action_acknowledge">About</string>
 
@@ -38,6 +52,7 @@
     <string name="nav_about">About</string>
     <string name="nav_website">Website</string>
     <string name="nav_upgrade">Upgrade!</string>
+    <string name="nav_review">Review</string>
 
     <string name="category_clock_title">CLOCK</string>
     <string name="category_special_title">SPECIAL</string>
@@ -46,9 +61,16 @@
     <string name="category_color_title">Color</string>
 
     <string name="dialog_nag_message">
-        If you like Time+Color=Wallpaper please upgrade. Upgrading costs less than
-        a pack of bubble gum and in return unlocks a number of additional pattern
-        options. It will also rid you of our pesky nagging!\n\nWould you like to upgrade?
+        Unlock the &#x2764;?
+    </string>
+
+    <string name="dialog_nag_message_long">
+        Hope you are enjoying Time + Color = Wallpaper. If you are, how about showing some &#x2764; with an
+        upgrade?
+        \n\nUpgrading costs less than a pack of gum, and in return unlocks all the &#x2764;\'d
+        pattern settings.
+        \n\nUpgrading will also rid you of our pesky nagging!
+        \n\nWould you like to upgrade?
     </string>
     <string name="dialog_nag_yes">Yes</string>
     <string name="dialog_nag_no">No</string>
@@ -56,15 +78,17 @@
 
     <!-- COMMON SETTINGS -->
 
+    <string name="usePatternSettings_title">Click here to use current wallpaper settings.</string>
+    <string name="usePatternSettings_summary">This will change the settings below to match currently selected wallpaper.</string>
+
     <string name="customSettings_title">Customize settings?</string>
-    <string name="customSettings_summary">Customize common settings for this pattern, instead of using shared settings.</string>
+    <string name="customSettings_summary">Customize general settings for this pattern, instead of using shared settings.</string>
 
-    <string name="usePatternSettings_title">Use current pattern settings?</string>
-    <string name="usePatternSettings_summary">Adjust clock settings to match current pattern.</string>
+    <!-- Swap reverses just the top two colors. -->
+    <string name="colorSwap_title">Swap?</string>
+    <string name="colorSwap_summary">Swap placement of hour and minute colors.</string>
 
-    <string name="colorSwap_title">Invert?</string>
-    <string name="colorSwap_summary">Invert pattern, typically by swapping the hour minute colors.</string>
-
+    <!-- Reverse is used reverse all time colors -->
     <string name="reverse_title">Reverse?</string>
     <string name="reverse_summary">Reverse pattern by flipping colors/times around.</string>
 
@@ -235,17 +259,25 @@
     </string-array>
     <string name="backdrop_default">0</string>
 
+    <!-- Cheat clock -->
+    <string name="cheatClock_title">Cheat Clock</string>
+    <string name="cheatClock_summary">Choose a cheat clock style.</string>
+    <string-array name="cheatClock_entries">
+        <item>None</item>
+        <item>Dots</item>
+        <item>Bar</item>
+    </string-array>
+    <string-array name="cheatClock_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="cheatClock_default">1</string>
 
-    <!-- PATTERNS -->
+    <string name="typeface_title">Font</string>
+    <string name="typeface_summary">Choose a big font.</string>
 
-    <!-- Big Time -->
-    <string name="bigtime_label">T+C=W Big Time</string>
-    <string name="bigtime_description">Time + Color = Wallpaper presents Big Time.</string>
-
-    <string name="bigtime_font_title">Font</string>
-    <string name="bigtime_font_summary">Choose a big font.</string>
-
-    <string-array name="bigtime_font_entries">
+    <string-array name="typeface_entries">
         <item>Cubes</item>
         <item>Neospacial</item>
         <item>Origap</item>
@@ -256,7 +288,7 @@
         <item>System Default</item>
     </string-array>
 
-    <string-array name="bigtime_font_values">
+    <string-array name="typeface_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -267,7 +299,14 @@
         <item>7</item>
     </string-array>
 
-    <string name="bigtime_font_default">0</string>
+    <string name="typeface_default">0</string>
+
+
+    <!-- PATTERNS -->
+
+    <!-- Big Time -->
+    <string name="bigtime_label">T+C=W Big Time</string>
+    <string name="bigtime_description">Time + Color = Wallpaper presents Big Time.</string>
 
     <!-- Binary Stripes -->
     <string name="binary_label">T+C=W Binary</string>
@@ -432,32 +471,12 @@
     <string name="wave_description">Time + Color = Wallpaper presents Wave.</string>
 
 
+    <!-- Clock Typeface -->
 
-    <!-- Flare DEPRECATED -->
+    <string name="clockTypeface_title">Typeface</string>
+    <string name="clockTypeface_summary">Select a font for displaying time.</string>
 
-    <string name="flare_title">Pattern flare</string>
-    <string name="flare_summary">Add a bit of flare to your pattern.</string>
-
-    <string-array name="flare_entries">
-        <item>None</item>
-        <item>Glare</item>
-        <item>Sunspot</item>
-    </string-array>
-
-    <string-array name="flare_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
-    <string name="flare_default">0</string>
-
-    <!-- Typeface -->
-
-    <string name="typeface_title">Typeface</string>
-    <string name="typeface_summary">Select a font for displaying time.</string>
-
-    <string-array name="typeface_entries">
+    <string-array name="clockTypeface_entries">
         <item>Default</item>
         <item>Serif</item>
         <item>Monospace</item>
@@ -465,7 +484,7 @@
         <item>Cubes</item>
     </string-array>
 
-    <string-array name="typeface_values">
+    <string-array name="clockTypeface_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -473,7 +492,7 @@
         <item>4</item>
     </string-array>
 
-    <string name="typeface_default">0</string>
+    <string name="clockTypeface_default">0</string>
 
     <!--  Clock Type -->
 
@@ -521,8 +540,8 @@
     <string name="clockBackground_summary">Select a background color.</string>
 
     <string-array name="clockBackground_entries">
-        <item>Black</item>
         <item>White</item>
+        <item>Black</item>
         <item>Time\'s</item>
     </string-array>
 
@@ -553,7 +572,21 @@
         \n
         "Confection Cubes" Truetype Font\n
         Copyright 2010 by Eric Michael\n
-        www.eric-michael.com\n\n]]>
+        www.eric-michael.com\n
+        \n
+        "Diskopia" Trutype Font\n
+        nimavisual.tumblr.com\n
+        \n
+        "Neospacial" Truetype Font\n
+        www.moorstation.org/typoasis/designers/gemnew/home.htm\n
+        \n
+        "Origap" Truetype Font\n
+        www.tepidmonkey.net\n
+        \n
+        "Toolego Mirage" Trutype Font\n
+        Copyright 1999 by Apostrophic Instances\n
+        \n
+        ]]>
     </string>
 
 </resources>

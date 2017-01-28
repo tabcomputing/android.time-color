@@ -5,12 +5,12 @@
         android:title="@string/category_special_title">
         <ListPreference
             android:key="typeface"
-            android:title="@string/bigtime_font_title"
-            android:summary="@string/bigtime_font_summary"
-            android:entries="@array/bigtime_font_entries"
-            android:entryValues="@array/bigtime_font_values"
-            android:dialogTitle="@string/bigtime_font_title"
-            android:defaultValue="@string/bigtime_font_default" />
+            android:title="@string/typeface_title"
+            android:summary="@string/typeface_summary"
+            android:entries="@array/typeface_entries"
+            android:entryValues="@array/typeface_values"
+            android:dialogTitle="@string/typeface_title"
+            android:defaultValue="@string/typeface_default" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_general_settings"
@@ -76,5 +76,13 @@
             android:title="@string/baseConvert_title"
             android:summary="@string/baseConvert_summary"
             android:defaultValue="true" />
+        <ListPreference
+            android:key="cheatClock"
+            android:title="@string/cheatClock_title"
+            android:summary="@string/cheatClock_summary"
+            android:entries="@array/cheatClock_entries"
+            android:entryValues="@array/cheatClock_values"
+            android:dialogTitle="@string/cheatClock_title"
+            android:defaultValue="@string/cheatClock_default" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -4,12 +4,18 @@ import tabcomputing.tcwallpaper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
-    static final String KEY_SMOOTH = "smooth";
-    static final String KEY_ASPECT = "aspect";
+    static final String KEY_SMOOTH  = "smooth";
+    static final String KEY_ASPECT  = "aspect";
     static final String KEY_DENSITY = "density";
+    static final String KEY_SWAP    = "colorSwap";
 
     public Settings() {
-        propertyBoolean(KEY_CUSTOM_SETTINGS, false);
+        defineProperties();
+    }
+
+    @Override
+    protected void defineProperties() {
+        super.defineProperties();
 
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, false);
@@ -34,6 +40,10 @@ public class Settings extends CommonSettings {
 
     public int getDensity() {
         return getInteger(KEY_DENSITY);
+    }
+
+    public boolean isSwapped() {
+        return getBoolean(KEY_SWAP);
     }
 
 }

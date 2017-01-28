@@ -5,9 +5,15 @@ import tabcomputing.tcwallpaper.CommonSettings;
 public class Settings extends CommonSettings {
 
     static final String KEY_GLARE = "sunGlare";
+    static final String KEY_SWAP  = "colorSwap";
 
     public Settings() {
-        propertyBoolean(KEY_CUSTOM_SETTINGS, false);
+        defineProperties();
+    }
+
+    @Override
+    protected void defineProperties() {
+        super.defineProperties();
 
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, false);
@@ -17,13 +23,17 @@ public class Settings extends CommonSettings {
         propertyBoolean(KEY_TIME_ROTATE, false);
         propertyBoolean(KEY_TIME_SECONDS, false);
 
-        propertyBoolean(KEY_COLOR_SWAP, false);
+        propertyBoolean(KEY_SWAP, false);
         propertyInteger(KEY_ORIENTATION, 0);
         propertyBoolean(KEY_GLARE, false);
     }
 
     public boolean useGlare() {
         return getBoolean(KEY_GLARE);
+    }
+
+    public boolean isSwapped() {
+        return getBoolean(KEY_SWAP);
     }
 
 }

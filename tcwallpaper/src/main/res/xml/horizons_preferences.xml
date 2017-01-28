@@ -67,5 +67,13 @@
             android:summary="@string/clockRotate_summary"
             android:defaultValue="false" />
         -->
+        <ListPreference
+            android:key="cheatClock"
+            android:title="@string/cheatClock_title"
+            android:summary="@string/cheatClock_summary"
+            android:entries="@array/cheatClock_entries"
+            android:entryValues="@array/cheatClock_values"
+            android:dialogTitle="@string/cheatClock_title"
+            android:defaultValue="@string/cheatClock_default" />
     </PreferenceCategory>
 </PreferenceScreen>

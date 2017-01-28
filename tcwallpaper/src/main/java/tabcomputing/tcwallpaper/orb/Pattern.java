@@ -27,11 +27,18 @@ public class Pattern extends BasePattern {
         this.settings = settings;
     }
 
+    /**
+     * Draw the pattern.
+     *
+     * The hour color is on the outside in normal mode, in the orb if swapped.
+     *
+     * @param canvas    drawing canvas
+     */
     @Override
     public void drawPattern(Canvas canvas) {
         int[] colors = timeColors();
 
-        canvas.drawColor(settings.isSwapped() ? colors[0] : colors[1]);
+        canvas.drawColor(settings.isSwapped() ? colors[1] : colors[0]);
 
         if (settings.isOrbital()) {
             drawOrbit(canvas);
@@ -59,14 +66,14 @@ public class Pattern extends BasePattern {
 
         double tr = timeSystem.ratioTime();
 
+        // TODO: traveling (sin) should be optional?
         float y = (float)(canvas.getHeight() * Math.abs(sin(tr)));
 
         int size = settings.orbSize();
 
-        // the hour color is on the outside in normal mode
         if (size == 0) {
             // draw the circular gradient
-            colors = (settings.isSwapped() ? reverse(colors) : colors);
+            colors = (settings.isSwapped() ? colors : reverse(colors));
             float r = m * 1.5f;
 
             RadialGradient shader = new RadialGradient(cx, y, r, colors, null, Shader.TileMode.CLAMP);
@@ -76,7 +83,7 @@ public class Pattern extends BasePattern {
             canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
         } else {
             // draw the orb
-            int color = settings.isSwapped() ? colors[1] : colors[0];
+            int color = settings.isSwapped() ? colors[0] : colors[1];
             float r = m * 0.3f * size;
 
             paint.reset();
@@ -111,7 +118,7 @@ public class Pattern extends BasePattern {
 
         if (size == 0) {
             // draw the circular gradient
-            colors = (settings.isSwapped() ? reverse(colors) : colors);
+            colors = (settings.isSwapped() ? colors : reverse(colors));
             float r = m * 1.5f;
 
             RadialGradient shader = new RadialGradient(hx, hy, r, colors, null, Shader.TileMode.CLAMP);
@@ -120,7 +127,7 @@ public class Pattern extends BasePattern {
             canvas.drawRect(new RectF(0, 0, canvas.getWidth(), canvas.getHeight()), paint);
         } else {
             // draw the orb
-            int color = settings.isSwapped() ? colors[1] : colors[0];
+            int color = settings.isSwapped() ? colors[0] : colors[1];
             float r = m * 0.3f * size;
 
             paint.reset();

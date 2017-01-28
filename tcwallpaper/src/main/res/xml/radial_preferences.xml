@@ -4,9 +4,9 @@
         android:key="category_special_settings"
         android:title="@string/category_special_title">
         <CheckBoxPreference
-            android:key="colorSwap"
-            android:title="@string/colorSwap_title"
-            android:summary="@string/colorSwap_summary"
+            android:key="reverse"
+            android:title="@string/reverse_title"
+            android:summary="@string/reverse_summary"
             android:defaultValue="false" />
         <CheckBoxPreference
             android:key="smooth"
@@ -72,5 +72,13 @@
             android:summary="@string/timeRotate_summary"
             android:defaultValue="false" />
             -->
+        <ListPreference
+            android:key="cheatClock"
+            android:title="@string/cheatClock_title"
+            android:summary="@string/cheatClock_summary"
+            android:entries="@array/cheatClock_entries"
+            android:entryValues="@array/cheatClock_values"
+            android:dialogTitle="@string/cheatClock_title"
+            android:defaultValue="@string/cheatClock_default" />
     </PreferenceCategory>
 </PreferenceScreen>

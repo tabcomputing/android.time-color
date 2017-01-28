@@ -5,15 +5,25 @@ import android.app.WallpaperInfo;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class ClockFragment extends Fragment {
 
+    // clock settings
     ClockSettings settings = ClockSettings.getInstance();
+
+    // persist clock view
+    ClockView clock;
 
     //SharedPreferences prefs;
 
@@ -23,24 +33,62 @@ public class ClockFragment extends Fragment {
         //return inflater.inflate(R.layout.clockarticle_view, container, false);
 
         // clock view
-        ClockView clock = new ClockView(getActivity().getApplicationContext());
+        clock = new ClockView(getActivity().getApplicationContext());
+
+        // setup touch listener to use left-right swipe to toggle 12/24 hour clock
+        clock.setOnTouchListener(new View.OnTouchListener() {
+            //private float x1, x2;
+            //static final int MIN_DISTANCE = 200;
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                    //    x1 = event.getX();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        Rect bounds = clock.toggleButtonBounds();
+                        float x = event.getX();
+                        float y = event.getY();
+                        //Log.d("ClockFragment", "x: " + x + " y: " + y);
+                        //Log.d("ClockFragment", "bounds: " + bounds.left + " " + bounds.right + " " + bounds.top + " " + bounds.bottom);
+                        if (bounds.contains((int) x, (int) y)) {
+                            toggle12and24();
+                        }
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        // return clock view
         return clock;
+    }
+
+    /**
+     * Toggle clock between 12/24 hour representations.
+     */
+    protected void toggle12and24() {
+        clock.toggle12and24();
+        //settings.toggleAMPM();
+        //clock.invalidate();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings.setAssets(getActivity().getApplicationContext().getAssets());
+        Context context = getActivity().getApplicationContext();
+
+        settings.setAssets(context.getAssets());
 
         // register listener on changed preference
         //prefs = getSharedPrefs();
         //prefs.registerOnSharedPreferenceChangeListener(this);
 
         // read settings
-        settings.readPreferences(getActivity().getApplicationContext());
+        settings.readPreferences(context);
 
-        readPatternSettings();
+        //readPatternSettings();
 
         // clock view
         //ClockView clock = new ClockView(getApplicationContext());
@@ -103,7 +151,7 @@ public class ClockFragment extends Fragment {
         // read settings
         settings.readPreferences(getActivity().getApplicationContext());
 
-        readPatternSettings();
+        //readPatternSettings();
     }
 
     //@Override
@@ -138,9 +186,9 @@ public class ClockFragment extends Fragment {
             return;
         }
 
-        if (settings.usePatternSettings()) {
+        //if (settings.usePatternSettings()) {
             Context context = getActivity().getApplicationContext();
             settings.readPreferences(serviceName, context);
-        }
+        //}
     }
 }

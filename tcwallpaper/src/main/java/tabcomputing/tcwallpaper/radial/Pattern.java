@@ -122,8 +122,11 @@ public class Pattern extends BasePattern {
 
         RectF rect = new RectF(cx - d, cy - d, cx + d, cy + d);
 
+        // adjusted time ratio
+        float atr = reduce(1.0f - ((float) time()[segment] / ticks));
+
         float sweepAngle = 360.0f / ticks;
-        float timeAngle  = sweepAngle * time()[segment];
+        float timeAngle  = 360.0f * atr;
         float startAngle = timeAngle - (sweepAngle / 2.0f) + offset;
 
         circlePaint.reset();

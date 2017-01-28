@@ -4,10 +4,16 @@ import tabcomputing.tcwallpaper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
-    public static final String KEY_BINDI = "bindi";
+    static final String KEY_BINDI = "bindi";
+    static final String KEY_SWAP  = "colorSwap";
 
     public Settings() {
-        propertyBoolean(KEY_CUSTOM_SETTINGS, false);
+        defineProperties();
+    }
+
+    @Override
+    protected void defineProperties() {
+        super.defineProperties();
 
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, true);
@@ -17,12 +23,16 @@ public class Settings extends CommonSettings {
         propertyBoolean(KEY_TIME_ROTATE, false);
         propertyBoolean(KEY_TIME_SECONDS, false);
 
-        propertyBoolean(KEY_COLOR_SWAP, false);
+        propertyBoolean(KEY_SWAP, false);
         propertyBoolean(KEY_BINDI, false);
     }
 
     public boolean isBindi() {
         return getBoolean(KEY_BINDI);
+    }
+
+    public boolean isSwapped() {
+        return getBoolean(KEY_SWAP);
     }
 
 }

@@ -7,7 +7,12 @@ public class Settings extends CommonSettings {
     public static final String KEY_SUN  = "sun";
 
     public Settings() {
-        propertyBoolean(KEY_CUSTOM_SETTINGS, false);
+        defineProperties();
+    }
+
+    @Override
+    protected void defineProperties() {
+        super.defineProperties();
 
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, false);

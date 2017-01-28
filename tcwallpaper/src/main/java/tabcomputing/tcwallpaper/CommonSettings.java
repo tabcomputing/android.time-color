@@ -9,7 +9,7 @@ import tabcomputing.library.clock.DuodecimalTime;
 import tabcomputing.library.clock.HexadecimalTime;
 import tabcomputing.library.clock.HeximalTime;
 import tabcomputing.library.clock.StandardTime;
-import tabcomputing.library.clock.MeridiemTime;
+//import tabcomputing.library.clock.MeridiemTime;
 import tabcomputing.library.clock.TimeSystem;
 import tabcomputing.library.color.ColorWheel;
 import tabcomputing.library.paper.AbstractSettings;
@@ -19,22 +19,24 @@ import tabcomputing.library.paper.FontScale;
  * Common Pattern Settings
  */
 public class CommonSettings extends AbstractSettings {
-    public static final Boolean DEBUG = true;
+    // TODO: BE SURE TO MAKE FALSE BEFORE RELEASE!
+    public static final Boolean DEBUG = false;
 
     public static final String KEY_COLOR_GAMUT    = "colorGamut";
     public static final String KEY_COLOR_DAYLIGHT = "colorDaylight";
     public static final String KEY_COLOR_DUPLEX   = "colorDuplex";
 
-    public static final String KEY_COLOR_SWAP     = "colorSwap";
+    //public static final String KEY_COLOR_SWAP     = "colorSwap";
 
     public static final String KEY_TIME_SYSTEM    = "timeSystem";
     public static final String KEY_TIME_SECONDS   = "timeSeconds";
     public static final String KEY_BASE_CONVERT   = "baseConvert";
     public static final String KEY_TIME_ROTATE    = "clockRotate";
 
+    public static final String KEY_CHEAT_CLOCK    = "cheatClock";
+
     // not all patterns use these but they aren't atypical
     public static final String KEY_ORIENTATION    = "orientation";
-    public static final String KEY_TYPEFACE       = "typeface";
 
     public static final int TIME_STANDARD = 0;
     //public static final int TIME_MERIDIEM = 1;  // DEPRECATED
@@ -44,25 +46,35 @@ public class CommonSettings extends AbstractSettings {
     public static final int TIME_HEXIMAL = 4;
 
     private ColorWheel colorWheel = new ColorWheel();
-    private TimeSystem timeSystem = new MeridiemTime();
+    private TimeSystem timeSystem = new StandardTime();
     private Typeface typeface = Typeface.DEFAULT;
+
+    /**
+     *
+     */
+    protected void defineProperties() {
+        propertyBoolean(KEY_CUSTOM_SETTINGS, false);
+        propertyInteger(KEY_CHEAT_CLOCK, 1);
+    }
+
+    /**
+     *
+     */
+    public int getCheatClock() {
+        return getInteger(KEY_CHEAT_CLOCK);
+    }
 
     /**
      * Get instance of currently selected time system.
      */
     public TimeSystem getTimeSystem() {
-        //int id = integerSettings.get(KEY_TIME_SYSTEM);
-        if (timeSystem == null) {
+        if (timeSystem == null || isChanged(KEY_TIME_SYSTEM)) {
             changeTimeSystem();
         }
-        //if (timeSystemId != id) {
-        //    changeTimeSystem();
-        //}
         return timeSystem;
     }
 
     protected void changeTimeSystem() {
-        //timeSystemId = integerSettings.get(KEY_TIME_SYSTEM);
         timeSystem = newTimeSystem(integerSettings.get(KEY_TIME_SYSTEM));
     }
 
@@ -107,13 +119,9 @@ public class CommonSettings extends AbstractSettings {
      * @return      color wheel
      */
     public ColorWheel getColorWheel() {
-        //int id = getInteger(KEY_COLOR_GAMUT);
-        if (colorWheel == null) {
+        if (colorWheel == null || isChanged(KEY_COLOR_GAMUT)) {
             changeColorWheel();
         }
-        //if (colorGamutId != id) {
-        //    changeColorWheel();
-        //}
         return colorWheel;
     }
 
@@ -187,9 +195,9 @@ public class CommonSettings extends AbstractSettings {
      *
      * @return      true if colors should be swapped
      */
-    public boolean isSwapped() {
-        return getBoolean(KEY_COLOR_SWAP);
-    }
+    //public boolean isSwapped() {
+    //    return getBoolean(KEY_COLOR_SWAP);
+    //}
 
     /**
      * Get orientation, which typically will have the values 0, 1 or 2 for horizontal,
@@ -203,57 +211,6 @@ public class CommonSettings extends AbstractSettings {
 
     public boolean isBaseConverted() {
         return getBoolean(KEY_BASE_CONVERT);
-    }
-
-    /**
-     * Get current typeface.
-     *
-     * @return      typeface instance
-     */
-    public Typeface getTypeface() {
-        if (typeface == null) {
-            changeTypeface();
-        }
-        return typeface;
-    }
-
-    /**
-     * Setup new typeface.
-     */
-    protected void changeTypeface() {
-        //typefaceId = getInteger(KEY_TYPEFACE);
-        typeface = newTypeface(getInteger(KEY_TYPEFACE));
-    }
-
-    protected Typeface newTypeface(int typefaceId) {
-        //AssetManager assets = context.getAssets();
-        Typeface typeface;
-        switch (typefaceId) {
-            case 7:
-                typeface = Typeface.createFromAsset(assets, "arcade.ttf");
-                break;
-            case 6:
-                typeface = Typeface.createFromAsset(assets, "basic.ttf");
-                break;
-            case 5:
-                typeface = Typeface.createFromAsset(assets, "cubes.ttf");
-                break;
-            case 4:
-                typeface = Typeface.createFromAsset(assets, "digital.ttf");
-                break;
-            case 3:
-                typeface = Typeface.MONOSPACE;
-                break;
-            case 2:
-                typeface = Typeface.SANS_SERIF;
-                break;
-            case 1:
-                typeface = Typeface.SERIF;
-                break;
-            default:
-                typeface = Typeface.DEFAULT;
-        }
-        return typeface;
     }
 
     /**
@@ -286,7 +243,6 @@ public class CommonSettings extends AbstractSettings {
      */
     @Override
     public void updatePreference(SharedPreferences prefs, String key) {
-        //Log.d("log", "updatePreference: " + key);
         switch (key) {
             //case KEY_CUSTOM_SETTINGS:
             //    // do it all
@@ -303,10 +259,8 @@ public class CommonSettings extends AbstractSettings {
             case KEY_COLOR_DAYLIGHT:
                 changeColorWheel();
                 break;
-            case KEY_TYPEFACE:
-                changeTypeface();
-                break;
         }
+
         // TODO: should super call come first?
         super.updatePreference(prefs, key);
     }

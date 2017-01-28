@@ -78,7 +78,6 @@
         -->
 
         <!-- Big Time -->
-        <!--
         <service
             android:name=".bigtime.Wallpaper"
             android:label="@string/bigtime_label"
@@ -100,7 +99,6 @@
             android:label="@string/bigtime_label"
             android:exported="true" >
         </activity>
-        -->
 
         <!-- Binary Stripes -->
         <service

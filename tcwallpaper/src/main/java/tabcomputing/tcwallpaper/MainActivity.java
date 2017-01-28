@@ -1,5 +1,6 @@
 package tabcomputing.tcwallpaper;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -7,6 +8,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 //import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +29,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import tabcomputing.library.paper.BillingService;
+
+import static tabcomputing.library.paper.BillOfSale.PRODUCT_ID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             "TwOl3NxkN4zZVWB4lQSASWiIZ+B7b4e8UywqUAGlNbm2qYlLMKAycs1uTNPn" +
             "MVHqZSy2nN3VFLP709KOTIhrQQIDAQAB";
 
-    private static final String HOMEPAGE = "http://tabcomputing.com/tcwallpaper/";
+    private static final String HOMEPAGE = "http://tabcomputing.com/products/time+color/wallpaper/";
 
     private DrawerLayout mDrawer;
     //private Toolbar toolbar;
@@ -74,9 +79,11 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
         }
 
+        Menu menu = nvDrawer.getMenu();
+
         if (savedInstanceState == null) {
             // on first time display view for first nav item
-            selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_wallpaper));
+            selectDrawerItem(menu.findItem(R.id.nav_wallpaper));
         }
 
         // billing service
@@ -84,6 +91,21 @@ public class MainActivity extends AppCompatActivity {
 
         if (billingService.isOwned(PRODUCT_ID)) {
             nagDismiss = true;
+        }
+
+        MenuItem item;
+
+        // If owned, hide Upgrade menu item and show Review item and vice-versa.
+        if (isOwned()) {
+            item = menu.findItem(R.id.nav_upgrade);
+            if (item != null) { item.setVisible(false); }
+            item = menu.findItem(R.id.nav_review);
+            if (item != null) { item.setVisible(true); }
+        } else {
+            item = menu.findItem(R.id.nav_review);
+            if (item != null) { item.setVisible(true); }
+            item = menu.findItem(R.id.nav_review);
+            if (item != null) { item.setVisible(false); }
         }
 
         startNagMessage();
@@ -159,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
         int navId = menuItem.getItemId();
 
         switch(navId) {
+            case R.id.nav_review:
+                btnRateAppOnClick();
+                return;
             case R.id.nav_upgrade:
                 buyProduct(PRODUCT_ID);
                 return;
@@ -305,6 +330,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_settings:
                 inflater.inflate(R.menu.options_settings, menu);
                 break;
+            case R.id.nav_about:
+                inflater.inflate(R.menu.options_about, menu);
+                break;
             case R.id.nav_wallpaper:
             default:
                 inflater.inflate(R.menu.options_browser, menu);
@@ -319,12 +347,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu)
     {
-        MenuItem register = menu.findItem(R.id.action_upgrade);
+        boolean result = super.onPrepareOptionsMenu(menu); //true;
         if(isOwned()) {
-            register.setTitle(R.string.action_review);
+            MenuItem item = menu.findItem(R.id.action_upgrade);
+            if (item != null) {
+                item.setTitle(R.string.action_review);
+            }
         }
-        return super.onPrepareOptionsMenu(menu); //true;
+        return result;
     }
+
+    //private Settings settings;
+    private static ClockSettings settings = ClockSettings.getInstance();
 
     /**
      * Actions to perform for action menu options.
@@ -354,11 +388,21 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_clock:
                 showClock();
                 return true;
+            case R.id.action_wallpaper:
+                showWallpapers();
+                return true;
+            case R.id.action_about:
+                showAbout();
+                return true;
             case R.id.action_settings:
                 showSettings();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showWallpapers() {
+        selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_wallpaper));
     }
 
     // TODO: Show setting of current wallpaper if a T+C=W Wallpaper is active
@@ -374,6 +418,12 @@ public class MainActivity extends AppCompatActivity {
         //startActivity(intent);
         //ClockView clock = new ClockView(getBaseContext());
         //setContentView(clock);
+    }
+
+    public void showAbout() {
+        selectDrawerItem(nvDrawer.getMenu().findItem(R.id.nav_about));
+        //Intent intent = new Intent(BrowserFragment.this, ClockSettingsActivity.class);
+        //startActivity(intent);
     }
 
     public void showWebsite() {
@@ -402,11 +452,11 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Buy product.
      */
-    private void buyProduct(String sku) {
+    public void buyProduct(String sku) {
         billingService.buyProduct(sku, this);
     }
 
-    private String getPrice(String sku) {
+    public String getPrice(String sku) {
         return billingService.getPrice(sku);
     }
 
@@ -420,12 +470,14 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    NagDialogFragment nagDialogFragment = new NagDialogFragment();
+
     private void showNagDialog() {
         cancelNag(false);
         nagDialogFragment.show(getFragmentManager(), "nag");
     }
 
-    private void cancelNag(boolean permanent) {
+    public void cancelNag(boolean permanent) {
         nagDismiss = permanent;
         nagHandler.removeCallbacks(nagRunner);
     }
@@ -441,6 +493,7 @@ public class MainActivity extends AppCompatActivity {
         //fragment.hideBuyButton();
     }
 
+    /*
     public DialogFragment nagDialogFragment = new DialogFragment() {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -461,6 +514,8 @@ public class MainActivity extends AppCompatActivity {
             return builder.create();
         }
     };
+    */
+
 
     /*
     @Override
@@ -518,10 +573,10 @@ public class MainActivity extends AppCompatActivity {
     public void btnRateAppOnClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         // try Google play
-        intent.setData(Uri.parse("market://details?id=[Id]"));
+        intent.setData(Uri.parse("market://details?id=tabcomputing.tcwallpaper"));
         if (! tryActivity(intent)) {
-            // google play app seems not installed, let's try to open a webbrowser
-            intent.setData(Uri.parse("https://play.google.com/store/apps/details?[Id]"));
+            // google play app seems not installed, let's try to open a web browser
+            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=tabcomputing.tcwallpaper"));
             if (! tryActivity(intent)) {
                 // if this also fails, we have run out of options, inform the user.
                 Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
@@ -545,4 +600,52 @@ public class MainActivity extends AppCompatActivity {
         return billingService.isOwned(PRODUCT_ID);
     }
 
+
+    static public class NagDialogFragment extends DialogFragment {
+
+        public NagDialogFragment() {}
+
+        private MainActivity mActivity;
+
+        @Override
+        public void onAttach(Activity activity)
+        {
+            if (activity instanceof MainActivity)
+            {
+                mActivity = (MainActivity) activity;
+            }
+            super.onAttach(activity);
+        }
+
+        @Override
+        public void onAttach(Context activity)
+        {
+            if (activity instanceof MainActivity)
+            {
+                mActivity = (MainActivity) activity;
+            }
+            super.onAttach(activity);
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.dialog_nag_message)
+                    .setPositiveButton(R.string.dialog_nag_yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            mActivity.buyProduct(PRODUCT_ID);
+                        }
+                    })
+                    .setNegativeButton(R.string.dialog_nag_no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            mActivity.cancelNag(true);
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    };
+
 }
+

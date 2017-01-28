@@ -13,11 +13,16 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v4.view.MotionEventCompat;
 import android.text.TextPaint;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,12 +34,46 @@ import tabcomputing.library.color.ColorWheel;
  *
  */
 public class ClockView extends SurfaceView {
+    private static final String DEBUG_TAG = "ClockView";
+    private Drawable toggleImageOn;
+    private Drawable toggleImageOff;
 
     public ClockView(Context context) {
         super(context, null);
-
         //setupClock();
+        toggleImageOn  = context.getResources().getDrawable(R.drawable.toggle_on);
+        toggleImageOff = context.getResources().getDrawable(R.drawable.toggle_off);
     }
+
+    /*
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        int action = MotionEventCompat.getActionMasked(event);
+
+        Log.d(DEBUG_TAG, "HERE!!!!!!!!");
+        switch(action) {
+            case (MotionEvent.ACTION_DOWN) :
+                Log.d(DEBUG_TAG,"Action was DOWN");
+                return true;
+            case (MotionEvent.ACTION_MOVE) :
+                Log.d(DEBUG_TAG,"Action was MOVE");
+                toggle12and24();
+                return true;
+            case (MotionEvent.ACTION_UP) :
+                Log.d(DEBUG_TAG,"Action was UP");
+                return true;
+            case (MotionEvent.ACTION_CANCEL) :
+                Log.d(DEBUG_TAG,"Action was CANCEL");
+                return true;
+            case (MotionEvent.ACTION_OUTSIDE) :
+                Log.d(DEBUG_TAG,"Movement occurred outside bounds " +
+                        "of current screen element");
+                return true;
+            default :
+                return super.onTouchEvent(event);
+        }
+    }
+    */
 
     private boolean mAttached;
 
@@ -122,12 +161,25 @@ public class ClockView extends SurfaceView {
      *
      * @return      duration in milliseconds
      */
-
     private int frameDuration() {
         return timeSystem.tickTime(true); //settings.displaySeconds());
     }
 
     private Canvas canvas;
+
+    private Rect bounds = new Rect();
+
+    // Store bounds of toggle button
+    private Rect toggleBounds = new Rect();
+
+    /**
+     *
+     */
+    protected void toggle12and24() {
+        settings.toggleAMPM();
+        invalidate();
+        draw();
+    }
 
     /**
      * Draw routine.
@@ -138,6 +190,7 @@ public class ClockView extends SurfaceView {
             canvas = holder.lockCanvas();
             if (canvas != null) {
                 drawClock(canvas);
+                drawInstructions(canvas);
             }
         } finally {
             if (canvas != null)
@@ -151,13 +204,45 @@ public class ClockView extends SurfaceView {
         }
     }
 
-    private Rect bounds = new Rect();
+    //@Override
+    //public void onDraw(Canvas canvas) {
+    //    super.onDraw(canvas);
+    //    drawClock(canvas);
+    //}
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    /**
+     *
+     * @param canvas
+     */
+    protected void drawInstructions(Canvas canvas) {
+        toggleBounds = getToggleButtonBounds(canvas);
+        if (settings.isAMPM()) {
+            toggleImageOn.setBounds(toggleBounds);
+            toggleImageOn.draw(canvas);
+        } else {
+            toggleImageOff.setBounds(toggleBounds);
+            toggleImageOff.draw(canvas);
+        }
+    }
 
-        drawClock(canvas);
+    public Rect toggleButtonBounds() {
+        return toggleBounds;
+    }
+
+    public Rect getToggleButtonBounds(Canvas canvas) {
+        Rect canvasBounds = canvas.getClipBounds();  // Adjust this for where you want it
+        float r = faceRadius(canvasBounds);
+        int w = (int) r / 3;
+        int h = (int) (w / 1.645);
+        Rect imageBounds = new Rect(0, 0, w, h); //toggleImage.getBounds();
+
+        int offset = 40;
+        int right  = canvasBounds.width() - offset;
+        int left   = right - imageBounds.width();
+        int bottom = canvasBounds.bottom - (offset + 15);
+        int top    = bottom - imageBounds.height();
+
+        return new Rect(left, top, right, bottom);
     }
 
     /**
@@ -179,17 +264,20 @@ public class ClockView extends SurfaceView {
 
         switch(settings.getClockType()) {
             case 1:
-                drawBackgroundForDigital(bounds);
                 drawDigitalClock(canvas, bounds);
                 break;
             default:
-                //drawBackgroundForAnalog();
-                drawColorWheel(canvas, bounds);
-                drawNumbers(canvas, bounds);
-                drawTicks(canvas, bounds);
-                drawClockHands(canvas, bounds);
+                drawAnalogClock(bounds);
                 break;
         }
+    }
+
+    private void drawAnalogClock(Rect bounds) {
+        //drawBackgroundForAnalog();
+        drawColorWheel(canvas, bounds);
+        drawNumbers(canvas, bounds);
+        drawTicks(canvas, bounds);
+        drawClockHands(canvas, bounds);
     }
 
     /**
@@ -249,12 +337,14 @@ public class ClockView extends SurfaceView {
      * Draw time in the center of the clock face area.
      */
     private void drawDigitalClock(Canvas canvas, Rect bounds) {
+        drawBackgroundForDigital(bounds);
+
         Rect d;
 
         Typeface font = settings.getTypeface();
 
         //String stamp = timeStamp();
-        String[] time = timeSystem.timeRebased();
+        String[] time = timeSystem.timeRebased(settings.isAMPM());
 
         if (! settings.displaySeconds()) {
             time = Arrays.copyOf(time, time.length - 1);
@@ -438,7 +528,8 @@ public class ClockView extends SurfaceView {
      */
     private void drawColorClockFace(Rect bounds) {
         //Bitmap bkg = getAnalogBackground(bounds);
-        Bitmap cw0 = (isColorDuplexed() ? getColorWheelDuplex(bounds) : getColorWheel(bounds));
+        //Bitmap cw0 = (isColorDuplexed() ? getColorWheelDuplex(bounds) : getColorWheel(bounds));
+        Bitmap cw0 = (settings.isAMPM() ? getColorWheelDuplex(bounds) : getColorWheel(bounds));
         Bitmap cw1 = getCircleWheel(bounds);
 
         Paint q = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -481,7 +572,7 @@ public class ClockView extends SurfaceView {
         paint.setStyle(Paint.Style.FILL);
         paint.setShader(shader);
 
-        if (settings.rotateTime()) {
+        if (settings.rotateTime() || settings.isAMPM()) {
             canvas.rotate(-90, cx, cy);
         } else {
             canvas.rotate(90, cx, cy);
@@ -552,7 +643,7 @@ public class ClockView extends SurfaceView {
         paint.setShader(shader);
 
         //canvas.rotate(-90, cx, cy);
-        if (settings.rotateTime()) {
+        if (settings.rotateTime() || settings.isAMPM()) {
             canvas.rotate(-90, cx, cy);
         } else {
             canvas.rotate(90, cx, cy);
@@ -576,7 +667,11 @@ public class ClockView extends SurfaceView {
     }
 
     protected int hoursOnClock() {
-        return timeSystem.hoursOnClock();
+        if (settings.isAMPM()) {
+            return timeSystem.hoursInDay() / 2;
+        } else {
+            return timeSystem.hoursInDay();
+        }
     }
 
     /**
@@ -695,10 +790,10 @@ public class ClockView extends SurfaceView {
 
                 break;
             case 1:
-                canvas.drawColor(Color.WHITE);
+                canvas.drawColor(Color.BLACK);
                 break;
             default:
-                canvas.drawColor(Color.BLACK);
+                canvas.drawColor(Color.WHITE);
         }
     }
 
@@ -738,7 +833,8 @@ public class ClockView extends SurfaceView {
                 colors = concat(colors, colors);  // TODO: rotate 90 degrees?
             }
         } else {
-            if (timeSystem.isDaySplit()) {
+            if (settings.isAMPM()) {
+            //if (timeSystem.isDaySplit()) {
                 colors = clockColorsPartial();
             } else {
                 colors = colorWheel.colors(hc);
@@ -786,8 +882,6 @@ public class ClockView extends SurfaceView {
 
         return result;
     }
-
-
 
     /**
      * TODO: better name for this method
@@ -966,8 +1060,9 @@ public class ClockView extends SurfaceView {
         }
 
         //if (timeSystem.isDaySplit()) {
-        //    ratios[0] = reduce(ratios[0] * 2);
-        //}
+        if (settings.isAMPM()) {
+            ratios[0] = reduce(ratios[0] * 2);
+        }
 
         return ratios;
     }
@@ -1038,26 +1133,48 @@ public class ClockView extends SurfaceView {
     }
 
     /**
-     * The center Y coordinate is raised up a bit b/c android phones always have
-     * a set of buttons at the bottom of the screen.
+     * The center Y coordinate is raised up a bit when orientation is vertical as it places
+     * the center in a more ergonomic position.
      *
      * @return      vertical origin
      */
     private float centerY(Rect bounds) {
-        return bounds.height() / 2 * 0.85f;
+        if (bounds.height() > bounds.width()) {
+            return bounds.height() / 2 * 0.9f;
+        } else{
+            return bounds.height() / 2;
+        }
     }
     private float centerY(RectF bounds) {
-        return bounds.height() / 2 * 0.85f;
+        if (bounds.height() > bounds.width()) {
+            return bounds.height() / 2 * 0.9f;
+        } else{
+            return bounds.height() / 2;
+        }
     }
 
     /**
      * @return  maximum radius of the clock face
      */
     private float faceRadius(Rect bounds) {
-        return centerX(bounds) * 0.85f;
+        //return centerX(bounds) * 0.85f;
+        float x = centerX(bounds);
+        float y = centerY(bounds);
+        if (x < y) {
+            return x * 0.85f;
+        } else {
+            return y * 0.85f;
+        }
     }
     private float faceRadius(RectF bounds) {
-        return centerX(bounds) * 0.85f;
+        //return centerX(bounds) * 0.85f;
+        float x = centerX(bounds);
+        float y = centerY(bounds);
+        if (x < y) {
+            return x * 0.85f;
+        } else {
+            return y * 0.85f;
+        }
     }
 
     /**
@@ -1177,7 +1294,7 @@ public class ClockView extends SurfaceView {
      * @return      ratio to rotate
      */
     private double rot() {
-        if (settings.rotateTime()) {
+        if (settings.rotateTime() || settings.isAMPM()) {
             return 0; //Math.PI;
         } else {
             return 0.5;

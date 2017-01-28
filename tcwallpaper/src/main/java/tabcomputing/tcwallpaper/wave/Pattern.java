@@ -69,18 +69,20 @@ public class Pattern extends BasePattern {
 
         int[] colors = timeColors();
 
-
         double[] tr = timeRatios();
 
         //drawWave(canvas, tr[0], colors[0], 0);
         //drawWave(canvas, tr[1], colors[1], h);
 
-        drawWaveLine(canvas, tr[0], colors[0]);
-        drawWaveLine(canvas, tr[1], colors[1]);
-
-        if (settings.withSeconds()) {
-            drawWaveLine(canvas, tr[2], colors[2]);
+        for(int i = tr.length - 1; i > 0; i--) {
+            drawWaveLine(canvas, tr[i], colors[i]);
         }
+
+        //if (settings.withSeconds()) {
+        //    drawWaveLine(canvas, tr[2], colors[2]);
+        //}
+        //drawWaveLine(canvas, tr[1], colors[1]);
+        ///drawWaveLine(canvas, tr[0], colors[0]);
 
         return bitmapForBackdrop;
     }

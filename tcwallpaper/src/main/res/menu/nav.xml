@@ -23,5 +23,8 @@
         <item android:id="@+id/nav_upgrade"
             android:icon="@drawable/ic_loyalty_white_48dp"
             android:title="@string/nav_upgrade" />
+        <item android:id="@+id/nav_review"
+            android:icon="@drawable/ic_loyalty_white_48dp"
+            android:title="@string/nav_review" />
     </group>
 </menu>

@@ -113,7 +113,6 @@ public class BrowseAdapter extends BaseAdapter {
     public final String ITEM_TAG_PURCHASED = "✓";
     public final String ITEM_TAG_FREE = "";
 
-    // TODO: Ultimately I think 24 patterns would be the right amount
     public void setupItems() {
         addItem("solid", "Solid", R.drawable.thumbnail_solid);
         addItem("gradient", "Gradient", R.drawable.thumbnail_gradient);
@@ -123,33 +122,32 @@ public class BrowseAdapter extends BaseAdapter {
         addItem("binary", "Binary", R.drawable.thumbnail_binary);
         addItem("plaid",  "Plaid",  R.drawable.thumbnail_plaid);
 
+        addItem("circles", "Circles", R.drawable.thumbnail_circles);
+        addItem("pieslice", "Pie Slice", R.drawable.thumbnail_pieslice);
+        addItem("squares", "Squares", R.drawable.thumbnail_squares);
+
+        addItem("wave", "Wave", R.drawable.thumbnail_wave);
         addItem("caterpillar", "Caterpillar", R.drawable.thumbnail_caterpillar);
         addItem("horizons", "Horizons", R.drawable.thumbnail_horizons);
-        addItem("lotus", "Lotus", R.drawable.thumbnail_lotus);
 
-        addItem("radial", "Radial", R.drawable.thumbnail_radial);
         addItem("echo", "Echo", R.drawable.thumbnail_echo);
         addItem("ring", "Ring", R.drawable.thumbnail_ring);
-
-        addItem("circles", "Circles", R.drawable.thumbnail_circles);
-        addItem("squares", "Squares", R.drawable.thumbnail_squares);
-        addItem("pieslice", "Pie Slice", R.drawable.thumbnail_pieslice);
+        addItem("radial", "Radial", R.drawable.thumbnail_radial);
 
         addItem("jack", "Jack", R.drawable.thumbnail_jack);
         addItem("mondrian", "Mondrian", R.drawable.thumbnail_mondrian);
         addItem("qbert", "QBert", R.drawable.thumbnail_qbert);
 
-        addItem("checkers", "Checkers", R.drawable.thumbnail_checkers);
+        addItem("lotus", "Lotus", R.drawable.thumbnail_lotus);
         addItem("space", "Space", R.drawable.thumbnail_space);
         addItem("tile", "Tile", R.drawable.thumbnail_tile);
 
-        addItem("wave", "Wave", R.drawable.thumbnail_wave);
-
+        addItem("checkers", "Checkers", R.drawable.thumbnail_checkers);
         addItem("maze", "Maze", R.drawable.thumbnail_maze);
-        //addItem("bigtime", "Big Time", R.drawable.thumbnail_bigtime);
+        addItem("bigtime", "Big Time", R.drawable.thumbnail_bigtime);
     }
 
-    HashMap<String, Item> itemIndex = new HashMap<>();
+    protected HashMap<String, Item> itemIndex = new HashMap<>();
 
     public void addItem(String name, String title, int drawId) {
         Item item = new Item(name, title, drawId);

@@ -47,9 +47,9 @@ public class BasePattern extends AbstractPattern {
             case CommonSettings.KEY_BASE_CONVERT:
                 timeSystem = settings.getTimeSystem();
                 break;
-            case CommonSettings.KEY_TYPEFACE:
-                typeface = settings.getTypeface();
-                break;
+            //case CommonSettings.KEY_TYPEFACE:
+            //    typeface = settings.getTypeface();
+            //    break;
             case CommonSettings.KEY_COLOR_GAMUT:
                 //colorWheel = settings.getColorWheel();
                 colorWheel.setColorGamut(settings.getColorGamut());
@@ -62,13 +62,14 @@ public class BasePattern extends AbstractPattern {
     }
 
     public void resetPreferences() {
-        settings.changeTimeSystem();
-        settings.changeColorWheel();
-        settings.changeTypeface();
+        Log.d("log", "resetPreferences");
+
+        //settings.changeTimeSystem();
+        //settings.changeColorWheel();
+        //settings.changeTypeface();
 
         timeSystem = settings.getTimeSystem();
         colorWheel = settings.getColorWheel();
-        typeface   = settings.getTypeface();
     }
 
     @Override
@@ -80,6 +81,10 @@ public class BasePattern extends AbstractPattern {
         list.add(R.string.bug_phrase_3);
         list.add(R.string.bug_phrase_4);
         list.add(R.string.bug_phrase_5);
+        list.add(R.string.bug_phrase_6);
+        list.add(R.string.bug_phrase_7);
+        list.add(R.string.bug_phrase_8);
+        list.add(R.string.bug_phrase_9);
         return list;
     }
 
@@ -290,10 +295,19 @@ public class BasePattern extends AbstractPattern {
         glareList = null;
     }
 
+    protected void drawCheatClock(Canvas canvas) {
+        switch(settings.getCheatClock()) {
+            case 1:
+                drawCheatClockCircles(canvas);
+                break;
+            case 2:
+                drawCheatClockBar(canvas);
+                break;
+        }
+    }
+
     /**
      * TODO: Add numbers?
-     *
-     * TODO: Make this an option, but where exactly to put it.
      *
      * @param canvas    drawing canvas
      */
@@ -301,7 +315,7 @@ public class BasePattern extends AbstractPattern {
         int[] tc = reverse(timeColors());
 
         float r = 30f;
-        float x = canvas.getWidth() - (r + 15f);
+        float x = r + 10f; // canvas.getWidth() - (r + 15f);
         float y = canvas.getHeight() - (r + 8f);
 
         paint.reset();
@@ -310,7 +324,7 @@ public class BasePattern extends AbstractPattern {
 
         for(int i=0; i < tc.length; i++) {
             paint.setColor(tc[i]);
-            canvas.drawCircle(x - (2 * (r + 6) * i), y, r, paint);
+            canvas.drawCircle(x, y - (2 * (r + 6) * i), r, paint);
         }
     }
 
@@ -318,7 +332,7 @@ public class BasePattern extends AbstractPattern {
      *
      * @param canvas    drawing canvas
      */
-    protected void drawCheatClock(Canvas canvas) {
+    protected void drawCheatClockBar(Canvas canvas) {
         int[] tc = timeColors();
 
         int h = getStatusBarHeight();

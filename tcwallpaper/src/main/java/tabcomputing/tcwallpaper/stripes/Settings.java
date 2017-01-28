@@ -7,6 +7,13 @@ public class Settings extends CommonSettings {
     static final String KEY_SIZE = "size";
 
     public Settings() {
+        defineProperties();
+    }
+
+    @Override
+    protected void defineProperties() {
+        super.defineProperties();
+
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, false);
         propertyBoolean(KEY_COLOR_DUPLEX, false);
@@ -22,4 +29,5 @@ public class Settings extends CommonSettings {
     public int getSize() {
         return getInteger(KEY_SIZE);
     }
+
 }

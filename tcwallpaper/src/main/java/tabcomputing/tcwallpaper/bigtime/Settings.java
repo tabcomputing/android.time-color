@@ -1,6 +1,8 @@
 package tabcomputing.tcwallpaper.bigtime;
 
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import tabcomputing.tcwallpaper.CommonSettings;
 import tabcomputing.library.paper.FontScale;
@@ -10,7 +12,12 @@ public class Settings extends CommonSettings {
     static final String KEY_TYPEFACE = "typeface";
 
     public Settings() {
-        propertyBoolean(KEY_CUSTOM_SETTINGS, false);
+        defineProperties();
+    }
+
+    @Override
+    protected void defineProperties() {
+        super.defineProperties();
 
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, false);
@@ -29,32 +36,84 @@ public class Settings extends CommonSettings {
     //    return "bigtime";
     //}
 
-    //private Typeface typeface;
+    private Typeface typeface = Typeface.SANS_SERIF;
 
-    //private int typefaceId = 0;
+    @Override
+    public void updatePreference(SharedPreferences prefs, String key) {
+        if (key.equals(KEY_TYPEFACE)) {
+            getTypeface();
+        }
+        super.updatePreference(prefs, key);
+    }
 
-    //public Typeface getTypeface() {
-    //    if (getInteger(KEY_TYPEFACE) != typefaceId || typeface == null) {
-    //        setupTypeface();
-    //    }
-    //    return typeface;
-    //}
+    /**
+     * Get current typeface.
+     *
+     * @return      typeface instance
+     */
+    public Typeface getTypeface() {
+        if (typeface == null || isChanged(KEY_TYPEFACE)) {
+            changeTypeface();
+        }
+        return typeface;
+    }
+
+    /**
+     * Setup new typeface.
+     */
+    protected void changeTypeface() {
+        Log.d("log", "changeTypeface: " + KEY_TYPEFACE + " " + getInteger(KEY_TYPEFACE));
+        //typefaceId = getInteger(KEY_TYPEFACE);
+        typeface = newTypeface(getInteger(KEY_TYPEFACE));
+    }
+
+    /*
+    protected Typeface newTypeface(int typefaceId) {
+        //AssetManager assets = context.getAssets();
+        Typeface typeface;
+        switch (typefaceId) {
+            case 7:
+                typeface = Typeface.createFromAsset(assets, "arcade.ttf");
+                break;
+            case 6:
+                typeface = Typeface.createFromAsset(assets, "basic.ttf");
+                break;
+            case 5:
+                typeface = Typeface.createFromAsset(assets, "cubes.ttf");
+                break;
+            case 4:
+                typeface = Typeface.createFromAsset(assets, "digital.ttf");
+                break;
+            case 3:
+                typeface = Typeface.MONOSPACE;
+                break;
+            case 2:
+                typeface = Typeface.SANS_SERIF;
+                break;
+            case 1:
+                typeface = Typeface.SERIF;
+                break;
+            default:
+                typeface = Typeface.DEFAULT;
+        }
+        return typeface;
+    }
+    */
 
     /**
      * Get a typeface that corresponds to the abstraction.
      *
      * @return              typeface
      */
-    @Override
     public Typeface newTypeface(int id) {
         //AssetManager assets = context.getAssets();
         Typeface typeface;
         switch (id) {
             case 7:
-                typeface = Typeface.createFromAsset(assets, "basic.ttf");
+                typeface = Typeface.DEFAULT_BOLD;
                 break;
             case 6:
-                typeface = Typeface.createFromAsset(assets, "1012.ttf");
+                typeface = Typeface.createFromAsset(assets, "basic.ttf");
                 break;
             case 5:
                 typeface = Typeface.createFromAsset(assets, "toolego.ttf");
@@ -112,7 +171,5 @@ public class Settings extends CommonSettings {
         }
         return fs;
     }
-
-    // TODO: Make Big time a bonus pattern using cubes, digital, neospatial, etc.
 
 }

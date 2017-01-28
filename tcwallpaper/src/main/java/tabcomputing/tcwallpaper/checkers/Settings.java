@@ -6,9 +6,15 @@ public class Settings extends CommonSettings {
 
     static final String KEY_FADE = "fade";
     static final String KEY_SIZE = "size";
+    static final String KEY_SWAP = "colorSwap";
 
     public Settings() {
-        propertyBoolean(KEY_CUSTOM_SETTINGS, false);
+        defineProperties();
+    }
+
+    @Override
+    protected void defineProperties() {
+        super.defineProperties();
 
         propertyInteger(KEY_COLOR_GAMUT, 0);
         propertyBoolean(KEY_COLOR_DAYLIGHT, false);
@@ -18,7 +24,7 @@ public class Settings extends CommonSettings {
         propertyBoolean(KEY_TIME_ROTATE, false);
         propertyBoolean(KEY_TIME_SECONDS, false);
 
-        propertyBoolean(KEY_COLOR_SWAP, false);
+        propertyBoolean(KEY_SWAP, false);
         propertyInteger(KEY_SIZE, 1);
         propertyBoolean(KEY_FADE, false);
     }
@@ -29,6 +35,10 @@ public class Settings extends CommonSettings {
 
     public boolean isFade() {
         return getBoolean(KEY_FADE);
+    }
+
+    public boolean isSwapped() {
+        return getBoolean(KEY_SWAP);
     }
 
 }

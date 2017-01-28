@@ -39,6 +39,12 @@ public class Pattern extends BasePattern {
     private Paint transPaint = new Paint();
     private Paint shaderPaint = new Paint();
 
+
+    /**
+     * TODO: Make the horizon minute color and the sky hour color or vice versa, with option to swap.
+     *
+     * @param canvas    drawing canvas
+     */
     @Override
     public void drawPattern(Canvas canvas) {
         drawSky(canvas);

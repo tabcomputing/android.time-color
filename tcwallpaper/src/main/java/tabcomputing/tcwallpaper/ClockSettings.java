@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import tabcomputing.library.clock.DecimalTime;
 import tabcomputing.library.clock.DuodecimalTime;
 import tabcomputing.library.clock.HexadecimalTime;
 import tabcomputing.library.clock.HeximalTime;
-import tabcomputing.library.clock.MeridiemTime;
+//import tabcomputing.library.clock.MeridiemTime;
 import tabcomputing.library.clock.StandardTime;
 import tabcomputing.library.clock.TimeSystem;
 import tabcomputing.library.color.ColorWheel;
@@ -31,11 +32,11 @@ public class ClockSettings extends AbstractSettings {
     }
 
     public static final int TIME_STANDARD = 0;
-    public static final int TIME_MERIDIEM = 1;
-    public static final int TIME_DECIMAL = 2;
-    public static final int TIME_DUODECIMAL = 3;
-    public static final int TIME_HEXADECIMAL = 4;
-    public static final int TIME_HEXIMAL = 5;
+    //public static final int TIME_MERIDIEM = 1;
+    public static final int TIME_DECIMAL = 1;
+    public static final int TIME_DUODECIMAL = 2;
+    public static final int TIME_HEXADECIMAL = 3;
+    public static final int TIME_HEXIMAL = 4;
 
     public static final String KEY_COLOR_GAMUT      = "colorGamut";
     public static final String KEY_COLOR_DYNAMIC    = "colorDaylight";
@@ -45,20 +46,20 @@ public class ClockSettings extends AbstractSettings {
 
     public static final String KEY_TIME_SYSTEM      = "timeSystem";
     public static final String KEY_TIME_SECONDS     = "timeSeconds";
-
     public static final String KEY_BASE_CONVERT     = "baseConvert";
 
     public static final String KEY_CLOCK_NUMBERS    = "numberSystem";
-    public static final String KEY_CLOCK_TYPEFACE   = "typeface";
+    public static final String KEY_CLOCK_TYPEFACE   = "clockTypeface";
     public static final String KEY_CLOCK_TYPE       = "clockType";
     public static final String KEY_CLOCK_ROTATE     = "clockRotate";
     public static final String KEY_CLOCK_BACKGROUND = "clockBackground";
+    public static final String KEY_CLOCK_AMPM       = "clockAMPM";
 
-    public static final String KEY_PATTERN_SETTINGS = "usePatternSettings";
+    //public static final String KEY_PATTERN_SETTINGS = "usePatternSettings";
 
 
     public ClockSettings() {
-        propertyBoolean(KEY_PATTERN_SETTINGS, true);
+        //propertyBoolean(KEY_PATTERN_SETTINGS, true);
 
         propertyBoolean(KEY_COLOR_DYNAMIC, true);
         propertyBoolean(KEY_COLOR_REVERSE, false);
@@ -75,6 +76,7 @@ public class ClockSettings extends AbstractSettings {
         propertyInteger(KEY_CLOCK_TYPEFACE, 0);
         propertyBoolean(KEY_CLOCK_ROTATE, false);
         propertyInteger(KEY_CLOCK_BACKGROUND, 0);
+        propertyBoolean(KEY_CLOCK_AMPM, false);
     }
 
     /**
@@ -163,9 +165,9 @@ public class ClockSettings extends AbstractSettings {
 
     // -- readers --
 
-    public boolean usePatternSettings() {
-        return booleanSettings.get(KEY_PATTERN_SETTINGS);
-    }
+    //public boolean usePatternSettings() {
+    //    return booleanSettings.get(KEY_PATTERN_SETTINGS);
+    //}
 
     public int getNumberSystem() {
         return integerSettings.get(KEY_CLOCK_NUMBERS);
@@ -176,7 +178,8 @@ public class ClockSettings extends AbstractSettings {
     }
 
     public boolean rotateTime() {
-        return booleanSettings.get(KEY_CLOCK_ROTATE);
+        //return booleanSettings.get(KEY_CLOCK_ROTATE);
+        return false;
     }
 
     public boolean displaySeconds() {
@@ -192,7 +195,28 @@ public class ClockSettings extends AbstractSettings {
     }
 
     public boolean isDuplexed() {
-        return booleanSettings.get(KEY_COLOR_DUPLEX);
+        //return booleanSettings.get(KEY_COLOR_DUPLEX);
+        return false;
+    }
+
+    public boolean isAMPM() {
+        return booleanSettings.get(KEY_CLOCK_AMPM);
+    }
+
+    public void toggleAMPM() {
+        booleanSettings.put(KEY_CLOCK_AMPM, !isAMPM());
+    }
+
+    /**
+     * Toggle and save AM/PM setting.
+     */
+    public void toggleAMPM(Context context) {
+        String key = KEY_CLOCK_AMPM;
+        Boolean tog = !isAMPM();
+        booleanSettings.put(key, tog);
+        SharedPreferences.Editor editor = getPreferences(context).edit();
+        editor.putBoolean(key, tog);
+        editor.apply();
     }
 
     public boolean isBaseConverted() {
@@ -306,9 +330,9 @@ public class ClockSettings extends AbstractSettings {
             case TIME_DECIMAL:
                 timeSystem = new DecimalTime();
                 break;
-            case TIME_MERIDIEM:
-                timeSystem = new MeridiemTime();
-                break;
+            //case TIME_MERIDIEM:
+            //    timeSystem = new MeridiemTime();
+            //    break;
             case TIME_STANDARD:
             default:
                 timeSystem = new StandardTime();
@@ -409,5 +433,36 @@ public class ClockSettings extends AbstractSettings {
             colorWheel.setDaylightFactor(0.0f);  // turn off
         }
     }
+
+    /**
+     *
+     *
+    public void savePreferences(Context context) {
+        SharedPreferences.Editor editor = getPreferences(context).edit();
+
+        writeBoolean(editor, KEY_COLOR_DYNAMIC);
+        writeInteger(editor, KEY_COLOR_GAMUT);
+        //writeBoolean(editor, KEY_COLOR_DUPLEX);
+
+        writeInteger(editor, KEY_TIME_SYSTEM);
+        writeBoolean(editor, KEY_TIME_SECONDS);
+        writeBoolean(editor, KEY_BASE_CONVERT);
+        //writeBoolean(editor, KEY_CLOCK_ROTATE);
+
+        editor.apply();
+    }
+
+    protected void writeString(SharedPreferences.Editor editor, String key) {
+        editor.putString(key, getString(key));
+    }
+
+    protected void writeInteger(SharedPreferences.Editor editor, String key) {
+        editor.putString(key, String.valueOf(getInteger(key)));
+
+    }
+    protected void writeBoolean(SharedPreferences.Editor editor, String key) {
+        editor.putBoolean(key, getBoolean(key));
+    }
+    */
 
 }

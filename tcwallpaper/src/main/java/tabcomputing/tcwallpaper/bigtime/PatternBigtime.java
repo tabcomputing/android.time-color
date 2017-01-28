@@ -8,11 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.util.Log;
-
-import java.util.Arrays;
 
 import tabcomputing.library.paper.FontScale;
 import tabcomputing.tcwallpaper.BasePattern;
