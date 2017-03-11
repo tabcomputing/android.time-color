@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Billing Library</string>
+
+    <!-- Error messages for billing service -->
+    <string name="RESPONSE_USER_CANCELED">Transaction cancelled.</string>
+    <string name="RESPONSE_BILLING_UNAVAILABLE">Google Play service is currently unavailable.</string>
+    <string name="RESPONSE_ITEM_UNAVAILABLE">Product does not exist.</string>
+    <string name="RESPONSE_ITEM_ALREADY_OWNED">Product is already owned.</string>
+    <string name="RESPONSE_ITEM_NOT_OWNED">Product is not consumable because it is not owned.</string>
+    <string name="RESPONSE_DEVELOPER_ERROR">Invalid arguments, please report this issue.</string>
+    <string name="RESPONSE_ERROR">Unspecified response error, please report this issue if it persists.</string>
+
+    <string name="VERIFY_INVALID_PRODUCT_ID">Purchase transaction returned invalid product id.</string>
+    <string name="VERIFY_INVALID_CODE">Purchase transaction returned invalid verification code.</string>
+    <string name="VERIFY_DATA_PARSE_FAILURE">Failed to parse billing data.</string>
+    <string name="VERIFY_NO_PURCHASE_DATA">No purchase data returned.</string>
+
+    <string name="RESULT_ERROR">Unspecified result error, please report this issue if it persists.</string>
+    <string name="RESULT_CANCELED">Transaction cancelled.</string>
+</resources>

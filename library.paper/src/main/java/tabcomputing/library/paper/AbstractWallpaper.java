@@ -49,7 +49,7 @@ public abstract class AbstractWallpaper extends WallpaperService {
 
         private SettingsMonitor monitor;
 
-        private BillOfSale billOfSale;
+        //private BillOfSale billOfSale;
 
 
         public WallpaperEngine(AbstractPattern pattern, AbstractSettings settings) {
@@ -80,8 +80,9 @@ public abstract class AbstractWallpaper extends WallpaperService {
             //settings.readPreferences(prefs);
 
             //configure();
-            billOfSale = new BillOfSale(getApplicationContext());
-            billOfSale.readBillOfSale();
+
+            //billOfSale = new BillOfSale(getApplicationContext());
+            //billOfSale.readBillOfSale();
         }
 
         private Runnable drawRunner = new Runnable() {
@@ -151,17 +152,16 @@ public abstract class AbstractWallpaper extends WallpaperService {
         }
 
         private void drawPattern() {
-            if (isOwned()) {
+            //if (isOwned()) {
                 pattern.draw(canvas);
-            } else {
-                pattern.drawWithNag(canvas);
-            }
+            //} else {
+            //    pattern.drawWithNag(canvas);
+            //}
         }
 
-        private boolean isOwned() {
-            return billOfSale.isOwned(BillOfSale.PRODUCT_ID);
-        }
-
+        //private boolean isOwned() {
+        //    return billOfSale.isOwned(BillOfSale.PRODUCT_ID);
+        //}
     }
 
     @Override

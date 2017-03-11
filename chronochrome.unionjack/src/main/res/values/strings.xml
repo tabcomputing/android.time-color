@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Union Jack Chronochrome</string>
+    <string name="app_description">Time-colored Union Jack flag for my mates.</string>
+
+    <!-- Jack -->
+    <string name="jack_label">Union Jack Chronochrome</string>
+    <string name="jack_description">Time-colored Union Jack flag for my mates.</string>
+
+    <string name="colorRoyal_title">Colour Royal?</string>
+    <string name="colorRoyal_summary">Show Union Jack in proper royal colours only.</string>
+
+    <!-- ABOUT -->
+    <string name="textCredits">
+        <![CDATA[Union Jack Chronochrome™ combines time and color to create a dynamic Union Flag
+         wallpaper. Chronochrome™ which is a term meaning Time-Color, was created as an experiment
+         in synesthesia ― Can we become so accustomed to associating time with color that it becomes
+         second nature? Instead of asking, \"What time is it?\", might we one day ask,
+         \"What color is it?\"\n
+         \n
+         Union Jack Chronochrome™\n
+         Copyright 2016 by Tab Computing\n
+         tabcomputing.com\n
+         \n
+         "Confection Cubes" TrueType Font\n
+         Copyright 2010 by Eric Michael\n
+         www.eric-michael.com\n
+         \n
+        ]]>
+    </string>
+
+</resources>

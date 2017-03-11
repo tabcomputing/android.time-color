@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Checkers Chronochrome</string>
+    <string name="app_label">Checkers Chronochrome</string>
+    <string name="app_description">Time-colored checkered pattern wallpaper.</string>
+
+    <string name="wallpaper_label">Checkers Chronochrome</string>
+    <string name="wallpaper_description">Time-colored checkered pattern wallpaper.</string>
+</resources>

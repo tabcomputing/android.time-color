@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Chronochrome Caterpillar</string>
+    <string name="app_label">Caterpillar Chronochrome</string>
+    <string name="app_description">Fun multi-color caterpillar wallpaper great for kids.</string>
+
+    <string name="wallpaper_label">Caterpillar Chronochrome</string>
+    <string name="wallpaper_description">Fun multi-color caterpillar wallpaper great for kids.</string>
+
+    <string name="meanFace_title">Mr. Mean face? &#x2764;</string>
+    <string name="meanFace_summary">Unleash the Kraken!</string>
+</resources>

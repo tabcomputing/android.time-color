@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="category_special_settings"
+        android:title="@string/category_special_title">
+        <ListPreference
+            android:key="orientation"
+            android:title="@string/orientation_title"
+            android:summary="@string/orientation_summary"
+            android:entries="@array/orientation_entries"
+            android:entryValues="@array/orientation_values"
+            android:dialogTitle="@string/orientation_title"
+            android:defaultValue="@string/orientation_default" />
+        <CheckBoxPreference
+            android:key="colorSwap"
+            android:title="@string/colorSwap_title"
+            android:summary="@string/colorSwap_summary"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="sunGlare"
+            android:title="@string/sunGlare_title"
+            android:summary="@string/sunGlare_summary"
+            android:defaultValue="false" />
+        <!-- TODO: Add edge effect, where colors, probably just black can be added to either side.
+                   We'll have to make it a list preference if we want to add white as an option.
+        <CheckBoxPreference
+            android:key="edge"
+            android:title="@string/edge_title"
+            android:summary="@string/edge_summary"
+            android:defaultValue="false" />
+         -->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_general_settings"
+        android:title="@string/category_general_title">
+        <CheckBoxPreference
+            android:key="customSettings"
+            android:title="@string/customSettings_title"
+            android:summary="@string/customSettings_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_color_settings"
+        android:title="@string/category_color_title"
+        android:dependency="customSettings">
+        <ListPreference
+            android:key="colorGamut"
+            android:title="@string/colorGamut_title"
+            android:summary="@string/colorGamut_summary"
+            android:entries="@array/colorGamut_entries"
+            android:entryValues="@array/colorGamut_values"
+            android:dialogTitle="@string/colorGamut_title"
+            android:defaultValue="@string/colorGamut_default" />
+        <CheckBoxPreference
+            android:key="colorDaylight"
+            android:title="@string/colorDaylight_title"
+            android:summary="@string/colorDaylight_summary"
+            android:defaultValue="false" />
+        <!--
+        <CheckBoxPreference
+            android:key="colorDuplex"
+            android:title="@string/colorDuplex_title"
+            android:summary="@string/colorDuplex_summary"
+            android:defaultValue="false" />
+        -->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_time_settings"
+        android:title="@string/category_time_title"
+        android:dependency="customSettings">
+        <ListPreference
+            android:key="timeSystem"
+            android:title="@string/timeSystem_title"
+            android:summary="@string/timeSystem_summary"
+            android:entries="@array/timeSystem_entries"
+            android:entryValues="@array/timeSystem_values"
+            android:dialogTitle="@string/timeSystem_title"
+            android:defaultValue="@string/timeSystem_default" />
+        <CheckBoxPreference
+            android:key="timeSeconds"
+            android:title="@string/timeSeconds_title"
+            android:summary="@string/timeSeconds_summary"
+            android:defaultValue="false" />
+        <!--
+        <CheckBoxPreference
+            android:key="timeRotate"
+            android:title="@string/timeRotate_title"
+            android:summary="@string/timeRotate_summary"
+            android:defaultValue="false" />
+        -->
+        <ListPreference
+            android:key="cheatClock"
+            android:title="@string/cheatClock_title"
+            android:summary="@string/cheatClock_summary"
+            android:entries="@array/cheatClock_entries"
+            android:entryValues="@array/cheatClock_values"
+            android:dialogTitle="@string/cheatClock_title"
+            android:defaultValue="@string/cheatClock_default" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Solid Chronochrome</string>
+    <string name="app_description">Simple wallpaper correlating time and color.</string>
+
+    <string name="wallpaper_label">Solid Chonochrome</string>
+    <string name="wallpaper_description">Simple, yet useful, wallpaper the correlates color and time.</string>
+
+    <string name="timeSeconds_title">Include second hand?</string>
+    <string name="timeSeconds_summary">Show second hand on reference clock.</string>
+
+    <!-- TIME PART -->
+    <string name="timePart_title">Time Segment</string>
+    <string name="timePart_summary">Select hour, minute or seconds to track by color.</string>
+
+    <string-array name="timePart_entries">
+        <item>Hour</item>
+        <item>Minute</item>
+        <item>Seconds</item>
+    </string-array>
+
+    <string-array name="timePart_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="timePart_default">0</string>
+
+    <!-- ABOUT -->
+    <string name="textCredits">
+        <![CDATA[Solid Chronochrome™ combines time and color to create a simple utilitarian wallpaper.
+         Chronochrome™ which is a term meaning Time-Color, was created as an experiment
+         in synesthesia ― Can we become so accustomed to associating time with color that it becomes
+         second nature? Instead of asking, \"What time is it?\", might we one day ask,
+         \"What color is it?\"\n
+         \n
+         Solid Chronochrome™\n
+         Copyright 2016 by Tab Computing\n
+         tabcomputing.com\n
+         \n
+         "Confection Cubes" TrueType Font\n
+         Copyright 2010 by Eric Michael\n
+         www.eric-michael.com\n
+         \n
+        ]]>
+    </string>
+
+</resources>

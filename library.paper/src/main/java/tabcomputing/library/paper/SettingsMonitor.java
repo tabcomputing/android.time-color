@@ -24,11 +24,12 @@ public class SettingsMonitor implements SharedPreferences.OnSharedPreferenceChan
     }
 
     protected void loadPreferences() {
-        String prefName = settings.getPrefName();
+        //String prefName = settings.getPrefName();
+        //SharedPreferences prefs = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
 
-        SharedPreferences prefs = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         //prefs = settings.getPreferences(context);
-        //prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         prefs.registerOnSharedPreferenceChangeListener(this);
 

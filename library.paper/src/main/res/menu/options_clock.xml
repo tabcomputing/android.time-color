@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_wallpaper"
+        android:icon="@drawable/file"
+        android:title="@string/nav_wallpaper"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_settings"
+        android:icon="@drawable/settings"
+        android:title="@string/nav_settings"
+        app:showAsAction="ifRoom"/>
+
+    <!-- Help -->
+    <!--
+    <item android:id="@+id/action_help"
+        android:icon="@drawable/ic_action_help"
+        android:title="@string/action_help"
+        android:showAsAction="never"/>
+    -->
+
+    <!-- Check updates -->
+    <!--
+    <item android:id="@+id/action_check_updates"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/action_check_updates"
+        android:showAsAction="never" />
+    -->
+</menu>

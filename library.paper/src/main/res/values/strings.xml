@@ -1,20 +1,426 @@
 <resources>
     <string name="app_name">Wallpaper Library</string>
 
-    <!-- Error messages for billing service -->
-    <string name="RESPONSE_USER_CANCELED">Transaction cancelled.</string>
-    <string name="RESPONSE_BILLING_UNAVAILABLE">Google Play service is currently unavailable.</string>
-    <string name="RESPONSE_ITEM_UNAVAILABLE">Product does not exist.</string>
-    <string name="RESPONSE_ITEM_ALREADY_OWNED">Product is already owned.</string>
-    <string name="RESPONSE_ITEM_NOT_OWNED">Product is not consumable because it is not owned.</string>
-    <string name="RESPONSE_DEVELOPER_ERROR">Invalid arguments, please report this issue.</string>
-    <string name="RESPONSE_ERROR">Unspecified response error, please report this issue if it persists.</string>
+     <string name="publicKey">
+        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhYt78mTecdGIo2yy/384
+        46QR9ASKufTdM9mmTmcjsL3aNUBoo2pJSd5f1A2r+HWHMKYJZmFhMMT2qh/ga6de
+        bjXWu6zGfypCpxyKv3xEvuB0gwPi7w61pYmdDqt5l8x6/j/Qm6Q8h3xY5peYmGeE
+        qdCi6vqFVbnRPeiigTE4K//VQ/TUEvWodcDI/0ScRutsTfuvcyPhB3H2PnxCQArj
+        I8aydUsyvTFlt2Qec7q+RJqjPVTR2sR9nINKlIk6lRk9TwOl3NxkN4zZVWB4lQSA
+        SWiIZ+B7b4e8UywqUAGlNbm2qYlLMKAycs1uTNPnMVHqZSy2nN3VFLP709KOTIhrQQIDAQAB
+    </string>
 
-    <string name="VERIFY_INVALID_PRODUCT_ID">Purchase transaction returned invalid product id.</string>
-    <string name="VERIFY_INVALID_CODE">Purchase transaction returned invalid verification code.</string>
-    <string name="VERIFY_DATA_PARSE_FAILURE">Failed to parse billing data.</string>
-    <string name="VERIFY_NO_PURCHASE_DATA">No purchase data returned.</string>
+    <string name="title_activity_browser">Wallpaper Browser</string>
 
-    <string name="RESULT_ERROR">Unspecified result error, please report this issue if it persists.</string>
-    <string name="RESULT_CANCELED">Transaction cancelled.</string>
+    <!-- do we need there two anymore? -->
+    <string name="enabled">enabled</string>
+    <string name="disabled">disabled</string>
+
+    <string name="coverTitle">Time+Color=Wallpaper</string>
+    <string name="imageDescription">T+C=W Image</string>
+
+    <string name="edit_settings">Settings</string>
+    <string name="set_wallpaper">Wallpaper</string>
+    <string name="view_key">Key</string>
+
+    <string name="buy_button">GO NAG FREE!</string>
+    <string name="buy_all">GO NAG FREE FOR %1$s!</string>
+
+    <string name="bug_phrase_0">Have you ever seen a starving programmer?\nIt ain\'t pretty.</string>
+    <string name="bug_phrase_1">It doesn\'t cost much to get rid of this annoying message.</string>
+    <string name="bug_phrase_2">Generosity is the root of all happiness.\n\nBut getting paid helps.\n</string>
+    <string name="bug_phrase_3">Buy us a coffee and we\'ll rid you of this annoying message.\n\nSee how that works?</string>
+    <string name="bug_phrase_4">Yes, you can get rid of this annoying message.</string>
+    <string name="bug_phrase_5">Upgrading unlocks the &#x2764;, specifically the &#x2764;\'d pattern settings.</string>
+    <string name="bug_phrase_6">Give and you shall receive.\n\nOr more precisely, give $s and you shall receive &#x2764;s.</string>
+    <string name="bug_phrase_7">Bubble gum is colorful, sure, but you only get to chew it once.</string>
+    <string name="bug_phrase_8">The Haskell type signature for an upgrade is:\n\n$ -> &#x2764;\n\nGood knowledge.</string>
+    <string name="bug_phrase_9">Once upon a time, there lived an Upgrader. And they lived happily ever after. The End.</string>
+
+    <string name="action_upgrade">Upgrade</string>
+    <string name="action_review">Review</string>
+    <string name="action_clock">Clock</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_wallpaper">Wallpaper</string>
+    <string name="action_homepage">Homepage</string>
+    <string name="action_acknowledge">About</string>
+    <string name="action_ampm">AM/PM</string>
+
+    <string name="nav_wallpaper">Paper</string>
+    <string name="nav_clock">Clock</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about">About</string>
+    <string name="nav_website">Website</string>
+    <string name="nav_upgrade">Upgrade!</string>
+    <string name="nav_review">Review</string>
+
+    <string name="category_clock_title">CLOCK</string>
+    <string name="category_paper_title">PAPER</string>
+    <string name="category_pattern_title">PATTERN</string>
+    <string name="category_time_title">TIME</string>
+    <string name="category_color_title">COLOR</string>
+
+    <!-- Probably don't need these four any more -->
+    <string name="category_special_title">SPECIAL</string>
+    <string name="category_general_title">GENERAL</string>
+
+    <string name="dialog_nag_message">
+        Unlock the &#x2764;?
+    </string>
+
+    <string name="dialog_nag_message_long">
+        Hope you are enjoying Time + Color = Wallpaper. If you are, how about showing some &#x2764; with an
+        upgrade?
+        \n\nUpgrading costs less than a pack of gum, and in return unlocks all the &#x2764;\'d
+        pattern settings.
+        \n\nUpgrading will also rid you of our pesky nagging!
+        \n\nWould you like to upgrade?
+    </string>
+    <string name="dialog_nag_yes">Yes</string>
+    <string name="dialog_nag_no">No</string>
+
+
+    <!-- COMMON SETTINGS -->
+
+    <string name="usePatternSettings_title">Click here to use current wallpaper settings.</string>
+    <string name="usePatternSettings_summary">This will change the settings below to match currently selected wallpaper.</string>
+
+    <string name="customSettings_title">Customize settings?</string>
+    <string name="customSettings_summary">Customize general settings for this pattern, instead of using shared settings.</string>
+
+    <!-- Swap reverses just the top two colors. -->
+    <string name="colorSwap_title">Swap?</string>
+    <string name="colorSwap_summary">Swap placement of hour and minute colors.</string>
+
+    <!-- Reverse is used reverse all time colors -->
+    <string name="reverse_title">Reverse?</string>
+    <string name="reverse_summary">Reverse pattern by flipping colors/times around.</string>
+
+    <!-- Lower color saturation at midday and midnight. -->
+    <!-- Lower brightness at midnight and increase at midday. -->
+    <string name="colorDaylight_title">Daylight tinting?</string>
+    <string name="colorDaylight_summary">Dynamically adjust brightness and saturation based on the time of day.</string>
+
+    <string name="colorGamut_title">Color gamut</string>
+    <string name="colorGamut_summary">Choose the type of color wheel.</string>
+    <string-array name="colorGamut_entries">
+        <item>RCW</item>
+        <item>RGB</item>
+        <item>B&amp;W</item>
+    </string-array>
+    <string-array name="colorGamut_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="colorGamut_default">0</string>
+
+    <string name="colorDuplex_title">AM/PM Color mode?</string>
+    <string name="colorDuplex_summary">Circumvent color-wheel twice per day.</string>
+
+    <string name="timeSeconds_title">Include seconds?</string>
+    <string name="timeSeconds_summary">Track time by the second.</string>
+
+    <string name="timeSystem_title">Time system</string>
+    <string name="timeSystem_summary">Pick an alternate system of time division.\n(Only effects minutes and seconds.)</string>
+    <string-array name="timeSystem_entries">
+        <item>24-hour (24:60:60)</item>
+        <item>Decimal (10:100:100)</item>
+        <item>Duodecimal (12:12:12)</item>
+        <item>Hexadecimal (16:16:16)</item>
+        <item>Heximal (36:36:36)</item>
+    </string-array>
+    <string-array name="timeSystem_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string name="timeSystem_default">0</string>
+
+    <string name="baseConvert_title">Base conversion?</string>
+    <string name="baseConvert_summary">Show time in system\'s native number base?</string>
+
+    <string name="orientation_title">Orientation</string>
+    <string name="orientation_summary">Select and orientation.</string>
+    <string-array name="orientation_entries">
+        <item>Horizontal</item>
+        <item>Vertical</item>
+        <item>Rotating</item>
+    </string-array>
+    <string-array name="orientation_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="orientation_default">0</string>
+
+    <!-- Size -->
+    <string name="size_title">Size</string>
+    <string name="size_summary">Choose a pattern size.</string>
+    <string-array name="size_entries">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="size_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string name="size_default">1</string>
+
+    <!-- Density -->
+    <string name="density_title">Density</string>
+    <string name="density_summary">Choose a pattern density.</string>
+    <string-array name="density_entries">
+        <item>Sparse</item>
+        <item>Loose</item>
+        <item>Moderate</item>
+        <item>Tight</item>
+        <item>Awash</item>
+    </string-array>
+    <string-array name="density_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string name="density_default">1</string>
+
+    <!-- Aspect Ratio -->
+    <string name="aspect_title">Aspect &#x2764;</string>
+    <string name="aspect_summary">Choose an aspect ratio to adjust size of pattern.</string>
+    <string-array name="aspect_entries">
+        <item>Uniform (1:1)</item>
+        <item>Double (2:1)</item>
+        <item>Triple (3:1)</item>
+        <item>Quadruple (4:1)</item>
+    </string-array>
+    <string-array name="aspect_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string name="aspect_default">0</string>
+
+    <!-- Shape -->
+    <string name="shape_title">Shape</string>
+    <string name="shape_summary">Choose a pattern shape.</string>
+    <string-array name="shape_entries">
+        <item>Circle</item>
+        <item>Square</item>
+    </string-array>
+    <string-array name="shape_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string name="shape_default">0</string>
+
+    <!-- Fade -->
+    <string name="fade_title">Fade?</string>
+    <string name="fade_summary">Add cross-fading effect.</string>
+
+    <!-- Dark -->
+    <string name="dark_title">Dark?</string>
+    <string name="dark_summary">Use dark pattern instead of light pattern.</string>
+
+    <!-- Opaque -->
+    <string name="opaque_title">Opaque?</string>
+    <string name="opaque_summary">Remove translucency from pattern.</string>
+
+    <string name="sunGlare_title">Sun glare?</string>
+    <string name="sunGlare_summary">Add sun glare effect.</string>
+
+    <string name="pattern_title">Pattern</string>
+    <string name="pattern_summary">Customize the pattern.</string>
+    <string name="pattern_message">Letters and number are converted to spacey symbols. You can insert a spacey hour with \'#1\', a spacey minute with \'#2\', and so on."</string>
+
+    <string name="outline_title">Outline?</string>
+    <string name="outline_summary">Outline the pattern.</string>
+
+    <string name="clockRotate_title">Rotate face?</string>
+    <string name="clockRotate_summary">Place midnight at the top.</string>
+
+    <!-- Backdrop -->
+    <string name="backdrop_title">Backdrop</string>
+    <string name="backdrop_summary">Choose a background.</string>
+    <string-array name="backdrop_entries">
+        <item>Black</item>
+        <item>White</item>
+        <item>Spectrum</item>
+    </string-array>
+    <string-array name="backdrop_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="backdrop_default">0</string>
+
+    <!-- Cheat clock -->
+    <string name="cheatClock_title">Cheat Clock</string>
+    <string name="cheatClock_summary">Choose a cheat clock style.</string>
+    <string-array name="cheatClock_entries">
+        <item>None</item>
+        <item>Dots</item>
+        <item>Bar</item>
+    </string-array>
+    <string-array name="cheatClock_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="cheatClock_default">1</string>
+
+    <string name="typeface_title">Font</string>
+    <string name="typeface_summary">Choose a big font.</string>
+
+    <string-array name="typeface_entries">
+        <item>Cubes</item>
+        <item>Neospacial</item>
+        <item>Origap</item>
+        <item>Disco</item>
+        <item>Diskopia</item>
+        <item>Toolego</item>
+        <item>Monospaced</item>
+        <item>System Default</item>
+    </string-array>
+
+    <string-array name="typeface_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
+    <string name="typeface_default">0</string>
+
+
+    <!-- Clock Typeface -->
+
+    <string name="clockTypeface_title">Typeface</string>
+    <string name="clockTypeface_summary">Select a font for displaying time.</string>
+
+    <string-array name="clockTypeface_entries">
+        <item>Default</item>
+        <item>Serif</item>
+        <item>Monospace</item>
+        <item>Digital</item>
+        <item>Cubes</item>
+    </string-array>
+
+    <string-array name="clockTypeface_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string name="clockTypeface_default">0</string>
+
+    <!--  Clock Type -->
+
+    <string name="clockType_title">Type</string>
+    <string name="clockType_summary">Pick a reference clock type.</string>
+
+    <string-array name="clockType_entries">
+        <item>Analog</item>
+        <item>Digital</item>
+    </string-array>
+
+    <string-array name="clockType_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="clockType_default">0</string>
+
+
+    <string name="clockAMPM_title">AM/PM Style?</string>
+    <string name="clockAMPM_summary">Display clock in traditional AM/PM style.</string>
+
+    <!--  Clock Numbers -->
+
+    <string name="numberSystem_title">Enumeration</string>
+    <string name="numberSystem_summary">Pick system of enumerating the clock face.</string>
+
+    <string-array name="numberSystem_entries">
+        <item>Ordinal</item>
+        <item>Cardinal</item>
+        <item>Roman</item>
+    </string-array>
+
+    <string-array name="numberSystem_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="numberSystem_default">0</string>
+
+    <!--  Clock Background -->
+
+    <string name="clockBackground_title">Background</string>
+    <string name="clockBackground_summary">Select a background color.</string>
+
+    <string-array name="clockBackground_entries">
+        <item>Time\'s</item>
+        <item>Black</item>
+        <item>White</item>
+    </string-array>
+
+    <string-array name="clockBackground_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="clockBackground_default">0</string>
+
+
+    <!--
+    <string name="pattern_plaid_title">Plaid Preferences</string>
+    -->
+
+    <!-- ABOUT -->
+
+    <string name="textCredits">
+        <![CDATA[Time + Color = Wallpaper combines time and color to create beautiful and useful wallpapers.
+        In part, Time + Color = Wallpaper was created as an experiment in synesthesia ― Can we
+        become so accustomed to associating time with color that it becomes second nature?
+        Might we one day ask, \"What color is it?\"\n
+        \n
+        Time + Color = Wallpaper\n
+        Copyright 2016 by Tab Computing\n
+        tabcomputing.com\n
+        \n
+        "Confection Cubes" Truetype Font\n
+        Copyright 2010 by Eric Michael\n
+        www.eric-michael.com\n
+        \n
+        "Diskopia" Trutype Font\n
+        nimavisual.tumblr.com\n
+        \n
+        "Neospacial" Truetype Font\n
+        www.moorstation.org/typoasis/designers/gemnew/home.htm\n
+        \n
+        "Origap" Truetype Font\n
+        www.tepidmonkey.net\n
+        \n
+        "Toolego Mirage" Trutype Font\n
+        Copyright 1999 by Apostrophic Instances\n
+        \n
+        ]]>
+    </string>
+
 </resources>

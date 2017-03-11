@@ -5,9 +5,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import tabcomputing.library.paper.BillOfSale;
+//import tabcomputing.library.paper.BillOfSale;
 
 public abstract class AbstractSettingsActivity extends PreferenceActivity {
 
@@ -24,13 +23,15 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
 
         SettingsFragment settings = new SettingsFragment();
 
-        BillOfSale bos = BillOfSale.getInstance(getApplicationContext());
+        //BillOfSale bos = BillOfSale.getInstance(getApplicationContext());
 
         Bundle args = new Bundle();
         args.putString(KEY_PREF_NAME, getPrefName());
         args.putInt(KEY_PREF_ID, getPrefResId());
-        args.putStringArray(KEY_UPGRADES, getUpgradeOptions());  // Yeah! This can be null.
-        args.putBoolean(KEY_UPGRADED, bos.isOwned());
+
+        //args.putStringArray(KEY_UPGRADES, getUpgradeOptions());  // Yeah! This can be null.
+        //args.putBoolean(KEY_UPGRADED, bos.isOwned());
+
         settings.setArguments(args);
 
         getFragmentManager().beginTransaction().replace(android.R.id.content, settings).commit();
@@ -50,8 +51,9 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
 
             String name = args.getString(KEY_PREF_NAME);
             int resId   = args.getInt(KEY_PREF_ID);
-            String[] upgradeFields = args.getStringArray(KEY_UPGRADES);
-            boolean isUpgraded = args.getBoolean(KEY_UPGRADED);
+
+            //String[] upgradeFields = args.getStringArray(KEY_UPGRADES);
+            //boolean isUpgraded = args.getBoolean(KEY_UPGRADED);
 
             PreferenceManager manager = getPreferenceManager();
             //manager.setSharedPreferencesMode(MODE_PRIVATE);
@@ -66,12 +68,12 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
             // TODO: We could just get the billOfSale here instead of above, but since we still needs the upgradeFields it doesn't much matter.
 
             // enable/disable upgradable options
-            if (upgradeFields != null) {
-                for (String key : upgradeFields) {
-                    Preference pref = findPreference(key);
-                    pref.setEnabled(isUpgraded);
-                }
-            }
+            //if (upgradeFields != null) {
+            //    for (String key : upgradeFields) {
+            //        Preference pref = findPreference(key);
+            //        pref.setEnabled(isUpgraded);
+            //    }
+            //}
         }
     }
 
@@ -101,6 +103,8 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
     /**
      * Override this is a pattern has settings that are only active if the user
      * has upgraded.
+     *
+     * @deprecated
      */
     public String[] getUpgradeOptions() {
         return null;

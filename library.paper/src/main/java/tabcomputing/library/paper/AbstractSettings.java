@@ -1,7 +1,10 @@
 package tabcomputing.library.paper;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -98,6 +101,42 @@ public abstract class AbstractSettings {
         for (String key : keySet()) {
             readPreference(prefs, key);
         }
+    }
+    /**
+     * Read clock preferences given the context.
+     */
+    public void readPreferences(Context context) {
+        SharedPreferences prefs = getPreferences(context);
+        readPreferences(prefs);
+    }
+
+    /**
+     * Read pattern preferences.
+     *
+     * @param patternServiceName        pattern's service name
+     * @param context                   context
+     */
+    public void readPreferences(String patternServiceName, Context context) {
+        String prefName = getPrefName(patternServiceName);
+        //Log.d("readPreferences", "! pref name: " + prefName);
+        SharedPreferences prefs = context.getSharedPreferences(prefName, Activity.MODE_PRIVATE);
+        readPreferences(prefs);
+    }
+
+    /**
+     * Get shared preferences.
+     *
+     * @return      SharedPreferences
+     */
+    public SharedPreferences getPreferences(Context context) {
+        SharedPreferences prefs;
+        //try {
+        //    Context prefContext = context.createPackageContext("tabcomputing.wallpaper", Context.MODE_PRIVATE);
+        //    prefs = prefContext.getSharedPreferences(getDefaultSharedPreferencesName(prefContext), Activity.MODE_PRIVATE);
+        //} catch (Exception e) {
+        prefs = PreferenceManager.getDefaultSharedPreferences(context); //AbstractWallpaper.this);
+        //}
+        return prefs;
     }
 
     public boolean getBoolean(String key) {
@@ -214,6 +253,17 @@ public abstract class AbstractSettings {
     }
 
     /**
+     * Get a unique name to use for storing preferences in the file system.
+     *
+     * @return      name
+     */
+    public String getPrefName(String serviceName) {
+        String[] serviceNameParts = serviceName.split("[.]");
+        String name = serviceNameParts[serviceNameParts.length - 2];
+        return name + "_preferences";
+    }
+
+    /**
      * Rate of wallpaper refresh, by default one every second. Override if it needs
      * to be different.
      *
@@ -231,6 +281,45 @@ public abstract class AbstractSettings {
      */
     public boolean sharedSettings() {
         return !getBoolean("customSettings");
+    }
+
+    /**
+     *
+     * @param context       application context
+     */
+    public void save(Context context) {
+        for (String key : keySet()) {
+            if (isChanged(key)) {
+                saveSetting(context, key);
+            }
+        }
+    }
+
+    /**
+     * TODO: update cache
+     *
+     * @param context       application context
+     * @param key           key to save
+     */
+    public void saveSetting(Context context, String key) {
+        SharedPreferences.Editor editor = getPreferences(context).edit();
+        int type = propertyTypes.get(key);
+        switch (type) {
+            case TYPE_BOOLEAN:
+                //return (! booleanSettings.get(key).equals(booleanCache.get(key)));
+                editor.putBoolean(key, booleanSettings.get(key));
+                break;
+            case TYPE_INTEGER:
+                //return (! integerSettings.get(key).equals(integerCache.get(key)));
+                Log.d("saveSetting", "KEY: " + key);
+                editor.putInt(key, integerSettings.get(key));
+                break;
+            case TYPE_STRING:
+                //return (! stringSettings.get(key).equals(stringCache.get(key)));
+                editor.putString(key, stringSettings.get(key));
+                break;
+        }
+        editor.apply();
     }
 
 }
