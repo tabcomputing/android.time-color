@@ -36,6 +36,7 @@ dependencies {
     compile project(':library.clock')
     compile project(':library.color')
     compile project(':library.paper')
+    compile project(':library.billing')
     // android libraries (think appcompat is b/c API 21 is needed w/o it)
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:support-v4:25.0.0'

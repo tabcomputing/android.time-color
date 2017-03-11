@@ -15,16 +15,10 @@ import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.support.v4.view.MotionEventCompat;
 import android.text.TextPaint;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import tabcomputing.library.clock.TimeSystem;
@@ -41,8 +35,8 @@ public class ClockView extends SurfaceView {
     public ClockView(Context context) {
         super(context, null);
         //setupClock();
-        toggleImageOn  = context.getResources().getDrawable(R.drawable.toggle_on);
-        toggleImageOff = context.getResources().getDrawable(R.drawable.toggle_off);
+        toggleImageOn  = context.getResources().getDrawable(R.drawable.clock_ampm);
+        toggleImageOff = context.getResources().getDrawable(R.drawable.clock_total);
     }
 
     /*

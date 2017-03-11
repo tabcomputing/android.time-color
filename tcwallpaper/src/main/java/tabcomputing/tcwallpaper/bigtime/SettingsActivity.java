@@ -1,9 +1,9 @@
 package tabcomputing.tcwallpaper.bigtime;
 
-import tabcomputing.library.paper.AbstractSettingsActivity;
+import tabcomputing.tcwallpaper.BaseSettingsActivity;
 import tabcomputing.tcwallpaper.R;
 
-public class SettingsActivity extends AbstractSettingsActivity {
+public class SettingsActivity extends BaseSettingsActivity {
 
     //public String getPrefName() {
     //    return "bigtime";

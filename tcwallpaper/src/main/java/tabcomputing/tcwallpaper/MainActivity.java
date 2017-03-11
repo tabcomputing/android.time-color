@@ -1,5 +1,7 @@
 package tabcomputing.tcwallpaper;
 
+import tabcomputing.library.billing.BillingService;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,7 +22,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 //import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,9 +29,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import tabcomputing.library.paper.BillingService;
-
-import static tabcomputing.library.paper.BillOfSale.PRODUCT_ID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,6 +54,43 @@ public class MainActivity extends AppCompatActivity {
     private Handler nagHandler = new Handler();
     private Boolean nagDismiss = false;
 
+    /**
+     * @deprecated
+     * @param menu      navigation menu
+     */
+    protected void setupBillingStuff(Menu menu) {
+        String[] skus = getApplicationContext().getResources().getStringArray(R.array.productIds);
+
+        // billing service
+        billingService = new BillingService(this, skus, updateRunner);
+
+        if (billingService.isOwned(PRODUCT_ID)) {
+            nagDismiss = true;
+        }
+
+        MenuItem item;
+
+        //// If owned, hide Upgrade menu item and show Review item and vice-versa.
+        if (isOwned()) {
+            //item = menu.findItem(R.id.nav_upgrade);
+            //if (item != null) { item.setVisible(false); }
+            item = menu.findItem(R.id.nav_review);
+            if (item != null) { item.setVisible(true); }
+        } else {
+            //item = menu.findItem(R.id.nav_upgrade);
+            //if (item != null) { item.setVisible(true); }
+            item = menu.findItem(R.id.nav_review);
+            if (item != null) { item.setVisible(false); }
+        }
+
+        //startNagMessage();
+
+        // TODO: should we do this here? Do we need to run this async and use a callback?
+        //if (! billingService.isSupported()) {
+        //    cancelNagDialog();
+        //}
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            actionBar.setHomeAsUpIndicator(R.drawable.menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }
@@ -86,8 +121,10 @@ public class MainActivity extends AppCompatActivity {
             selectDrawerItem(menu.findItem(R.id.nav_wallpaper));
         }
 
+        String[] skus = getApplicationContext().getResources().getStringArray(R.array.productIds);
+
         // billing service
-        billingService = new BillingService(this, updateRunner);
+        billingService = new BillingService(this, skus, updateRunner);
 
         if (billingService.isOwned(PRODUCT_ID)) {
             nagDismiss = true;
@@ -646,6 +683,54 @@ public class MainActivity extends AppCompatActivity {
             return builder.create();
         }
     };
+
+
+
+    // Update bill of sale.
+    //private Runnable updateRunner = new Runnable() {
+    //    public void run() {
+    //        if (billingService.isOwned(PRODUCT_ID)) {
+    //            cancelNag(true);
+    //        }
+    //        //refreshUI();
+    //    }
+    //};
+
+    //NagDialogFragment nagDialogFragment = new NagDialogFragment();
+
+    //private void showNagDialog() {
+    //    cancelNag(false);
+    //nagDialogFragment.show(getFragmentManager(), "nag");
+    //}
+
+    //public void cancelNag(boolean permanent) {
+    //    nagDismiss = permanent;
+    //    nagHandler.removeCallbacks(nagRunner);
+    //}
+
+
+    /*
+    public DialogFragment nagDialogFragment = new DialogFragment() {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.dialog_nag_message)
+                    .setPositiveButton(R.string.dialog_nag_yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            buyProduct(PRODUCT_ID);
+                        }
+                    })
+                    .setNegativeButton(R.string.dialog_nag_no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            cancelNag(true);
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    };
+    */
 
 }
 

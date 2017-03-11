@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_settings"
-        android:icon="@drawable/ic_settings_white_48dp"
+        android:icon="@drawable/settings"
         android:title="@string/action_settings"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_upgrade"
-        android:icon="@drawable/ic_loyalty_white_48dp"
+        android:icon="@drawable/tag_heart"
         android:title="@string/action_upgrade"
         app:showAsAction="ifRoom"/>
 </menu>

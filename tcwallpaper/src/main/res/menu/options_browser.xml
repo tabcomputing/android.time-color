@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/action_upgrade"
-        android:icon="@drawable/ic_loyalty_white_48dp"
+        android:icon="@drawable/tag_heart"
         android:title="@string/action_upgrade"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_clock"
-        android:icon="@drawable/ic_clock_white_48dp"
+        android:icon="@drawable/clock"
         android:title="@string/action_clock"
         app:showAsAction="ifRoom"/>
 
