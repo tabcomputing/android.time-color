@@ -6,10 +6,36 @@
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.14.1" />
-        <option name="gradleJvm" value="1.7" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/chronochrome.bigtime" />
+            <option value="$PROJECT_DIR$/chronochrome.binary" />
+            <option value="$PROJECT_DIR$/chronochrome.caterpillar" />
+            <option value="$PROJECT_DIR$/chronochrome.checkers" />
+            <option value="$PROJECT_DIR$/chronochrome.circles" />
+            <option value="$PROJECT_DIR$/chronochrome.echo" />
+            <option value="$PROJECT_DIR$/chronochrome.fractal" />
+            <option value="$PROJECT_DIR$/chronochrome.gradient" />
+            <option value="$PROJECT_DIR$/chronochrome.horizons" />
+            <option value="$PROJECT_DIR$/chronochrome.lotus" />
+            <option value="$PROJECT_DIR$/chronochrome.maze" />
+            <option value="$PROJECT_DIR$/chronochrome.mondrian" />
+            <option value="$PROJECT_DIR$/chronochrome.orb" />
+            <option value="$PROJECT_DIR$/chronochrome.pie" />
+            <option value="$PROJECT_DIR$/chronochrome.plaid" />
+            <option value="$PROJECT_DIR$/chronochrome.qbert" />
+            <option value="$PROJECT_DIR$/chronochrome.radial" />
+            <option value="$PROJECT_DIR$/chronochrome.rainbows" />
+            <option value="$PROJECT_DIR$/chronochrome.ring" />
+            <option value="$PROJECT_DIR$/chronochrome.solid" />
+            <option value="$PROJECT_DIR$/chronochrome.space" />
+            <option value="$PROJECT_DIR$/chronochrome.squares" />
+            <option value="$PROJECT_DIR$/chronochrome.stripes" />
+            <option value="$PROJECT_DIR$/chronochrome.tile" />
+            <option value="$PROJECT_DIR$/chronochrome.unionjack" />
+            <option value="$PROJECT_DIR$/chronochrome.wave" />
+            <option value="$PROJECT_DIR$/library.billing" />
             <option value="$PROJECT_DIR$/library.clock" />
             <option value="$PROJECT_DIR$/library.color" />
             <option value="$PROJECT_DIR$/library.paper" />

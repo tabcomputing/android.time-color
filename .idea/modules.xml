@@ -3,6 +3,33 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Chromatime.iml" filepath="$PROJECT_DIR$/Chromatime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.bigtime/chronochrome.bigtime.iml" filepath="$PROJECT_DIR$/chronochrome.bigtime/chronochrome.bigtime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.binary/chronochrome.binary.iml" filepath="$PROJECT_DIR$/chronochrome.binary/chronochrome.binary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.caterpillar/chronochrome.caterpillar.iml" filepath="$PROJECT_DIR$/chronochrome.caterpillar/chronochrome.caterpillar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.checkers/chronochrome.checkers.iml" filepath="$PROJECT_DIR$/chronochrome.checkers/chronochrome.checkers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.circles/chronochrome.circles.iml" filepath="$PROJECT_DIR$/chronochrome.circles/chronochrome.circles.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.echo/chronochrome.echo.iml" filepath="$PROJECT_DIR$/chronochrome.echo/chronochrome.echo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.fractal/chronochrome.fractal.iml" filepath="$PROJECT_DIR$/chronochrome.fractal/chronochrome.fractal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.gradient/chronochrome.gradient.iml" filepath="$PROJECT_DIR$/chronochrome.gradient/chronochrome.gradient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.horizons/chronochrome.horizons.iml" filepath="$PROJECT_DIR$/chronochrome.horizons/chronochrome.horizons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.lotus/chronochrome.lotus.iml" filepath="$PROJECT_DIR$/chronochrome.lotus/chronochrome.lotus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.maze/chronochrome.maze.iml" filepath="$PROJECT_DIR$/chronochrome.maze/chronochrome.maze.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.mondrian/chronochrome.mondrian.iml" filepath="$PROJECT_DIR$/chronochrome.mondrian/chronochrome.mondrian.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.orb/chronochrome.orb.iml" filepath="$PROJECT_DIR$/chronochrome.orb/chronochrome.orb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.pie/chronochrome.pie.iml" filepath="$PROJECT_DIR$/chronochrome.pie/chronochrome.pie.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.plaid/chronochrome.plaid.iml" filepath="$PROJECT_DIR$/chronochrome.plaid/chronochrome.plaid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.qbert/chronochrome.qbert.iml" filepath="$PROJECT_DIR$/chronochrome.qbert/chronochrome.qbert.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.radial/chronochrome.radial.iml" filepath="$PROJECT_DIR$/chronochrome.radial/chronochrome.radial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.rainbows/chronochrome.rainbows.iml" filepath="$PROJECT_DIR$/chronochrome.rainbows/chronochrome.rainbows.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.ring/chronochrome.ring.iml" filepath="$PROJECT_DIR$/chronochrome.ring/chronochrome.ring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.solid/chronochrome.solid.iml" filepath="$PROJECT_DIR$/chronochrome.solid/chronochrome.solid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.space/chronochrome.space.iml" filepath="$PROJECT_DIR$/chronochrome.space/chronochrome.space.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.squares/chronochrome.squares.iml" filepath="$PROJECT_DIR$/chronochrome.squares/chronochrome.squares.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.stripes/chronochrome.stripes.iml" filepath="$PROJECT_DIR$/chronochrome.stripes/chronochrome.stripes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.tile/chronochrome.tile.iml" filepath="$PROJECT_DIR$/chronochrome.tile/chronochrome.tile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.unionjack/chronochrome.unionjack.iml" filepath="$PROJECT_DIR$/chronochrome.unionjack/chronochrome.unionjack.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chronochrome.wave/chronochrome.wave.iml" filepath="$PROJECT_DIR$/chronochrome.wave/chronochrome.wave.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library.billing/library.billing.iml" filepath="$PROJECT_DIR$/library.billing/library.billing.iml" />
       <module fileurl="file://$PROJECT_DIR$/library.clock/library.clock.iml" filepath="$PROJECT_DIR$/library.clock/library.clock.iml" />
       <module fileurl="file://$PROJECT_DIR$/library.color/library.color.iml" filepath="$PROJECT_DIR$/library.color/library.color.iml" />
       <module fileurl="file://$PROJECT_DIR$/library.paper/library.paper.iml" filepath="$PROJECT_DIR$/library.paper/library.paper.iml" />
