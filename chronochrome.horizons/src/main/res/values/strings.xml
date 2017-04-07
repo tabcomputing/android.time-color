@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Chronochrome Horizons</string>
+
+    <string name="label">Horizons Chronochrome</string>
+    <string name="description">Time and color form the Horizon.</string>
+
+    <string name="sun_title">Sun? &#x2764;</string>
+    <string name="sun_summary">Add a rising and setting sun to the background?</string>
 </resources>

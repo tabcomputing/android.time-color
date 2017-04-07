@@ -1,7 +1,7 @@
 package tabcomputing.chronochrome.tile;
 
 import tabcomputing.library.paper.AbstractSettingsActivity;
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class SettingsActivity extends AbstractSettingsActivity {
 

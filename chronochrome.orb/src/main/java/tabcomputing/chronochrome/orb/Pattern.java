@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.orb;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
@@ -15,6 +16,12 @@ public class Pattern extends BasePattern {
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
     }
 
     // NOTE: You would think using @Override would be enough.

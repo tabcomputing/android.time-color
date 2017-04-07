@@ -20,15 +20,16 @@ public class PaperView extends AbstractPaperView {
 
     protected Widget royalWidget = new Widget(0, 1);
     protected Widget secWidget   = new Widget(1, 1);
-    protected WidgetBar controls = new WidgetBar();
-
+    //protected WidgetBar controls = new WidgetBar();
 
     public PaperView(Context context) {
         super(context);
 
         Settings settings = getSettings();
 
-        pattern  = new Pattern(context, settings);
+        pattern = new Pattern(context, settings);
+
+        controls.setHeight(actionBarHeight());
 
         royalWidget.setImageOn(context.getResources().getDrawable(R.drawable.crown_on));
         royalWidget.setImageOff(context.getResources().getDrawable(R.drawable.crown_off));
@@ -120,15 +121,17 @@ public class PaperView extends AbstractPaperView {
      */
     protected void toggle(Widget widget) {
         Settings settings = getSettings();
+        Context context = getContext();
 
         switch (widget.getID()) {
             case 0:
                 settings.toggleRoyal();
-                settings.save(getContext());
+                settings.save(context);
                 break;
             case 1:
                 settings.toggleSeconds();
-                settings.save(getContext());
+                settings.save(context);
+                settings.toast(Settings.KEY_TIME_SECONDS, context);
                 break;
         }
         invalidate();

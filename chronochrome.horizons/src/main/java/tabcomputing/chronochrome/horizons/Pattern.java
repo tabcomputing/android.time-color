@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.horizons;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,7 +11,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Shader;
 
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 public class Pattern extends BasePattern {
 
@@ -18,7 +19,17 @@ public class Pattern extends BasePattern {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
         settings = wallpaper.getSettings();
+        setup();
+    }
 
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
+        setup();
+    }
+
+    private void setup() {
         paint.reset();
         paint.setAntiAlias(true);
 

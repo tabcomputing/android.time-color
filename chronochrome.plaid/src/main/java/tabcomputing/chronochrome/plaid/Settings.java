@@ -1,10 +1,19 @@
 package tabcomputing.chronochrome.plaid;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
     public static final String KEY_INTERLACE = "interlace";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

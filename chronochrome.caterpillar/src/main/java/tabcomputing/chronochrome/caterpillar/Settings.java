@@ -38,4 +38,22 @@ public class Settings extends CommonSettings {
         return getBoolean(KEY_MEAN);
     }
 
+    public void toggleMean() {
+        setBoolean(KEY_MEAN, !isMean());
+    }
+
+    @Override
+    protected String toastMessage(String settingKey) {
+        switch (settingKey) {
+            case KEY_MEAN:
+                if (isMean()) {
+                    return "Mean face is On.";
+                } else {
+                    return "Mean face is Off.";
+                }
+            default:
+                return super.toastMessage(settingKey);
+        }
+    }
+
 }

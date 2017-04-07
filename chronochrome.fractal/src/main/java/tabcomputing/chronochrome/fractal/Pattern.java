@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.fractal;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import tabcomputing.library.paper.BitmapReuse;
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 /**
  * @deprecated
@@ -22,6 +23,13 @@ public class Pattern extends BasePattern {
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+
+        resetPreferences();
     }
 
     protected Settings settings;

@@ -1,11 +1,12 @@
 package tabcomputing.chronochrome.pie;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.SweepGradient;
 
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 /**
  * This pattern simply cuts out a slice of the screen aligned with hands on a clock.
@@ -17,6 +18,12 @@ public class Pattern extends BasePattern {
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
     }
 
     private Settings settings;

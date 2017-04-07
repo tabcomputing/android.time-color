@@ -1,9 +1,8 @@
 <resources>
-    <string name="app_name">Solid Chronochrome</string>
-    <string name="app_description">Simple wallpaper correlating time and color.</string>
+    <string name="app_name">Chronochrome Solid</string>
 
-    <string name="wallpaper_label">Solid Chonochrome</string>
-    <string name="wallpaper_description">Simple, yet useful, wallpaper the correlates color and time.</string>
+    <string name="label">Solid Chronochrome</string>
+    <string name="description">Simple, yet useful, wallpaper the correlates color and time.</string>
 
     <string name="timeSeconds_title">Include second hand?</string>
     <string name="timeSeconds_summary">Show second hand on reference clock.</string>

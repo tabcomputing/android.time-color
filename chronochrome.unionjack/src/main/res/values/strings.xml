@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Union Jack Chronochrome</string>
-    <string name="app_description">Time-colored Union Jack flag for my mates.</string>
 
-    <!-- Jack -->
-    <string name="jack_label">Union Jack Chronochrome</string>
-    <string name="jack_description">Time-colored Union Jack flag for my mates.</string>
+    <string name="label">Union Jack Chronochrome</string>
+    <string name="description">Time-colored Union Jack flag for my mates.</string>
 
     <string name="colorRoyal_title">Colour Royal?</string>
     <string name="colorRoyal_summary">Show Union Jack in proper royal colours only.</string>

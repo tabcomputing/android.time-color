@@ -153,9 +153,10 @@ public abstract class AbstractMainActivity extends AppCompatActivity {
         if(navId == R.id.nav_review) {
             btnRateAppOnClick();
             return;
-        //} else if (navId == R.id.nav_upgrade) {
-        //    buyProduct(PRODUCT_ID);
-        //    return;
+        } else if (navId == R.id.nav_update) {
+            //buyProduct(PRODUCT_ID);
+            btnUpdateAppOnClick();
+            return;
         } else if (navId == R.id.nav_website) {
             showWebsite();
             return;
@@ -497,7 +498,27 @@ public abstract class AbstractMainActivity extends AppCompatActivity {
     }
 
     /**
+     *
+     */
+    public void btnUpdateAppOnClick() {
+        String uri = reviewURI();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        // try Google play
+        intent.setData(Uri.parse("market://details?id=" + uri));
+        if (! tryActivity(intent)) {
+            // google play app seems not installed, let's try to open a web browser
+            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + uri));
+            if (! tryActivity(intent)) {
+                // if this also fails, we have run out of options, inform the user.
+                Toast.makeText(this, "Could not open Android market, please install the market app.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
      * On click event for rate this app button.
+     *
+     * TODO: This just opens the app on google play. Can we do more to start review?
      */
     public void btnRateAppOnClick() {
         String uri = reviewURI();

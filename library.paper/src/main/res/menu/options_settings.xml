@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_wallpaper"
+        android:icon="@drawable/file"
+        android:title="@string/nav_wallpaper"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_clock"
         android:icon="@drawable/clock"
         android:title="@string/action_clock"
         app:showAsAction="ifRoom"/>
-
-    <item android:id="@+id/action_about"
-        android:icon="@drawable/information"
-        android:title="@string/action_acknowledge"
-        app:showAsAction="ifRoom"/>
-
 </menu>

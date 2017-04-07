@@ -1,8 +1,8 @@
 package tabcomputing.chronochrome.bigtime;
 
-import tabcomputing.tcwallpaper.BaseSettingsActivity;
+import tabcomputing.library.paper.AbstractSettingsActivity;
 
-public class SettingsActivity extends BaseSettingsActivity {
+public class SettingsActivity extends AbstractSettingsActivity {
 
     //public String getPrefName() {
     //    return "bigtime";

@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.tile;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -20,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 /**
  *
@@ -30,10 +31,20 @@ public class Pattern extends BasePattern {
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
-        this.settings = wallpaper.getSettings();
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
     }
 
     private Settings settings;
+
+    protected void setSettings(Settings settings) {
+        super.setSettings(settings);
+        this.settings = settings;
+    }
 
     private Calendar calendar = Calendar.getInstance();
 
@@ -241,10 +252,10 @@ public class Pattern extends BasePattern {
         return timeSystem.timeStamp(settings.sansSeconds());
     }
 
-    @Override
-    protected void drawCheatClock(Canvas canvas) {
-        // do nothing
-    }
+    //@Override
+    //protected void drawCheatClock(Canvas canvas) {
+    //    // do nothing
+    //}
 
     protected void drawStar(Canvas canvas, float radius, Paint paint) {
         float cx = centerX(canvas);

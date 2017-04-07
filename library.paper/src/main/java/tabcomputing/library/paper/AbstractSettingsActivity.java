@@ -26,7 +26,7 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
         //BillOfSale bos = BillOfSale.getInstance(getApplicationContext());
 
         Bundle args = new Bundle();
-        args.putString(KEY_PREF_NAME, getPrefName());
+        //args.putString(KEY_PREF_NAME, getPrefName());
         args.putInt(KEY_PREF_ID, getPrefResId());
 
         //args.putStringArray(KEY_UPGRADES, getUpgradeOptions());  // Yeah! This can be null.
@@ -49,17 +49,18 @@ public abstract class AbstractSettingsActivity extends PreferenceActivity {
 
             Bundle args = getArguments();
 
-            String name = args.getString(KEY_PREF_NAME);
+            //String name = args.getString(KEY_PREF_NAME);
             int resId   = args.getInt(KEY_PREF_ID);
 
             //String[] upgradeFields = args.getStringArray(KEY_UPGRADES);
             //boolean isUpgraded = args.getBoolean(KEY_UPGRADED);
 
-            PreferenceManager manager = getPreferenceManager();
-            //manager.setSharedPreferencesMode(MODE_PRIVATE);
+            // Apparently this is the only way to tell the settings activity to use a specific file.
+            // We don't need this any more because each pattern is now a separate app.
 
-            // apparently this is the only way to tell the settings activity to use a specific file
-            manager.setSharedPreferencesName(name);
+            //PreferenceManager manager = getPreferenceManager();
+            ////manager.setSharedPreferencesMode(MODE_PRIVATE);
+            //manager.setSharedPreferencesName(name);
 
             //Log.d("settings", "pref name: " + manager.getSharedPreferencesName());
 

@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.wave;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,7 +15,7 @@ import android.graphics.SweepGradient;
 import java.util.Arrays;
 
 import tabcomputing.library.paper.BitmapReuse;
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 
 public class Pattern extends BasePattern {
@@ -22,6 +23,12 @@ public class Pattern extends BasePattern {
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
     }
 
     protected Settings settings;

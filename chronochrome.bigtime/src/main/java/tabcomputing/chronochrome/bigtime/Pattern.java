@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.bigtime;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -22,6 +23,12 @@ public class Pattern extends BasePattern {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
         this.settings = wallpaper.getSettings();
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
     }
 
     private Settings settings;

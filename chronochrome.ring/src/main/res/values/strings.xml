@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Chronochrome Ring</string>
+
+    <string name="label">Ring Chronochrome</string>
+    <string name="description">Colored ring of time.</string>
+
+    <string name="smooth_title">Smooth?</string>
+    <string name="smooth_summary">Smooth continuous colors, otherwise discrete.</string>
 </resources>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Chronochrome Radial</string>
+
+    <string name="label">Radial Chronochrome</string>
+    <string name="description">Color wheels in color wheels.</string>
+
+    <string name="smooth_title">Smooth?</string>
+    <string name="smooth_summary">Smooth continuous colors, otherwise discrete.</string>
 </resources>

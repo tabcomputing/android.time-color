@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Chronochrome Tile</string>
+
+    <string name="label">Tile Chronochrome</string>
+    <string name="description">Time and color tiled.</string>
 </resources>

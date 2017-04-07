@@ -1,12 +1,21 @@
 package tabcomputing.chronochrome.radial;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
     public static final String KEY_COLOR_SMOOTH = "smooth";
     public static final String KEY_COLOR_REVERSE = "reverse";
     public static final String KEY_COLOR_CENTER = "center";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

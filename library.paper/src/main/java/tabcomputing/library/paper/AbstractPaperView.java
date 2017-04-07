@@ -16,8 +16,10 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.TextPaint;
+import android.util.TypedValue;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -31,6 +33,9 @@ public abstract class AbstractPaperView extends SurfaceView {
     private static final String DEBUG_TAG = "ClockView";
 
     protected AbstractPattern pattern;
+
+    protected WidgetBar controls = new WidgetBar();
+
 
     public AbstractPaperView(Context context) {
         super(context, null);
@@ -48,6 +53,13 @@ public abstract class AbstractPaperView extends SurfaceView {
      *
      */
     public void setupTouchListener() { }
+
+    // TODO: Is this the right event for when action bar size might change?
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        controls.setHeight(actionBarHeight());
+    }
 
     /*
     @Override
@@ -691,6 +703,28 @@ public abstract class AbstractPaperView extends SurfaceView {
         } else {
             return (n % d);
         }
+    }
+
+    /**
+     *
+     * @param context       application context
+     * @param message       message to toast
+     */
+    //protected void toast(Context context, String message) {
+    //    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    //}
+
+    /**
+     * Action bar height. We use this to ensure the quick settings bar is the same height.
+     *
+     * @return              action bar height
+     */
+    protected float actionBarHeight() {
+        Context context = getContext();
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        //int actionBarHeight = context.getResources().getDimensionPixelSize(tv.resourceId);
+        return context.getResources().getDimension(tv.resourceId);
     }
 
 }

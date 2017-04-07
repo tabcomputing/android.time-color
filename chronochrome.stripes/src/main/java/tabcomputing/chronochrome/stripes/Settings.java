@@ -1,10 +1,19 @@
 package tabcomputing.chronochrome.stripes;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
     static final String KEY_SIZE = "size";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

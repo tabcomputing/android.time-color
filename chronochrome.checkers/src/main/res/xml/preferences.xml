@@ -3,10 +3,25 @@
     <PreferenceCategory
         android:title="@string/category_paper_title"
         android:key="category_paper_settings">
+        <!--
         <CheckBoxPreference
             android:key="sunGlare"
             android:title="@string/sunGlare_title"
             android:summary="@string/sunGlare_summary"
+            android:defaultValue="false" />
+        -->
+        <ListPreference
+            android:key="size"
+            android:title="@string/size_title"
+            android:summary="@string/size_summary"
+            android:entries="@array/size_entries"
+            android:entryValues="@array/size_values"
+            android:dialogTitle="@string/size_title"
+            android:defaultValue="@string/size_default" />
+        <CheckBoxPreference
+            android:key="fade"
+            android:title="@string/fade_title"
+            android:summary="@string/fade_summary"
             android:defaultValue="false" />
         <ListPreference
             android:key="cheatClock"

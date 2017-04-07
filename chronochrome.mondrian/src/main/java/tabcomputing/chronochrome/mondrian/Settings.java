@@ -1,8 +1,17 @@
 package tabcomputing.chronochrome.mondrian;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

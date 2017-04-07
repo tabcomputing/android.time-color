@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.gradient;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.RadialGradient;
@@ -8,7 +9,7 @@ import android.graphics.Shader;
 
 import java.util.Arrays;
 
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 /**
  * Draw a vertical color gradient such that the top color represents the hour,
@@ -32,6 +33,13 @@ public class Pattern extends BasePattern {
     public Pattern(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+
+        resetPreferences();
     }
 
     private Settings settings;

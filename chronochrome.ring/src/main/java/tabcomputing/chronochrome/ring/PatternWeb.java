@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.ring;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,7 +17,7 @@ import android.graphics.SweepGradient;
 import java.util.Arrays;
 
 import tabcomputing.library.paper.BitmapReuse;
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 
 public class PatternWeb extends BasePattern {
@@ -24,6 +25,12 @@ public class PatternWeb extends BasePattern {
     public PatternWeb(Wallpaper wallpaper) {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
+    }
+
+    public PatternWeb(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
     }
 
     protected Settings settings;

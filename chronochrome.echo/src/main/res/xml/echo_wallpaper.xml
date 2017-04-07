@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:thumbnail="@drawable/thumbnail_echo"
-    android:label="@string/echo_label"
-    android:description="@string/echo_description"
-    android:settingsActivity="tabcomputing.tcwallpaper.echo.SettingsActivity">
-</wallpaper>

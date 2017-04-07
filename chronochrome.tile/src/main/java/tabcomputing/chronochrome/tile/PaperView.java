@@ -18,8 +18,11 @@ public class PaperView extends AbstractPaperView {
     //protected Drawable toggleImageOn;
     //protected Drawable toggleImageOff;
 
+    protected Widget outlineWidget = new Widget(0, 1);
     protected Widget secWidget = new Widget(1, 1);
+
     protected WidgetBar controls = new WidgetBar();
+
 
     public PaperView(Context context) {
         super(context);
@@ -28,12 +31,11 @@ public class PaperView extends AbstractPaperView {
 
         pattern  = new Pattern(context, settings);
 
-        //Widget royalWidget = new Widget(0, 1);
-        //royalWidget.setImageOn(context.getResources().getDrawable(R.drawable.crown_on));
-        //royalWidget.setImageOff(context.getResources().getDrawable(R.drawable.crown_off));
-        //royalWidget.setState(settings.isRoyal());
-        //royalWidget.setText("Royal");
-        //controls.add(royalWidget);
+        outlineWidget.setImageOn(context.getResources().getDrawable(R.drawable.outline_on));
+        outlineWidget.setImageOff(context.getResources().getDrawable(R.drawable.outline_off));
+        outlineWidget.setState(settings.isOutlined());
+        outlineWidget.setText("Outline");
+        controls.add(outlineWidget);
 
         secWidget.setImageOn(context.getResources().getDrawable(R.drawable.clock_fast));
         secWidget.setImageOff(context.getResources().getDrawable(R.drawable.clock_slow));
@@ -112,15 +114,18 @@ public class PaperView extends AbstractPaperView {
      */
     protected void toggle(Widget widget) {
         Settings settings = getSettings();
+        Context context = getContext();
 
         switch (widget.getID()) {
             case 0:
-                //settings.toggleRoyal();
-                settings.save(getContext());
+                settings.toggleOutline();
+                settings.save(context);
+                settings.toast(Settings.KEY_OUTLINE, context);
                 break;
             case 1:
                 settings.toggleSeconds();
-                settings.save(getContext());
+                settings.save(context);
+                settings.toast(Settings.KEY_TIME_SECONDS, context);
                 break;
         }
         invalidate();

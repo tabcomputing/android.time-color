@@ -1,6 +1,6 @@
 package tabcomputing.chronochrome.tile;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
@@ -9,6 +9,15 @@ public class Settings extends CommonSettings {
     static final String KEY_SHAPE = "shape";
     static final String KEY_OUTLINE = "outline";
     static final String KEY_OPAQUE = "opaque";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();
@@ -51,6 +60,24 @@ public class Settings extends CommonSettings {
 
     public boolean isOpaque() {
         return getBoolean(KEY_OPAQUE);
+    }
+
+    public void toggleOutline() {
+        booleanSettings.put(KEY_OUTLINE, !isOutlined());
+    }
+
+    @Override
+    protected String toastMessage(String settingKey) {
+        switch (settingKey) {
+            case KEY_OUTLINE:
+                if (isOutlined()) {
+                    return "Outline is On.";
+                } else {
+                    return "Outline is Off.";
+                }
+            default:
+                return super.toastMessage(settingKey);
+        }
     }
 
 }

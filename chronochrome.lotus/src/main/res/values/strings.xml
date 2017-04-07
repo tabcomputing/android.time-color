@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Chronochrome Lotus</string>
+
+    <string name="label">Lotus Chronochrome</string>
+    <string name="description">Lotus blossoms into time and color.</string>
+
+    <string name="bindi_title">Bindi dot? &#x2764;</string>
+    <string name="bindi_summary">Place a \"bindi\" dot on pattern.</string>
 </resources>

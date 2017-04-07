@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:thumbnail="@drawable/thumbnail_qbert"
-    android:label="@string/qbert_label"
-    android:description="@string/qbert_description"
-    android:settingsActivity="tabcomputing.tcwallpaper.qbert.SettingsActivity">
-</wallpaper>

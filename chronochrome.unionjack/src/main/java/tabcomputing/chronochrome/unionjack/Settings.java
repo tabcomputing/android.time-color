@@ -52,4 +52,20 @@ public class Settings extends CommonSettings {
         setBoolean(KEY_TIME_SECONDS, !withSeconds());
     }
 
+    // TODO: message needs to be in resource file for future translations
+
+    @Override
+    protected String toastMessage(String settingKey) {
+        switch (settingKey) {
+            case KEY_ROYAL:
+                if (isRoyal()) {
+                    return "Royal colours only!";
+                } else {
+                    return "Colour by time.";
+                }
+            default:
+                return super.toastMessage(settingKey);
+        }
+    }
+
 }

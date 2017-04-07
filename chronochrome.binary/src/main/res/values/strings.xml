@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Chronochrome Binary</string>
-    <string name="app_label">Binary Chronochrome</string>
-    <string name="app_description">Binary time keeping made into a beautiful wallpaper.</string>
-
-    <string name="wallpaper_label">Binary Chronochrome</string>
-    <string name="wallpaper_description">Binary time keeping made into a beautiful wallpaper.</string>
+    <string name="label">Binary Chronochrome</string>
+    <string name="description">Binary time keeping made into a beautiful wallpaper.</string>
 </resources>

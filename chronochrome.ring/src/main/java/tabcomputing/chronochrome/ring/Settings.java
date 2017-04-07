@@ -1,6 +1,6 @@
 package tabcomputing.chronochrome.ring;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
@@ -8,6 +8,15 @@ public class Settings extends CommonSettings {
     static final String KEY_ASPECT  = "aspect";
     static final String KEY_DENSITY = "density";
     static final String KEY_SWAP    = "colorSwap";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

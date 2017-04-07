@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Chronochrome Rainbows</string>
+
+    <string name="label">Rainbow Chronochrome</string>
+    <string name="description">Time and color in rainbows.</string>
+
+    <string name="tickless_title">Tickless? &#x2764;</string>
+    <string name="tickless_summary">Hide minute and second ticks.</string>
 </resources>

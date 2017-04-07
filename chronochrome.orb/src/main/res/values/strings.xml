@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">Chronochrome Orb</string>
+
+    <string name="label">Orb Chronochrome</string>
+    <string name="description">Orbs are pretty.</string>
+
+    <string name="orbital_title">Orbit?</string>
+    <string name="orbital_summary">Place orb in orbit around invisible clock.</string>
+
+    <string name="orb_size_title">Orb size</string>
+    <string name="orb_size_summary">Choose a size for the orb.</string>
+
+    <string-array name="orb_size_entries">
+        <item>Point</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+
+    <string-array name="orb_size_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="orb_size_default">1</string>
 </resources>

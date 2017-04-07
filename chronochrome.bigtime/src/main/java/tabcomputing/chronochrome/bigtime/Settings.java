@@ -5,11 +5,20 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import tabcomputing.library.paper.FontScale;
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
     static final String KEY_TYPEFACE = "typeface";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

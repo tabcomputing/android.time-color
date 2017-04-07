@@ -2,8 +2,8 @@
 <wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:thumbnail="@drawable/thumbnail_mondrian"
-    android:label="@string/mondrian_label"
-    android:description="@string/mondrian_description"
-    android:settingsActivity="tabcomputing.tcwallpaper.mondrian.SettingsActivity">
+    android:thumbnail="@drawable/thumbnail"
+    android:label="@string/label"
+    android:description="@string/description"
+    android:settingsActivity="tabcomputing.chronochrome.mondrian.SettingsActivity">
 </wallpaper>

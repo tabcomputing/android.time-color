@@ -1,6 +1,6 @@
 package tabcomputing.chronochrome.orb;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
@@ -8,6 +8,15 @@ public class Settings extends CommonSettings {
     static final String KEY_ORBIT    = "orbital";
     static final String KEY_GLARE    = "sunGlare";
     static final String KEY_SWAP = "colorSwap";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

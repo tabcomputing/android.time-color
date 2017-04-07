@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:thumbnail="@drawable/thumbnail"
-    android:label="@string/wallpaper_label"
-    android:description="@string/wallpaper_description"
+    android:label="@string/label"
+    android:description="@string/description"
     android:settingsActivity="tabcomputing.chronochrome.binary.SettingsActivity">
 </wallpaper>

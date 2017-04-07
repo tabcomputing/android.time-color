@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/category_paper_title"
+        android:key="category_paper_settings">
+        <ListPreference
+            android:key="shape"
+            android:title="@string/shape_title"
+            android:summary="@string/shape_summary"
+            android:entries="@array/shape_entries"
+            android:entryValues="@array/shape_values"
+            android:dialogTitle="@string/shape_title"
+            android:defaultValue="@string/shape_default" />
+        <ListPreference
+            android:key="size"
+            android:title="@string/size_title"
+            android:summary="@string/size_summary"
+            android:entries="@array/size_entries"
+            android:entryValues="@array/size_values"
+            android:dialogTitle="@string/size_title"
+            android:defaultValue="@string/size_default" />
+        <ListPreference
+            android:key="density"
+            android:title="@string/density_title"
+            android:summary="@string/density_summary"
+            android:entries="@array/density_entries"
+            android:entryValues="@array/density_values"
+            android:dialogTitle="@string/density_title"
+            android:defaultValue="@string/density_default" />
+        <CheckBoxPreference
+            android:key="outline"
+            android:title="@string/outline_title"
+            android:summary="@string/outline_summary"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="opaque"
+            android:title="@string/opaque_title"
+            android:summary="@string/opaque_summary"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="cheatClock"
+            android:title="@string/cheatClock_title"
+            android:summary="@string/cheatClock_summary"
+            android:entries="@array/cheatClock_entries"
+            android:entryValues="@array/cheatClock_values"
+            android:dialogTitle="@string/cheatClock_title"
+            android:defaultValue="@string/cheatClock_default" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_color_settings"
+        android:title="@string/category_color_title">
+        <ListPreference
+            android:key="colorGamut"
+            android:title="@string/colorGamut_title"
+            android:summary="@string/colorGamut_summary"
+            android:entries="@array/colorGamut_entries"
+            android:entryValues="@array/colorGamut_values"
+            android:dialogTitle="@string/colorGamut_title"
+            android:defaultValue="@string/colorGamut_default" />
+        <CheckBoxPreference
+            android:key="colorDaylight"
+            android:title="@string/colorDaylight_title"
+            android:summary="@string/colorDaylight_summary"
+            android:defaultValue="false" />
+        <!--
+        <CheckBoxPreference
+            android:key="colorDuplex"
+            android:title="@string/colorDuplex_title"
+            android:summary="@string/colorDuplex_summary"
+            android:defaultValue="false" />
+        -->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_time_settings"
+        android:title="@string/category_time_title">
+        <ListPreference
+            android:key="timeSystem"
+            android:title="@string/timeSystem_title"
+            android:summary="@string/timeSystem_summary"
+            android:entries="@array/timeSystem_entries"
+            android:entryValues="@array/timeSystem_values"
+            android:dialogTitle="@string/timeSystem_title"
+            android:defaultValue="@string/timeSystem_default" />
+        <CheckBoxPreference
+            android:key="baseConvert"
+            android:title="@string/baseConvert_title"
+            android:summary="@string/baseConvert_summary"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/category_clock_title"
+        android:key="category_clock_settings">
+        <ListPreference
+            android:key="clockType"
+            android:title="@string/clockType_title"
+            android:summary="@string/clockType_summary"
+            android:entries="@array/clockType_entries"
+            android:entryValues="@array/clockType_values"
+            android:dialogTitle="@string/clockType_title"
+            android:defaultValue="@string/clockType_default" />
+        <CheckBoxPreference
+            android:key="timeSeconds"
+            android:title="@string/timeSeconds_title"
+            android:summary="@string/timeSeconds_summary"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="numberSystem"
+            android:title="@string/numberSystem_title"
+            android:summary="@string/numberSystem_summary"
+            android:entries="@array/numberSystem_entries"
+            android:entryValues="@array/numberSystem_values"
+            android:dialogTitle="@string/numberSystem_title"
+            android:defaultValue="@string/numberSystem_default" />
+        <ListPreference
+            android:key="clockTypeface"
+            android:title="@string/clockTypeface_title"
+            android:summary="@string/clockTypeface_summary"
+            android:entries="@array/clockTypeface_entries"
+            android:entryValues="@array/clockTypeface_values"
+            android:dialogTitle="@string/clockTypeface_title"
+            android:defaultValue="@string/typeface_default" />
+        <ListPreference
+            android:key="clockBackground"
+            android:title="@string/clockBackground_title"
+            android:summary="@string/clockBackground_summary"
+            android:entries="@array/clockBackground_entries"
+            android:entryValues="@array/clockBackground_values"
+            android:dialogTitle="@string/clockBackground_title"
+            android:defaultValue="@string/clockBackground_default" />
+        <CheckBoxPreference
+            android:key="clockAMPM"
+            android:title="@string/clockAMPM_title"
+            android:summary="@string/clockAMPM_summary"
+            android:defaultValue="false" />
+        <!--
+        <CheckBoxPreference
+            android:key="clockRotate"
+            android:title="@string/clockRotate_title"
+            android:summary="@string/clockRotate_summary"
+            android:defaultValue="false" />
+        -->
+    </PreferenceCategory>
+</PreferenceScreen>

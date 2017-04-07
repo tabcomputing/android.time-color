@@ -1,11 +1,20 @@
 package tabcomputing.chronochrome.lotus;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
     static final String KEY_BINDI = "bindi";
     static final String KEY_SWAP  = "colorSwap";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

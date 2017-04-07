@@ -3,6 +3,7 @@ package tabcomputing.library.paper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.widget.Toast;
 
 import tabcomputing.library.clock.DecimalTime;
 import tabcomputing.library.clock.DuodecimalTime;
@@ -478,6 +479,42 @@ public class CommonSettings extends AbstractSettings {
                 font = Typeface.DEFAULT;
         }
         return font;
+    }
+
+    /**
+     *
+     * @param settingKey    setting to toast
+     * @return              toast message
+     */
+    protected String toastMessage(String settingKey) {
+       switch (settingKey) {
+           case KEY_TIME_SECONDS:
+               if (withSeconds()) {
+                   return "Track by second is On.";
+               } else {
+                   return "Track by second is Off.";
+               }
+           case KEY_CLOCK_AMPM:
+               if (isAMPM()) {
+                   return "AM/PM mode is On.";
+               } else {
+                   return "AM/PM mode is Off.";
+               }
+           default:
+               return null;
+       }
+    }
+
+    /**
+     *
+     * @param key           settings key
+     * @param context       application context
+     */
+    public void toast(String key, Context context) {
+        String msg = toastMessage(key);
+        if (msg != null) {
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

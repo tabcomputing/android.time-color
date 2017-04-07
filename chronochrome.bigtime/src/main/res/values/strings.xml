@@ -1,3 +1,34 @@
 <resources>
-    <string name="app_name">Chronochrome Bigtime</string>
+    <string name="app_name">Chronochrome Big Time</string>
+    <string name="label">Big Time Chronochrome</string>
+    <string name="description">Time and color come together in big frig\'n letters.</string>
+
+    <string name="textCredits">
+        <![CDATA[Chronochromes combines time and color to create beautiful and useful wallpapers.
+        Chronochrome is an experiment in synesthesia ― Can we
+        become so accustomed to associating time with color that it becomes second nature?
+        Might we one day ask, \"What color is it?\"\n
+        \n
+        Time + Color = Wallpaper\n
+        Copyright 2016 by Tab Computing\n
+        tabcomputing.com\n
+        \n
+        "Confection Cubes" Truetype Font\n
+        Copyright 2010 by Eric Michael\n
+        www.eric-michael.com\n
+        \n
+        "Diskopia" Trutype Font\n
+        nimavisual.tumblr.com\n
+        \n
+        "Neospacial" Truetype Font\n
+        www.moorstation.org/typoasis/designers/gemnew/home.htm\n
+        \n
+        "Origap" Truetype Font\n
+        www.tepidmonkey.net\n
+        \n
+        "Toolego Mirage" Trutype Font\n
+        Copyright 1999 by Apostrophic Instances\n
+        \n
+        ]]>
+    </string>
 </resources>

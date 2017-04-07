@@ -1,11 +1,12 @@
 package tabcomputing.chronochrome.lotus;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 /**
  * Lotus pattern is a ode to Hindi culture.
@@ -17,9 +18,16 @@ public class Pattern extends BasePattern {
         setSettings(wallpaper.getSettings());
     }
 
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+
+        resetPreferences();
+    }
+
     protected Settings settings;
 
-    // This might well be the dumbest damn thing I have had to program.
+    // This might well be the dumbest damn thing I have had to program!!!!!!!!!!!!!!!!
     protected void setSettings(Settings settings) {
         super.setSettings(settings);
         this.settings = settings;

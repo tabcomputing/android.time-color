@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Chronochrome Qbert</string>
+
+    <string name="label">Qbert Chronochrome</string>
+    <string name="description">Time and color in a familiar Qbertesque pattern.</string>
 </resources>

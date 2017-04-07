@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_select"
         android:icon="@drawable/check_circle"
-        android:title="@string/action_upgrade"
+        android:title="@string/action_select"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_settings"
+        android:icon="@drawable/settings"
+        android:title="@string/nav_settings"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_clock"
-        android:icon="@drawable/clock"
-        android:title="@string/action_clock"
-        app:showAsAction="ifRoom"/>
 
     <!--
     <item android:id="@+id/action_settings"

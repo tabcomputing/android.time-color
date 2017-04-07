@@ -112,6 +112,7 @@ public class PaperView extends AbstractPaperView {
      */
     protected void toggle(Widget widget) {
         Settings settings = getSettings();
+        Context context = getContext();
 
         switch (widget.getID()) {
             case 0:
@@ -120,7 +121,8 @@ public class PaperView extends AbstractPaperView {
                 break;
             case 1:
                 settings.toggleSeconds();
-                settings.save(getContext());
+                settings.save(context);
+                settings.toast(Settings.KEY_TIME_SECONDS, context);
                 break;
         }
         invalidate();

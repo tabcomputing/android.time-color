@@ -44,4 +44,22 @@ public class Settings extends CommonSettings {
         return getInteger(KEY_PART);
     }
 
+    public void toggleGlare() {
+        setBoolean(KEY_GLARE, !useGlare());
+    }
+
+    @Override
+    protected String toastMessage(String settingKey) {
+        switch (settingKey) {
+            case KEY_GLARE:
+                if (useGlare()) {
+                    return "Sun glare is On.";
+                } else {
+                    return "Sun glare is Off.";
+                }
+            default:
+                return super.toastMessage(settingKey);
+        }
+    }
+
 }

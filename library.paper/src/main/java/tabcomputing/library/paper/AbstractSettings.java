@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -308,15 +309,18 @@ public abstract class AbstractSettings {
             case TYPE_BOOLEAN:
                 //return (! booleanSettings.get(key).equals(booleanCache.get(key)));
                 editor.putBoolean(key, booleanSettings.get(key));
+                booleanCache.remove(key);
                 break;
             case TYPE_INTEGER:
                 //return (! integerSettings.get(key).equals(integerCache.get(key)));
                 Log.d("saveSetting", "KEY: " + key);
                 editor.putInt(key, integerSettings.get(key));
+                integerCache.remove(key);
                 break;
             case TYPE_STRING:
                 //return (! stringSettings.get(key).equals(stringCache.get(key)));
                 editor.putString(key, stringSettings.get(key));
+                stringCache.remove(key);
                 break;
         }
         editor.apply();

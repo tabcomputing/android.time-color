@@ -1,10 +1,19 @@
 package tabcomputing.chronochrome.rainbows;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
     static final String KEY_TICKLESS = "tickless";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         propertyBoolean(KEY_CUSTOM_SETTINGS, false);

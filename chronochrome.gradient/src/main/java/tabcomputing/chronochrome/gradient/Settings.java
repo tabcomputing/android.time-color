@@ -1,11 +1,20 @@
 package tabcomputing.chronochrome.gradient;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
     static final String KEY_GLARE = "sunGlare";
     static final String KEY_SWAP  = "colorSwap";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();
@@ -34,6 +43,24 @@ public class Settings extends CommonSettings {
 
     public boolean isSwapped() {
         return getBoolean(KEY_SWAP);
+    }
+
+    public void toggleGlare() {
+        setBoolean(KEY_GLARE, !useGlare());
+    }
+
+    @Override
+    protected String toastMessage(String settingKey) {
+        switch (settingKey) {
+            case KEY_GLARE:
+                if (useGlare()) {
+                    return "Sun glare is On.";
+                } else {
+                    return "Sun glare is Off.";
+                }
+            default:
+                return super.toastMessage(settingKey);
+        }
     }
 
 }

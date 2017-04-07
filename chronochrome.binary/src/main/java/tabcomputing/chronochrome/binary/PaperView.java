@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import tabcomputing.library.paper.AbstractPaperView;
 import tabcomputing.library.paper.Widget;
@@ -18,14 +19,16 @@ public class PaperView extends AbstractPaperView {
     //protected Drawable toggleImageOff;
 
     protected Widget secWidget = new Widget(1, 1);
-    protected WidgetBar controls = new WidgetBar();
+    //protected WidgetBar controls = new WidgetBar();
 
     public PaperView(Context context) {
         super(context);
 
         Settings settings = getSettings();
 
-        pattern  = new Pattern(context, settings);
+        pattern = new Pattern(context, settings);
+
+        controls.setHeight(actionBarHeight());
 
         //Widget royalWidget = new Widget(0, 1);
         //royalWidget.setImageOn(context.getResources().getDrawable(R.drawable.crown_on));
@@ -103,15 +106,18 @@ public class PaperView extends AbstractPaperView {
      */
     protected void toggle(Widget widget) {
         Settings settings = getSettings();
+        Context context = getContext();
 
         switch (widget.getID()) {
             case 0:
+                // TODO: Not being used
                 //settings.toggleRoyal();
-                settings.save(getContext());
+                settings.save(context);
                 break;
             case 1:
                 settings.toggleSeconds();
-                settings.save(getContext());
+                settings.save(context);
+                settings.toast(Settings.KEY_TIME_SECONDS, context);
                 break;
         }
         invalidate();

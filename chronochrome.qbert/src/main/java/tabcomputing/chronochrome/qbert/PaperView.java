@@ -112,15 +112,17 @@ public class PaperView extends AbstractPaperView {
      */
     protected void toggle(Widget widget) {
         Settings settings = getSettings();
+        Context context = getContext();
 
         switch (widget.getID()) {
             case 0:
                 //settings.toggleRoyal();
-                settings.save(getContext());
+                settings.save(context);
                 break;
             case 1:
                 settings.toggleSeconds();
-                settings.save(getContext());
+                settings.save(context);
+                settings.toast(Settings.KEY_TIME_SECONDS, context);
                 break;
         }
         invalidate();
@@ -133,7 +135,6 @@ public class PaperView extends AbstractPaperView {
     //protected void selectPaper() {
     //    // TODO
     //}
-
 
 
     public Rect getToggleButtonBounds(Canvas canvas) {

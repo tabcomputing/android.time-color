@@ -9,7 +9,7 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:description="@string/app_description"
+        android:description="@string/description"
         android:allowBackup="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -28,7 +28,7 @@
 
         <service
             android:name=".Wallpaper"
-            android:label="@string/jack_label"
+            android:label="@string/label"
             android:permission="android.permission.BIND_WALLPAPER"
             android:exported="true"
             android:enabled="true">
@@ -37,14 +37,14 @@
             </intent-filter>
             <meta-data
                 android:name="android.service.wallpaper"
-                android:label="@string/jack_label"
-                android:thumbnail="@drawable/thumbnail_jack"
-                android:resource="@xml/jack_wallpaper">
+                android:label="@string/label"
+                android:thumbnail="@drawable/thumbnail"
+                android:resource="@xml/wallpaper">
             </meta-data>
         </service>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/jack_label"
+            android:label="@string/label"
             android:exported="true" >
         </activity>
 

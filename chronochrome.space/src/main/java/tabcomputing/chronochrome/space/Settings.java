@@ -1,12 +1,21 @@
 package tabcomputing.chronochrome.space;
 
-import tabcomputing.tcwallpaper.CommonSettings;
+import tabcomputing.library.paper.CommonSettings;
 
 public class Settings extends CommonSettings {
 
     static final String KEY_SIZE = "size";
     static final String KEY_FADE = "fade";
     static final String KEY_PATTERN = "pattern";
+
+    // Singleton
+    private static Settings instance;
+    public static Settings getInstance() {
+        if (instance == null) {
+            instance = new Settings();
+        }
+        return instance;
+    }
 
     public Settings() {
         defineProperties();

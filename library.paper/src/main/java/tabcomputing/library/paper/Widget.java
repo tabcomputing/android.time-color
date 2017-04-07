@@ -87,15 +87,25 @@ public class Widget {
         }
     }
 
-    private Rect getBottomRightBounds(Canvas canvas, int rightOffset) {
+    public float width(float barHeight) {
+        if (imageOn != null) {
+            return barHeight;
+        } else {
+            return paint.measureText(text) + OFFSET_HORIZONTAL;
+        }
+    }
+
+    private Rect getBottomRightBounds(Canvas canvas, int rightOffset, float height) {
         Rect canvasBounds = canvas.getClipBounds();
         //int w = (int) (canvasBounds.width() * size);
-        int h = (int) (canvasBounds.height() * size);
-        int w = (int) width(canvas); //(int) (ratio * h);
+        int offset = (int) (height * 0.1f);
+
+        int h = (int) (height * 0.8f); //(canvasBounds.height() * size);
+        int w = (int) (width(height) * 0.8f); //(int) (ratio * h);
 
         int right  = canvasBounds.right - rightOffset;
         int left   = right - w;
-        int bottom = canvasBounds.bottom;
+        int bottom = canvasBounds.bottom - offset;
         int top    = bottom - h;
 
         return new Rect(left, top, right, bottom);
@@ -113,12 +123,12 @@ public class Widget {
         return new Rect(left, top, right, bottom);
     }
 
-    public void draw(Canvas canvas, int right) {
-        drawOn(canvas, right);
+    public void draw(Canvas canvas, int right, float height) {
+        drawOn(canvas, right, height);
     }
 
-    public void drawOn(Canvas canvas, int right) {
-        Rect bounds = getBottomRightBounds(canvas, right);
+    public void drawOn(Canvas canvas, int right, float height) {
+        Rect bounds = getBottomRightBounds(canvas, right, height);
 
         //Log.d(TAG, "drawOn: " + bounds);
         //canvas.drawRect(bounds, paint);
@@ -138,8 +148,8 @@ public class Widget {
         }
     }
 
-    public void drawOff(Canvas canvas, int right) {
-        Rect bounds = getBottomRightBounds(canvas, right);
+    public void drawOff(Canvas canvas, int right, float height) {
+        Rect bounds = getBottomRightBounds(canvas, right, height);
 
         cacheBounds = bounds;
 

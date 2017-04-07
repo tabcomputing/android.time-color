@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.maze;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,7 +18,7 @@ import android.util.Log;
 
 import tabcomputing.library.paper.FontScale;
 import tabcomputing.library.paper.ScaledText;
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 /**
  *
@@ -28,6 +29,12 @@ public class Pattern extends BasePattern {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
         this.settings = wallpaper.getSettings();
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
     }
 
     private Settings settings;

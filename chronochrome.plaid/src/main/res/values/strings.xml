@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Chronochrome Plaid</string>
+
+    <string name="label">Plaid Chronochrome</string>
+    <string name="description">Time and color has gone plaid.</string>
+
+    <string name="interlace_title">Interlace?</string>
+    <string name="interlace_summary">Interlace time segments to create pattern?</string>
 </resources>

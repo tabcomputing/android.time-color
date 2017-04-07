@@ -5,15 +5,15 @@ import tabcomputing.library.paper.AbstractWallpaper;
 public class Wallpaper extends AbstractWallpaper {
 
     private Settings settings;
-    private PatternCircles pattern;
+    private Pattern pattern;
 
     public Wallpaper() {
         settings = new Settings();
-        pattern  = new PatternCircles(this);
+        pattern  = new Pattern(this);
     }
 
     @Override
-    protected PatternCircles getPattern() {
+    protected Pattern getPattern() {
         return pattern;
     }
 

@@ -1,5 +1,6 @@
 package tabcomputing.chronochrome.space;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,7 +16,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 
-import tabcomputing.tcwallpaper.BasePattern;
+import tabcomputing.library.paper.BasePattern;
 
 /**
  * Relic is based on a very odd font.
@@ -26,6 +27,12 @@ public class Pattern extends BasePattern {
         setContext(wallpaper);
         setSettings(wallpaper.getSettings());
         //this.settings = wallpaper.getSettings();
+    }
+
+    public Pattern(Context context, Settings settings) {
+        setContext(context);
+        setSettings(settings);
+        resetPreferences();
     }
 
     protected void setSettings(Settings settings) {

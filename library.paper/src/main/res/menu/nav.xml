@@ -5,12 +5,12 @@
         <item android:id="@+id/nav_wallpaper"
             android:icon="@drawable/file"
             android:title="@string/nav_wallpaper" />
-        <item android:id="@+id/nav_clock"
-            android:icon="@drawable/clock"
-            android:title="@string/nav_clock" />
         <item android:id="@+id/nav_settings"
             android:icon="@drawable/settings"
             android:title="@string/nav_settings" />
+        <item android:id="@+id/nav_clock"
+            android:icon="@drawable/clock"
+            android:title="@string/nav_clock" />
         <item android:id="@+id/nav_about"
             android:icon="@drawable/information"
             android:title="@string/nav_about" />
@@ -20,11 +20,9 @@
         <item android:id="@+id/nav_website"
             android:icon="@drawable/home"
             android:title="@string/nav_website" />
-        <!--
-        <item android:id="@+id/nav_upgrade"
-            android:icon="@drawable/tag_heart"
-            android:title="@string/nav_upgrade" />
-        -->
+        <item android:id="@+id/nav_update"
+            android:icon="@drawable/update"
+            android:title="@string/nav_update" />
         <item android:id="@+id/nav_review"
             android:icon="@drawable/tag_heart"
             android:title="@string/nav_review" />

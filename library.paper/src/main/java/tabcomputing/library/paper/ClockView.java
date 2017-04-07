@@ -15,6 +15,7 @@ import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.TextPaint;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -36,6 +37,8 @@ public class ClockView extends SurfaceView {
     public ClockView(Context context) {
         super(context, null);
         //setupClock();
+
+        controls.setHeight(actionBarHeight());
 
         Widget ampmWidget = new Widget(0, 1);
         ampmWidget.setImageOn(context.getResources().getDrawable(R.drawable.clock_ampm));
@@ -90,15 +93,18 @@ public class ClockView extends SurfaceView {
      */
     protected void toggle(Widget widget) {
         CommonSettings settings = getSettings();
+        Context context = getContext();
 
         switch (widget.getID()) {
             case 0:
                 settings.toggleAMPM();
-                settings.save(getContext());
+                settings.save(context);
+                settings.toast(CommonSettings.KEY_CLOCK_AMPM, context);
                 break;
             case 1:
                 settings.toggleSeconds();
-                settings.save(getContext());
+                settings.save(context);
+                settings.toast(CommonSettings.KEY_TIME_SECONDS, context);
                 break;
         }
         invalidate();
@@ -1650,6 +1656,19 @@ public class ClockView extends SurfaceView {
 
         circlePaint.setColor(c[1]);
         canvas.drawArc(oval, a, -180, true, circlePaint);
+    }
+
+    /**
+     * Action bar height. We use this to ensure the quick settings bar is the same height.
+     *
+     * @return              action bar height
+     */
+    protected float actionBarHeight() {
+        Context context = getContext();
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        //int actionBarHeight = context.getResources().getDimensionPixelSize(tv.resourceId);
+        return context.getResources().getDimension(tv.resourceId);
     }
 
 }

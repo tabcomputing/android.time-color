@@ -19,7 +19,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
     // TODO: need preferences if we ever use this
     @Override
     public int getPrefResId() {
-        return R.xml.ring_preferences;
+        return R.xml.preferences;
     }
 
 }

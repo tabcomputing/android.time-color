@@ -50,4 +50,22 @@ public class Settings extends CommonSettings {
         return getBoolean(KEY_SWAP);
     }
 
+    public void toggleFade() {
+        setBoolean(KEY_FADE, !isFade());
+    }
+
+    @Override
+    protected String toastMessage(String settingKey) {
+        switch (settingKey) {
+            case KEY_FADE:
+                if (isFade()) {
+                    return "Fade is On.";
+                } else {
+                    return "Fade is Off.";
+                }
+            default:
+                return super.toastMessage(settingKey);
+        }
+    }
+
 }
